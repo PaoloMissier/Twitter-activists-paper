@@ -1,0 +1,52 @@
+\usepackage{mwe}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{color}
+\definecolor{highlight}{rgb}{1,1,0.6}
+\definecolor{link}{rgb}{0.5,0.0,0.0}
+\definecolor{cite}{rgb}{0.0,0.0,0.6}
+\definecolor{url} {rgb}{0.3,0.0,0.3}
+\definecolor{grey}{rgb}{0.3,0.3,0.3}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption} % This is to make figure references to go to the top of the figure, not the caption.
+\hypersetup{
+	colorlinks,
+	linkcolor={cite},
+	citecolor={cite},
+	urlcolor ={cite}
+}
+
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs} % for nice rules/lines in tables
+\usepackage{arydshln} % for dashed lines in tables
+
+\usepackage{soul} % for highlighting text
+\usepackage{xspace}
+\usepackage[shortcuts]{extdash}
+\usepackage{relsize} % used in the \anote and \comment macros.
+
+%% annotation commands %% 
+\newcommand{\anote}[1]{{\leavevmode\smaller\itshape\color{red}\{#1\}}}
+\sethlcolor{highlight}
+\newcommand{\comment}[2]{\hl{#1} {{\leavevmode\smaller\color{red}\itshape\{#2\}}}}
+
+%% PM Define authornote command for comments
+\newcommand{\authornote}[1] {
+	\begin{center}
+		\framebox{
+			{\begin{minipage}[t]{0.9\linewidth}
+					\raggedright  \textbf{[PM]}~ \scriptsize #1 \normalsize
+			\end{minipage}}
+		}
+	\end{center}
+}
+
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{mathtools}
+
+
+
+

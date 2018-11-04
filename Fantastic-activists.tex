@@ -4,37 +4,7 @@
 %
 \documentclass[runningheads]{llncs}
 %
-\usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
-% If you use the hyperref package, please uncomment the following line
-% to display URLs in blue roman font according to Springer's eBook style:
-% \renewcommand\UrlFont{\color{blue}\rmfamily}
-
-
-%% PM Define authornote command for comments
-\newcommand{\authornote}[1] {
-    \begin{center}
-        \framebox{
-            {\begin{minipage}[t]{0.9\linewidth}
-                \raggedright  \textbf{[PM]}~ \scriptsize #1 \normalsize
-            \end{minipage}}
-    }
-    \end{center}
-}
-
-\newcommand{\ag}[1]{\sethlcolor{green}\hl{[Andrea: #1]}}
-\hyphenation{su-sta-ina-ble eve-ry}
-\usepackage{color}
-\definecolor{highlight}{rgb}{1,1,0.6}
-\definecolor{link}{rgb}{0.5,0.0,0.0}
-\definecolor{cite}{rgb}{0.0,0.0,0.6}
-\definecolor{url} {rgb}{0.3,0.0,0.3}
-\definecolor{grey}{rgb}{0.3,0.3,0.3}
-
-
-
+\include{preamble}
 
 \begin{document}
 %
@@ -72,33 +42,67 @@ last to be written
 %
 \section{Introduction}
 
-Paper hypothesis:
-Hypothesis: (activists are both interesting and identifiable)
-The interesting users are those with a (recent) history of (recurring) social engagement
+\anote{Paper research hypothesis:  (1) the notion of "online activist" is useful in several contexts. 
+for instance we may look for individuals who are not influencer in the traditional sense described in the literature \textbf{[CITE]}, i.e., they are not famous and do not have many followers.
+However, these individuals are interesting because...
+
+(2)  Such activist  profiles are interesting  in a pragmatic sense. They are defined, informally, as individuals who have a (recent) history of (recurring) social engagement that is manifested in their online behaviour.}
+
+\anote{Activists are related to, but different from that of \textit{influencers} in a social network \cite{INFLUENCERS}.}
+
+\anote{Candidate discovery is based on a weak notion of online event. It is weak because on Twitter events are not explicitly defined, unlike for example in Facebook or Meetup.}
+
+\anote{We achieve two things:
+
+\begin{itemize}
+\item discover candidate Twitter profiles
+\item repeatedly measure the \textit{strength} of candidate profiles as activists over time, thus enabling dynamic profile ranking
+\end{itemize}	
+}
+
+\anote{when we say ``social media'' in this paper we refer exclusively to Twitter. So I guess just as well say Twitter explicitly everywhere? }
 
 
-
-blah blah
-
-
-% \begin{table}
-% \caption{Table captions should be placed above the
-% tables.}\label{tab1}
-% \begin{tabular}{|l|l|l|}
-% \hline
-% Heading level &  Example & Font size and style\\
-% \hline
-% Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
-% 1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
-% 2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
-% 3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
-% 4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
-% \hline
-% \end{tabular}
-% \end{table}
+\subsection{Paper contributions}
 
 
+The paper offers the following original contributions:
 
+\begin{itemize}
+\item a domain-agnostic operational definition on ``online activist'' that is grounded in a set of measurable metrics that define the \textit{strength} of a user profile;
+
+\item a computational method for the semi-automatic discovery of candidate activists from the Twitter stream by extracting sequences of weak events, for measuring the strength of the candidate profiles, and repeatedly updating them over time;
+
+\item A reference implementation of the Twitter stream processing workflow, grounded in standard community detection algorithms, to generate a activist profile database;
+
+\item A functional evaluation to show the approach in action on a reference case study, demonstrating how activist profiles can be grown over time;
+
+\item A performance evaluation to assess the impact of the Twitter API limitations on content retrieval, specifically sampling from the ``garden hose'' 
+
+\end{itemize}
+
+
+\subsection{Related Work}
+
+
+\section{Approach}
+
+As mentioned in the introduction, the main limitation of our own previous approach was that topology-based metrics such as h-index and centrality analysis could not be used, because the users identified through the content relevance approach led to collections of disconnected users. Essentially, each user would be considered releant in isolation, but on the basis of a very sparse signal.
+	
+	In contrast, in our current approach users are discovered within a context in which, by definition,  they engage in meaningful conversations that provide a limited but strong signal about their interest in a certain topic.
+	
+	 \anote{
+	 	\begin{itemize}
+\item 	 	 Weak events provide the necessary context. 
+\item Observing users in context has the effect of drastically reducing the noise of general Twitter signal, relative to the general stream.  
+\item Conversations that take place within the context of an event are represented as dynamic weighted social network graphs. 
+\item Depending on the size and importance of the event, these networks may be first partitioned into smaller virtual overlapping communities, using the Daemon community detection algorithm
+\item users within each community (for small communities, we use the entire network) are then ranked according to their topolgical properties
+\item for the top-\textit{k} users within each community, we compute activism metrics and derive a strength of their profile.
+\item Progressively build up stronger profiles of repeat users, by updating their strength using the new values for the metrics
+	 	\end{itemize}
+	 }
+	 
 
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
