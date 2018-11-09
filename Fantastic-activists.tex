@@ -43,7 +43,10 @@ last to be written
 \section{Introduction}
 
 
-\anote{Who are ``online activists'' and why is it interesting to identify them?}
+\subsection{Motivation: discovering online activists}
+\anote{The intro starts with motivation (online activism) }
+
+\anote{serves as general motivation --- see above. Who are ``online activists'' and why is it interesting to identify them?}
 According to the Cambridge Dictionary, an \textit{activist} is  ``A person who believes strongly in political or social change and takes part in activities such as public protests to try to make this happen''.
 In contrast, the Dictionary defines an influencer as ``Someone who affects or changes the way that other people behave, for example through their use of social media''.
 %
@@ -52,26 +55,17 @@ While online activism is a well-known phenomenon \cite{IJoC1246}, research has b
 In contrast, we are interest in the fine-grained discovery of activists at the level of the single individual, in other words, we seek to identify people who feel passionate about a cause or topic, and who take action for it.
 \anote{activism in social movement literature:  \cite{doi:10.1080/14742830701497277}} 
 
-
-
-\anote{Motivation -- we may need to play this down if the choice of case study is conferences or something not related to the project \\
-
-Our motivation for seeking individual activists comes from our ongoing work on...
-
-\anote{see this list below}
+\anote{a critique of established network methods to identify these particular profiles:
 \begin{itemize}
-
-\item Mosquito-borne diseases such as Zika, Dengue and Chikungunya are endemic in several countries and Brazil is one of the most affected ones.
-\item These diseases cause severe symptomatic effects and complications which include hemorrhagic fever and microcephaly in newborns of contaminated mothers.
-\item Why they are difficult to fight: No vaccines available, Government is ineffective, slow and has low resources
+	\item activists are users who are interesting but not in the same sense as influencers (many defs). but these are ``low-key'' users who are not famous or at the centre of large networks. 
+	\item Thus discovering such users is hard because they ``disappear in the noise'' of a large global social network with a very broad range of topics.
+	\item traditional approaches don't work well for these profiles. (this is a bit axiomatic - not proven)
 \end{itemize}
 }
 
-Our long-term goal is to help alleviate these problems by supporting the health officials in their efforts to detect and clean up mosquito breeding sites.
-Thus, in a practical sense our study is on techniques for identifying those individuals who are likely to become engaged with volunteering efforts.
-Note that we are not seeking people who have shown  specific interest in the fight against Zika or other epidemics, but rather, more generally, we are looking for people who have a recent and sustained history of social engagement. 
-%
-Thus, our operational definition of activists is related to, but different from, that of \textit{influencers} in a social network. 
+\anote{why influencers are easy and activists are hard -- problem is signal/noise ratio}
+
+Our operational definition of activists is related to, but different from, that of \textit{influencers} in a social network. 
 For example, influencers are typically people who are well-known either online or in the real world, and who acts as hubs and amplifiers for messages associated with specific topics. 
 In contrast, activists are, by our own definition, not famous people, rather they are distinguished by their active attitude towards social engagement, either with a special focus on specific issues, or broadly across a range of issues.
 
@@ -80,29 +74,55 @@ In contrast, activists are, by our own definition, not famous people, rather the
 	Organize help efforts and diffusion of information during disasters.\\
 	
 	Social media empowers activists by \cite{Youmans2012}:
- Easing public acting in coordination for disaffected citizens; 	Creating information cascades that bolstered protesters' perceptions of the likelihood of success;
-	Increasing publicity diffusion of information to regional and global public\\
+	Easing public acting in coordination for disaffected citizens; 	Creating information cascades that bolstered protesters' perceptions of the likelihood of success;
+
 }
 
-\anote{the definition of activists is based on a few established metrics. we do not invent new metrics but we combine a few that exist in a way that is justified intuitively, by drawing from literature on online activism.
 
-the metrics include (1) non-topological metrics based on a user's post history
+In contrast, in our current incremental approach, the idea is to first discover one or more online contexts asssociated with a topic, such as a social campaign or a local event.
+Our hypothesis is that each such  context provides a low-noise scope within which those users who would not otherwise be identified using standard network analysis techniques, are given a chance to ``stand out'' and emerge, as the limited scope may amplify their otherwise weak signal and isolate them from some of the global participants.
+We also make the hypothesis that, within each such focused context, we maybe able to  successfully use established social network metrics to identify users who are active within the context, i.e., those who engage in meaningful interactions that provide a limited but strong signal about their interest in the chosen topic. 
+%
+As context are temporally (and optionally also spatially) characterised, this approach also lends itself well to incremental user discovery,  and to building strong profiles of users who are observed in multiple contexts over time.
 
-(2) topological, that is based on static  as well as dynamic relationships amongst users.
 
-many metrics have been proposed in the past.
+\anote{Zika angle probably too specific so the below is parked:
+\begin{itemize}
+
+\item Mosquito-borne diseases such as Zika, Dengue and Chikungunya are endemic in several countries and Brazil is one of the most affected ones.
+\item These diseases cause severe symptomatic effects and complications which include hemorrhagic fever and microcephaly in newborns of contaminated mothers.
+\item Why they are difficult to fight: No vaccines available, Government is ineffective, slow and has low resources
+\end{itemize}
+
+Our long-term goal is to help alleviate these problems by supporting the health officials in their efforts to detect and clean up mosquito breeding sites.
+Thus, in a practical sense our study is on techniques for identifying those individuals who are likely to become engaged with volunteering efforts.
+Note that we are not seeking people who have shown  specific interest in the fight against Zika or other epidemics, but rather, more generally, we are looking for people who have a recent and sustained history of social engagement. 
+%
+}
+
+
+\subsection{Reference case study and running example}  \label{sec:reference}
+
+\anote{where we are looking for activists. This case study is intended to meet our original motivation, while demonstrating the user discovery process in action. There is no separate ground truth validation so this intends to show how the framework works when you choose topics for the contexts, and a specific set of metrics.}
+
+\subsection{Overview of the approach }
+
+\anote{this may not be needed?  depending on space}
+
+\anote{
+	the definition of activists is based on a few established metrics. we do not invent new metrics but we combine a few that exist in a way that is justified intuitively, by drawing from literature on online activism.
+
+the metrics include (1) content-based, non-topological metrics based on a user's post history
+
+(2) non-contextual topological
+
+(3) non-contextual topological.
 
 in past approaches, specific profiles, such as those of influencers and many others \cite{RIQUELME2016949}, have been proposed. these essentially combine a set of basic metrics.
 
-``Activists'' have not been proposed -- but they are useful to find. 
-
-so we begin by proposing an operational definition of activists.
+call these \textit{engineered features}. 
 }
 
-Our research hypotheses is that we can efficiently harvest activists' profiles from Twitter, at the granularity of single individuals, and associate a \textit{strength} to their profiles based on their recurring online presence over time.
-
-\anote{mention limitations of our past efforts. cite past papers as follows: \cite{Missier2017,Sousa2018,Barros2018}
-}
 
 \anote{Candidate discovery is based on a weak notion of online event. It is \textit{weak} because on Twitter events are not explicitly defined, unlike for example in Facebook or Meetup.}
 
@@ -116,40 +136,29 @@ Our research hypotheses is that we can efficiently harvest activists' profiles f
 
 \anote{clarify that when we say ``social media'' in this paper we refer exclusively to Twitter. So I guess just as well say Twitter explicitly everywhere? }
 
+
 \subsection{Paper contributions}
 
-The paper offers the following original contributions:
-
+The paper offers the following specific contributions.
 \begin{itemize}
-\item a domain-agnostic operational definition of ``online activist'' that is grounded in a set of measurable metrics that define the \textit{strength} of a user profile;
+\item We propose a semi-automated, incremental process for identifying \textit{low-profile} users who are characterised by a weak online signal, i.e., they are not ``global influencers'', and yet they are interesting as they show interest in actively engaging with social issues online. 
 
-\item a computational method for the semi-automatic discovery of candidate activists from the Twitter stream by extracting sequences of weak events, for measuring the strength of the candidate profiles, and repeatedly updating them over time;
+\item As a concrete example of the process in use, we characterise our target users as ``online activists '' by proposing an operational definition of their profiles in terms of well-established, quantifiable Twitter metrics which can be used;
 
-\item A reference implementation of the Twitter stream processing workflow, grounded in standard community detection algorithms, to generate a activist profile database;
-
-\item A functional evaluation to show the approach in action on a reference case study, demonstrating how activist profiles can be grown over time, and how those are different from \textit{influencers} found by well-known algorithms within the same virtual communities;
+\item A reference implementation of the process and its demonstration on a reference case for online activism in the \hl{XX} domain;
 
 \item A performance evaluation to assess the impact of the Twitter API limitations on content retrieval, specifically sampling from the ``garden hose'' 
 
 \end{itemize}
 
-\subsection{Reference case study and running example}
-
-\anote{conferences? if so then here only say why these are relevant to support the experimental part of our research, but no need to go into detail of events bootstrapping etc.
-
-\begin{itemize}
-\item Right size.
-\item  Understand domain.
-\item  Hopefully repeat users
-\item  Relatively easy to bootstrap 
-\item  Understood to be just a “lab dataset"
-\end{itemize}
-}
-
 \subsection{Related Work}
 
-\anote{(1) generically on finding influencers. 
-	  (2) on using social media to fight Zika specifically
+\anote{
+	\begin{itemize}
+		\item 	generically on finding influencers online. 
+		\item \hl{WHAT ELSE??}
+			\end{itemize}
+	
   }
 
 
@@ -157,10 +166,22 @@ The paper offers the following original contributions:
 \section{Technical Approach}
 %%%%%%%%%%%%%%%%%%%%%
 
-As mentioned in the introduction, the main limitation of our own previous approach is that topology-based metrics such as h-index and centrality analysis could not be used, because the users identified through the content relevance approach led to collections of disconnected users. Essentially, each user would be considered releant in isolation, but on the basis of a very sparse signal.
+
+As mentioned in the introduction, the main limitation of our own previous approach 	\cite{Missier2017,Sousa2018,Barros2018} is that topology-based metrics such as h-index and centrality analysis could not be used, because the users identified through the content relevance approach led to collections of disconnected users. Essentially, each user would be considered relevant in isolation, but on the basis of a very sparse signal.
+%
+A broader motivation for the approach we advocate here is that relatively low-profile users are hard to identify by using traditional approaches based on global content harvesting and large Twitter networks.
+
+
+
+\anote{
+	The main insight behind the process structure is to first identify suitable contexts (online campaigns, events around social issues) where the target user profiles stand out relative to the global network. 
 	
-	In contrast, in our current approach users are discovered within a context in which, by definition,  they engage in meaningful conversations that provide a limited but strong signal about their interest in a certain topic.
-	
+	Context discovery is currently the only step where human intervention is required (but that can be crowd-sourced as it does not involve deep specialist knowledge).
+	With some constraints that are clearly identified below, a variety of Twitter-based metrics for characterising users 
+}
+
+\comment{Since our method relies on small networks that represent limited topical context, our challenge is to find metrics that operate well on small networks.}{rephrase}
+
 	\anote{
 		\begin{itemize}
 			\item 	 	 Weak events provide the necessary context. 
@@ -176,11 +197,12 @@ As mentioned in the introduction, the main limitation of our own previous approa
 	
 \subsection{Contexts}
 
-\anote{these are roughly identified with events, campaigns, or other online context}
-
-A context is defined by spatio- and/or temporal boundaries and by hashtags and/or keyword terms:
+As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by spatio- and/or temporal boundaries and by hashtags and/or keyword terms.
+In the Twitter settings we refer to these as \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
+In abstract, we represent as generic context as
 \begin{equation}
     C = \langle s, [t_1, t_2], K \rangle 
+    \label{eq:context}
 \end{equation}
 where $s$ represents a bounding box, $[t_1, t_2]$ a time intervals and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
 
@@ -193,6 +215,8 @@ We also define the complement $\Tilde{T}$ of $T$ as the set of tweets produced b
 We refer to these tweets, and their respective users, as out-of-context $C$.
 
 \subsection{Online activists: a broad operational definition}
+
+\anote{this is too specific on the case study. We must say that the framework accommodates a variety of metrics, provided that they fall into the  three categories that we have identified. Use the specific metrics as examples}
 
 The impressive amount of  Twitter user roles that have been proposed in the literature are all based on a few fundamental metrics and a few algorithms that operate on the Twitter network \cite{RIQUELME2016949}.
 To the best of our knowledge, the notion of \textit{online activist} has only been used in the context of the broad societal impact of online activism, but not to characterise  individual users.
@@ -244,19 +268,18 @@ for each user $u$, where $N$ is the number of nodes in the network induced by $C
 
 
 	
-\subsection{Events-content-users analysis }
+\subsection{Users discovery process framework}   \label{sec:discovery}
 
-\anote{see ``Finding activists'' and the pipeline description in the presentation. includes all technical detail for:
+\anote{ it is a framework because there are important parameters: 
+	\begin{itemize}
+\item choice of specific metrics
+\item choice of function to combine the metrics for user ranking. 
+\item ranking thresholds
+\item white and black lists of users to remove from the top-k results
+\item context discovery criteria (which are domain-specific)
+	\end{itemize}
 
-\begin{itemize}
-   \item harvesting from events
-   \item community detection. 
-   \item user ranking
-   \item profiling top-k users into a DB
-   \end{itemize}
-} 
-
-Illustrate each part using our running example.
+}
 
 
 \subsection{Prototype architecture}	 
