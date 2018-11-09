@@ -176,25 +176,22 @@ A broader motivation for the approach we advocate here is that relatively low-pr
 \anote{
 	The main insight behind the process structure is to first identify suitable contexts (online campaigns, events around social issues) where the target user profiles stand out relative to the global network. 
 	
+			 Rationale: bserving users in context has the effect of drastically reducing the noise of general Twitter signal, relative to the general stream.  
+			
+			
 	Context discovery is currently the only step where human intervention is required (but that can be crowd-sourced as it does not involve deep specialist knowledge).
-	With some constraints that are clearly identified below, a variety of Twitter-based metrics for characterising users 
+
+		\begin{itemize}
+\item Conversations that take place within the context of an event are represented as dynamic weighted social network graphs (context network)
+
+			\item Depending on the size and importance of the event, these networks may be first partitioned into smaller virtual overlapping communities, using the Daemon community detection algorithm. \textbf{Rationale} for this: users who are low profile within the larger graph may emerge within a more local community. This is the same rationale as for the general ideas of  contexts)
+			\item users within each community (for small communities, we use the entire network) are then ranked according to some combination of all their features
+\item Progressively build up stronger profiles of repeat users, by updating their strength using the new values for the metrics
+		\end{itemize}
 }
 
 \comment{Since our method relies on small networks that represent limited topical context, our challenge is to find metrics that operate well on small networks.}{rephrase}
 
-	\anote{
-		\begin{itemize}
-			\item 	 	 Weak events provide the necessary context. 
-			\item Observing users in context has the effect of drastically reducing the noise of general Twitter signal, relative to the general stream.  
-			\item Conversations that take place within the context of an event are represented as dynamic weighted social network graphs. 
-			\item Depending on the size and importance of the event, these networks may be first partitioned into smaller virtual overlapping communities, using the Daemon community detection algorithm
-			\item users within each community (for small communities, we use the entire network) are then ranked according to their topolgical properties
-			\item for the top-\textit{k} users within each community, we compute activism metrics and derive a strength of their profile.
-			\item Progressively build up stronger profiles of repeat users, by updating their strength using the new values for the metrics
-		\end{itemize}
-	}
-	
-	
 \subsection{Contexts}
 
 As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by spatio- and/or temporal boundaries and by hashtags and/or keyword terms.
@@ -270,6 +267,29 @@ for each user $u$, where $N$ is the number of nodes in the network induced by $C
 	
 \subsection{Users discovery process framework}   \label{sec:discovery}
 
+\anote{process structure (use one of Flavio's figures: \\
+
+\noindent Context $C$ $\rightarrow$ all users $U(C)$ \\
+$U(C)$ $\rightarrow$ retrieve context metrics  $\rightarrow$ build context network $N(U(C))$ \\
+$N(U(C))$ $\rightarrow$  detect communities \\
+for each community:  compute $\{ \mathit{in-degree}(u)\}_{u\in U}$ (relative to the community)\\
+
+in parallel also compute:\\
+- context-independent metrics\\
+- content-based metrics\\
+
+\noindent combine all metrics using a ranking function (which is a parameter in our framework)\\
+rank \\
+remove white list users \\
+threshold (parameter) \\
+update user profiles in DB\\
+
+\noindent also use the profiles to discover new contexts (automated hashtag extraction followed by manual selection step)
+
+}
+
+	
+	
 \anote{ it is a framework because there are important parameters: 
 	\begin{itemize}
 \item choice of specific metrics
