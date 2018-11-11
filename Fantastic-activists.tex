@@ -52,7 +52,7 @@ In contrast, the Dictionary defines an influencer as ``Someone who affects or ch
 %
 While a large of body of research has been generated over the past ten years on techniques for finding influencers online \cite{RIQUELME2016949}, the problem of identifying activists has received less attention. 
 While online activism is a well-known phenomenon \cite{IJoC1246}, research has been limited to the study of its broad societal impact. 
-In contrast, we are interest in the fine-grained discovery of activists at the level of the single individual, in other words, we seek to identify people who feel passionate about a cause or topic, and who take action for it.
+In contrast, we are interested in the fine-grained discovery of activists at the level of the single individual, in other words, we seek to identify people who feel passionate about a cause or topic, and who take action for it.
 \anote{activism in social movement literature:  \cite{doi:10.1080/14742830701497277}} 
 
 \anote{a critique of established network methods to identify these particular profiles:
@@ -79,11 +79,11 @@ In contrast, activists are, by our own definition, not famous people, rather the
 }
 
 
-In contrast, in our current incremental approach, the idea is to first discover one or more online contexts asssociated with a topic, such as a social campaign or a local event.
+In contrast, in our current incremental approach, the idea is to first discover one or more online contexts associated with a topic, such as a social campaign or a local event.
 Our hypothesis is that each such  context provides a low-noise scope within which those users who would not otherwise be identified using standard network analysis techniques, are given a chance to ``stand out'' and emerge, as the limited scope may amplify their otherwise weak signal and isolate them from some of the global participants.
 We also make the hypothesis that, within each such focused context, we maybe able to  successfully use established social network metrics to identify users who are active within the context, i.e., those who engage in meaningful interactions that provide a limited but strong signal about their interest in the chosen topic. 
 %
-As context are temporally (and optionally also spatially) characterised, this approach also lends itself well to incremental user discovery,  and to building strong profiles of users who are observed in multiple contexts over time.
+As contexts are temporally (and optionally also spatially) characterised, this approach also lends itself well to incremental user discovery,  and to building strong profiles of users who are observed in multiple contexts over time.
 
 
 \anote{Zika angle probably too specific so the below is parked:
@@ -148,7 +148,7 @@ The paper offers the following specific contributions.
 \item A reference implementation of the process and its demonstration on a reference case for online activism in the \hl{XX} domain;
 
 \item A performance evaluation to assess the impact of the Twitter API limitations on content retrieval, specifically sampling from the ``garden hose'' 
-
+\anote{FLAVIO: from my understanding garden hose twitter api is a daily streaming API which we don't use http://www.sobigdata.eu/content/twitter-stream-gardenhose-daily-access }
 \end{itemize}
 
 \subsection{Related Work}
@@ -176,7 +176,7 @@ A broader motivation for the approach we advocate here is that relatively low-pr
 \anote{
 	The main insight behind the process structure is to first identify suitable contexts (online campaigns, events around social issues) where the target user profiles stand out relative to the global network. 
 	
-			 Rationale: bserving users in context has the effect of drastically reducing the noise of general Twitter signal, relative to the general stream.  
+			 Rationale: observing users in context has the effect of drastically reducing the noise of general Twitter signal, relative to the general stream.  
 			
 			
 	Context discovery is currently the only step where human intervention is required (but that can be crowd-sourced as it does not involve deep specialist knowledge).
@@ -184,7 +184,7 @@ A broader motivation for the approach we advocate here is that relatively low-pr
 		\begin{itemize}
 \item Conversations that take place within the context of an event are represented as dynamic weighted social network graphs (context network)
 
-			\item Depending on the size and importance of the event, these networks may be first partitioned into smaller virtual overlapping communities, using the Daemon community detection algorithm. \textbf{Rationale} for this: users who are low profile within the larger graph may emerge within a more local community. This is the same rationale as for the general ideas of  contexts)
+			\item Depending on the size and importance of the event, these networks may be first partitioned into smaller virtual overlapping communities, using the Demon community detection algorithm. \textbf{Rationale} for this: users who are low profile within the larger graph may emerge within a more local community. This is the same rationale as for the general ideas of  contexts)
 			\item users within each community (for small communities, we use the entire network) are then ranked according to some combination of all their features
 \item Progressively build up stronger profiles of repeat users, by updating their strength using the new values for the metrics
 		\end{itemize}
@@ -194,7 +194,7 @@ A broader motivation for the approach we advocate here is that relatively low-pr
 
 \subsection{Contexts}
 
-As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by spatio- and/or temporal boundaries and by hashtags and/or keyword terms.
+As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by spatio- and/or temporal boundaries \anote{FLAVIO: conflicts with previous definition which says that are temporally defined and can be optionally also defined spatially} and by hashtags and/or keyword terms.
 In the Twitter settings we refer to these as \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
 In abstract, we represent as generic context as
 \begin{equation}
@@ -204,12 +204,14 @@ In abstract, we represent as generic context as
 where $s$ represents a bounding box, $[t_1, t_2]$ a time intervals and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
 
 $C$ defines search criteria, which produce a set $T$ of tweets when submitted to Twitter.
-Each tweet $t \in T$ is an instance of one of these possible activities: an \textit{original tweet}, a \textit{retweet}, and a \textit{mention}.
+Each tweet $t \in T$ is an instance of one of these possible activities: an \textit{original tweet}, a \textit{retweet}, and a \textit{mention}. \anote{FLAVIO: original tweet or retweet (need to check this one also) only}
 Let $u(t)$ be the user who originated $t$.
 We say that both $t$ and  $u(t)$ are within context $C$.
 
 We also define the complement $\Tilde{T}$ of $T$ as the set of tweets produced by omitting the terms $K$ from $C$, that is, those retrieved solely using the spatio-temporal criteria. 
 We refer to these tweets, and their respective users, as out-of-context $C$.
+
+\anote{FLAVIO: using t\_1 and t\_2 for time intervals and t for tweets may be misleading?}
 
 \subsection{Online activists: a broad operational definition}
 
@@ -220,10 +222,11 @@ To the best of our knowledge, the notion of \textit{online activist} has only be
 Thus, we begin by proposing our own operational definition of the \textit{online activist} role, with the understanding that what matters in this work is not so much the specific choice of metrics and their combination, but rather how they are computed within limited contexts, such as specific events or campaigns as in our case study.
 Specifically, we distinguish between three types of metrics, namely:
 \begin{enumerate}
-    \item those that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, which in our framework is a context;
+\item those that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, which in our framework is a context;
 \item topological metrics that encode context-independent, long-lived relationships amongst users; and 
 \item topological metrics that encode user relationships that occur within a context.
 \end{enumerate}
+\anote{FLAVIO: need to better clarify examples also?}
 
 Our choice of exemplars for each of these classes follows the indications found in recent studies on online activism, namely \cite{Lotan2011} and  \cite{Poell2014}.
 The specific chosen metrics are as follows.
@@ -250,9 +253,9 @@ RR_2(u) & =  R3_{on}(u) \cdot \log(R3_{on}+1)(u) - R3_{off}(u) \cdot \log(R4_{of
 TA(u) & = \frac{T1_{on}(u) + T2_{on}(u)}{T1_{off}(u) + T2_{off}(u) +1} 
 \end{align}
 
-We only use one context-independent topological metric, namely the  FollowerRank $FR(u)$, defined for instance in \cite{RIQUELME2016949} as:
+We only use one context-independent topological metric, namely the FollowerRank $FR(u)$, defined for instance in \cite{RIQUELME2016949} as:
 \begin{equation}
-FR(u) = \frac{F1(U)}{F2(u)}
+FR(u) = \frac{F1(u)}{F1(u)+F2(u)}
 \end{equation}
 where $F1(u)$ and $F2(u)$ are the number of followers and followees of $u$.
 
