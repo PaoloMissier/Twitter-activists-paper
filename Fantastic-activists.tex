@@ -194,45 +194,40 @@ A broader motivation for the approach we advocate here is that relatively low-pr
 
 \subsection{Contexts}
 
-As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by spatio- and/or temporal boundaries \anote{FLAVIO: conflicts with previous definition which says that are temporally defined and can be optionally also defined spatially} and by hashtags and/or keyword terms.
+As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
 In the Twitter settings we refer to these as \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
 In abstract, we represent as generic context as
 \begin{equation}
     C = \langle s, [t_1, t_2], K \rangle 
     \label{eq:context}
 \end{equation}
-where $s$ represents a bounding box, $[t_1, t_2]$ a time intervals and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
+where  $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interval, and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
+%
+$C$ defines search criteria, which produce a set $T(C)$ of tweets when submitted to Twitter.
+We only consider two Twitter activities: an \textit{original tweet}, or a \textit{retweet}.
+Let $u(t)$ be the user who originated a tweet $t \in T$.
+We say that both $t$ and  $u(t)$ are \textit{within context} $C$.
 
-$C$ defines search criteria, which produce a set $T$ of tweets when submitted to Twitter.
-Each tweet $t \in T$ is an instance of one of these possible activities: an \textit{original tweet}, a \textit{retweet}, and a \textit{mention}. \anote{FLAVIO: original tweet or retweet (need to check this one also) only}
-Let $u(t)$ be the user who originated $t$.
-We say that both $t$ and  $u(t)$ are within context $C$.
-
-We also define the complement $\Tilde{T}$ of $T$ as the set of tweets produced by omitting the terms $K$ from $C$, that is, those retrieved solely using the spatio-temporal criteria. 
-We refer to these tweets, and their respective users, as out-of-context $C$.
-
-\anote{FLAVIO: using t\_1 and t\_2 for time intervals and t for tweets may be misleading?}
+We also define the complement $\Tilde{T}(C)$ of $T(C)$ as the set of tweets found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a  context $C'= \langle s, [t_1, t_2], \emptyset \rangle$, we define $\Tilde{T}(C) = T(C') \setminus T(C)$. 
+We refer to these tweets, and their respective users, as ``out of context $C$''.
 
 \subsection{Online activists: a broad operational definition}
 
-\anote{this is too specific on the case study. We must say that the framework accommodates a variety of metrics, provided that they fall into the  three categories that we have identified. Use the specific metrics as examples}
-
-The impressive amount of  Twitter user roles that have been proposed in the literature are all based on a few fundamental metrics and a few algorithms that operate on the Twitter network \cite{RIQUELME2016949}.
-To the best of our knowledge, the notion of \textit{online activist} has only been used in the context of the broad societal impact of online activism, but not to characterise  individual users.
-Thus, we begin by proposing our own operational definition of the \textit{online activist} role, with the understanding that what matters in this work is not so much the specific choice of metrics and their combination, but rather how they are computed within limited contexts, such as specific events or campaigns as in our case study.
-Specifically, we distinguish between three types of metrics, namely:
+Many user roles have been proposed to characterise Twitter users. 
+These are either combinations of a limited set of elementary metrics, or the outcome of algorithms that operate on the Twitter social network~\cite{RIQUELME2016949}. 
+We distinguish amongst three families of Twitter-related user metrics, which differ in the type of underlying data required to compute them:
 \begin{enumerate}
-\item those that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, which in our framework is a context;
-\item topological metrics that encode context-independent, long-lived relationships amongst users; and 
-\item topological metrics that encode user relationships that occur within a context.
+\item metrics  that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, which in our framework is a context;
+\item topological metrics that encode context-independent, long-lived relationships amongst users, i.e., follower/followee; and 
+\item topological metrics that encode user relationships that occur specifically within a context.
 \end{enumerate}
-\anote{FLAVIO: need to better clarify examples also?}
 
-Our choice of exemplars for each of these classes follows the indications found in recent studies on online activism, namely \cite{Lotan2011} and  \cite{Poell2014}.
-The specific chosen metrics are as follows.
+Our framework is generic in that it aims to support metrics from each of these three families.
+For the purpose of our case study, we propose a specific small set of such metrics, which together form   the basis for an operational definition of \textit{online activist}.
+The choice of metrics follows broadly the indications found in recent studies on online activism, namely \cite{Lotan2011} and  \cite{Poell2014}, and is as follows.
 
-\paragraph{Content-based metrics} are \textit{Retweeting Rate}, \textit{Retweeted Rate}, and  \textit{Topical Attachment}, proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
-
+For \textbf{content-based metrics} we use  \textit{Retweeting Rate} $CM_1$ (for ``Content Metric 1'', \textit{Retweeted Rate} $CM_2$, and  \textit{Topical Attachment}  $CM_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
+%
 For a user $u$ within context $C$, the \textit{Retweeting Rate}  $CM_1$ is intended to measure the impact of  original tweets posted  by other users on $u$'s activity within the context, while the \textit{Retweeted Rate} $CM_2$  measures the impact of original tweets produced by $u$ within the context, on other users.
 Formally, given a context $C$ containing user $u$, we define:
 
