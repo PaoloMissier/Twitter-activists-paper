@@ -8,7 +8,7 @@
 
 \begin{document}
 %
-\title{Fantastic activists and where to find them\thanks{}}
+\title{Fantastic activists and how to find them\thanks{}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -42,41 +42,84 @@ last to be written
 %
 \section{Introduction}
 
+In this paper we present a generic and customisable software  framework for incrementally discovering and ranking online individuals' profiles for classes of online users, through analysis of their social activity in micro-blogging platforms, specifically Twitter.
+While the framework can be customised to repeatedly search for and rank profiles that fit specific social roles, our work is motivated by the specific need to discover a special class of such users, which we call \textit{activists}. 
+We start by arguing for the need for a new discovery process for this class of users, and then we present the framework as our main research contribution.
 
-\subsection{Motivation: discovering online activists}
-\anote{The intro starts with motivation (online activism) }
-
-\anote{serves as general motivation --- see above. Who are ``online activists'' and why is it interesting to identify them?}
 According to the Cambridge Dictionary, an \textit{activist} is  ``A person who believes strongly in political or social change and takes part in activities such as public protests to try to make this happen''.
-In contrast, the Dictionary defines an influencer as ``Someone who affects or changes the way that other people behave, for example through their use of social media''.
+
+While activism is well-documented, e.g. in the social movement literature~\cite{doi:10.1080/14742830701497277}, and online activism is a well-known phenomenon \cite{IJoC1246}, research has been limited to the study of its broad societal impact. 
+In contrast, we are interested in the fine-grained discovery of activists at the level of the single individual, in other words, we seek to identify people who feel passionate about a cause or topic, and who take action for it. 
+Searching for online activists is a realistic goal, as activists presence in social media is widely acknowledged, and it is also clear that social media facilitates activists communication and organization \cite{Poell2014,Youmans2012}.  
+Specific traits that characterise activists include awareness of causes and social topic and the organization of social gatherings and activities, including in emergency situations, by helping organize support efforts and diffusion of useful information.
+ 
+Informal as it sounds, this characterisation of online activism is different from that of \textit{influencer}.
+According to ~\cite{Kardara2015}, \textit{influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.}
+A large number of metrics and techniques have been proposed over an extended period of research, to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more.
+
+Algorithms to find influencers favour high visibility profiles, typically across global networks.
+In contrast, activists are more low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders.
 %
-While a large of body of research has been generated over the past ten years on techniques for finding influencers online \cite{RIQUELME2016949}, the problem of identifying activists has received less attention. 
-While online activism is a well-known phenomenon \cite{IJoC1246}, research has been limited to the study of its broad societal impact. 
-In contrast, we are interested in the fine-grained discovery of activists at the level of the single individual, in other words, we seek to identify people who feel passionate about a cause or topic, and who take action for it.
-\anote{activism in social movement literature:  \cite{doi:10.1080/14742830701497277}} 
+While we believe that specific activist behaviour can be characterised using some of the well-tested quantifiable metrics known from the literature \cite{COMMON-METRICS}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
+
+Motivated by these observations, our search for activists faces two main problems.
+%
+Firstly, we note that, given the more subdue nature of activists, it is intuitively more difficult to separate their online footprint from the background noise of general conversations, than it is for an influencer.
+Also, interesting activists are by their nature associated to specific topics and manifest their nature in local contexts, for instance as organisers or participants to local events. 
+Finally, we seek evidence of sustained personal engagement over time and across multiple such contexts. 
+These observations suggest that the models and algorithms developed over the years for influencers are not immediately applicable, because they mostly operate on global networks, where less prominent users have less of a chance to emerge. 
+Some topic-sensitive metrics and models have been proposed to measure social influence, for example, \textit{alpha centrality}\cite{Bonacich2001,Overbey2013}, and the \textit{Information Diffusion} model. Algorithms based on topic models have also been proposed to account for topic specificity~\cite{Zhao2011b}.  However, these approaches are still aimed at measuring influence, not activism. 
+
+Secondly, our definition of activism requires proper formalisation, i.e., in terms of measurable metrics, as well as experimental validation. 
+
+The approach we propose to address these problems involves two strategies. 
+Firstly, we first identify suitable contexts that are topic-specific and bound both temporally and, optionally, also spatially.
+We then search for users only within these contexts, using a combination of network and content metrics. 
+Given the nature of our target users, these include a combination of social events and online campaigns, as illustrated later \textbf{REF}.
+This follows the intuition that low-key users who produce weak online signal have a better chance to be discovered when the search is localised and then repeated across multiple such contexts.
+By continuously finding new contexts and searching for users engaged in the events and campaigns, we hope to incrementally build up a users' database where users who appear in multiple events are progressively more strongly characterised.
+
+Secondly, to allow experimenting with varying technical definitions of \textit{activist}, we collect a number of network-based and content-based user profile metrics, and make it available into a database. 
+
+we have developed a generic but customisable processing pipeline for Twitter, 
+
+
+
+\authornote{OLD TEXT BELOW}
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+\anote{A broader motivation for the approach we present here is that relatively low-profile users are hard to identify by using traditional approaches based on global content harvesting and large Twitter networks.}
+
+\anote{what the work is really about:
+	
+	a configurable framework to incrementally generate datasets of Twitter users, along with a rich set of features,  pre-selected from limited contexts to be a more varied set than global influencers
+	 
+	the resulting database can be mined to extract a variety of user types, by combining
+	
+	we demonstrate
+
+}
 
 \anote{a critique of established network methods to identify these particular profiles:
 \begin{itemize}
-	\item activists are users who are interesting but not in the same sense as influencers (many defs). but these are ``low-key'' users who are not famous or at the centre of large networks. 
+%	\item activists are users who are interesting but not in the same sense as influencers (many defs). but these are ``low-key'' users who are not famous or at the centre of large networks. 
 	\item Thus discovering such users is hard because they ``disappear in the noise'' of a large global social network with a very broad range of topics.
-	\item traditional approaches don't work well for these profiles. (this is a bit axiomatic - not proven)
+%	\item traditional approaches don't work well for these profiles. (this is a bit axiomatic - not proven)
 \end{itemize}
 }
 
-\anote{why influencers are easy and activists are hard -- problem is signal/noise ratio}
-
-Our operational definition of activists is related to, but different from, that of \textit{influencers} in a social network. 
-For example, influencers are typically people who are well-known either online or in the real world, and who acts as hubs and amplifiers for messages associated with specific topics. 
-In contrast, activists are, by our own definition, not famous people, rather they are distinguished by their active attitude towards social engagement, either with a special focus on specific issues, or broadly across a range of issues.
-
-\anote{Activists presence in social media is widely acknowledged. Social media facilitates activists communication and organization \cite{Poell2014}.  Some examples on how social media enable activism are:
-	Cause and topic awareness;	Social gathering and activities organization;
-	Organize help efforts and diffusion of information during disasters.\\
-	
-	Social media empowers activists by \cite{Youmans2012}:
-	Easing public acting in coordination for disaffected citizens; 	Creating information cascades that bolstered protesters' perceptions of the likelihood of success;
-
-}
 
 
 In contrast, in our current incremental approach, the idea is to first discover one or more online contexts associated with a topic, such as a social campaign or a local event.
@@ -108,7 +151,35 @@ As mentioned in the introduction, the main limitation of our own previous approa
 %
 At the same time, traditional approaches aimed at discovering influential users, surveyed for instance in \cite{RIQUELME2016949}, require large and connecTwitterRank and rely on large social networks do not work well when the users we are seeking a 
 
-A broader motivation for the approach we present here is that relatively low-profile users are hard to identify by using traditional approaches based on global content harvesting and large Twitter networks.
+
+\anote{this may not be needed?  depending on space}
+
+\anote{
+	the definition of activists is based on a few established metrics. we do not invent new metrics but we combine a few that exist in a way that is justified intuitively, by drawing from literature on online activism.
+	
+	the metrics include (1) content-based, non-topological metrics based on a user's post history
+	
+	(2) non-contextual topological
+	
+	(3) non-contextual topological.
+	
+	in past approaches, specific profiles, such as those of influencers and many others \cite{RIQUELME2016949}, have been proposed. these essentially combine a set of basic metrics.
+	
+	call these \textit{engineered features}. 
+}
+
+
+\anote{Candidate discovery is based on a weak notion of online event. It is \textit{weak} because on Twitter events are not explicitly defined, unlike for example in Facebook or Meetup.}
+
+\anote{Our technique achieves two things:
+	
+	\begin{itemize}
+		\item discover candidate Twitter profiles
+		\item repeatedly measure the \textit{strength} of candidate profiles as activists over time, thus enabling dynamic profile ranking
+	\end{itemize}	
+}
+
+\anote{clarify that when we say ``social media'' in this paper we refer exclusively to Twitter. So I guess just as well say Twitter explicitly everywhere? }
 
 
 
@@ -137,38 +208,6 @@ A broader motivation for the approach we present here is that relatively low-pro
 
 \anote{where we are looking for activists. This case study is intended to meet our original motivation, while demonstrating the user discovery process in action. There is no separate ground truth validation so this intends to show how the framework works when you choose topics for the contexts, and a specific set of metrics.}
 
-\subsection{Overview of the approach }
-
-\anote{this may not be needed?  depending on space}
-
-\anote{
-	the definition of activists is based on a few established metrics. we do not invent new metrics but we combine a few that exist in a way that is justified intuitively, by drawing from literature on online activism.
-
-the metrics include (1) content-based, non-topological metrics based on a user's post history
-
-(2) non-contextual topological
-
-(3) non-contextual topological.
-
-in past approaches, specific profiles, such as those of influencers and many others \cite{RIQUELME2016949}, have been proposed. these essentially combine a set of basic metrics.
-
-call these \textit{engineered features}. 
-}
-
-
-\anote{Candidate discovery is based on a weak notion of online event. It is \textit{weak} because on Twitter events are not explicitly defined, unlike for example in Facebook or Meetup.}
-
-\anote{Our technique achieves two things:
-
-\begin{itemize}
-\item discover candidate Twitter profiles
-\item repeatedly measure the \textit{strength} of candidate profiles as activists over time, thus enabling dynamic profile ranking
-\end{itemize}	
-}
-
-\anote{clarify that when we say ``social media'' in this paper we refer exclusively to Twitter. So I guess just as well say Twitter explicitly everywhere? }
-
-
 \subsection{Paper contributions}
 
 The paper offers the following specific contributions.
@@ -185,20 +224,129 @@ The paper offers the following specific contributions.
 
 \subsection{Related Work}
 
-\anote{
-	\begin{itemize}
-		\item 	generically on finding influencers online. 
-		\item \hl{WHAT ELSE??}
-			\end{itemize}
+
+\anote{topic-specific influencers. cite \cite{Schenk2011} SCHENK 2011 and 
 	
-  }
+	\cite{Kardara2015} KARDARA:
+	Here a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. 
+	Local to an event conrtext but focus on user reputation. 
+	The above techniques all attempt to define influence as
+	some measurable attribute or observation in the network, such as how many times an original story appears on a website, or how centrally connected a node is within various defined modules within the networks.
+	The definition used in this work for influ-ence is “who is being listened to the most”.
+	- this is not who we are looking for.
+	- one single large event
+	- no breakdown into communities
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%
-\section{Technical Approach}
+\section{Incremental User discovery}
 %%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Users discovery process framework}   \label{sec:discovery}
+\subsection{Contexts} \label{sec:contexts}
+
+As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
+In the Twitter settings we refer to these as \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
+We  denote a generic context as
+\begin{equation}
+C = \langle s, [t_1, t_2], K \rangle 
+\label{eq:context}
+\end{equation}
+where  $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interval, and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
+%
+$C$ defines search criteria, which produce a set $T(C)$ of tweets when submitted to Twitter.
+We only consider two Twitter activities: an \textit{original tweet}, or a \textit{retweet}.
+Let $u(t)$ be the user who originated a tweet $t \in T$.
+We say that both $t$ and  $u(t)$ are \textit{within context} $C$.
+
+We also define the complement $\Tilde{T}(C)$ of $T(C)$ as the set of tweets found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a  context $C'= \langle s, [t_1, t_2], \emptyset \rangle$, we define $\Tilde{T}(C) = T(C') \setminus T(C)$. 
+We refer to these tweets, and their respective users, as ``out of context $C$''.
+
+
+
+\subsection{Features  for online activists}
+
+For the purpose of our case study, we adopt a specific small set of such metrics, which together form   the basis for an operational definition of \textit{online activist}.
+The choice of metrics follows broadly the indications found in recent studies on online activism, namely \cite{Lotan2011} and  \cite{Poell2014}, and is as follows.
+
+For \textbf{content-based metrics} we use  \textit{Retweeting Rate} $CM_1$ (for ``Content Metric 1'', \textit{Retweeted Rate} $CM_2$, and  \textit{Topical Attachment}  $CM_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
+%
+For a user $u$ within context $C$, the \textit{Retweeting Rate}  $CM_1$ is intended to measure the impact of  original tweets posted  by other users on $u$'s activity within the context, while the \textit{Retweeted Rate} $CM_2$  measures the impact of original tweets produced by $u$ within the context, on other users.
+Formally, given a context $C$ containing user $u$, we define:
+
+\noindent 
+$R1(u)$: The number of retweets by $u$, of tweets from other in-context users;\\
+$R2(u)$: The number of unique users in $C$, who have been retweeted by $u$; \\
+$R3(u)$: The number of retweets of $u$'s  tweets; \\
+$R4(u)$: The number of unique users in $C$ who retweeted $u$'s tweets; \\
+$T1(u)$: The number of original tweets posted by $u$ within $C$; \\
+$T1(u)$: The total number of web links found in original tweets posted by $u$ within $C$.
+
+Furthermore, each of these base metrics  are qualified to indicate whether or not the activity is within or out of context.
+For instance, we write $R1_{on}(u)$ to denote the number of context retweets and $R1_{off}(u)$ the number of out-of-context retweets by $u$, i.e., these are retweets that occur within $C$'s spatio-temporal boundaries, but do not contain any of the hashtags or keywords that define $C$.  
+Using this notation, the \textit{Retweeting Rate} $RR_1(u)$, \textit{Retweeted Rate} $RR_2(u)$ and \textit{Topical Attachment} $TA(u)$ for each $u$ are defined as follows~\cite{Bizid:2015}:
+\begin{align}
+RR_1(u) & =  R1_{on}(u) \cdot \log(R2_{on}+1)(u) - R1_{off}(u) \cdot \log(R2_{off}(u)+1) \\
+RR_2(u) & =  R3_{on}(u) \cdot \log(R3_{on}+1)(u) - R3_{off}(u) \cdot \log(R4_{off}(u)+1) \\
+TA(u) & = \frac{T1_{on}(u) + T2_{on}(u)}{T1_{off}(u) + T2_{off}(u) +1} 
+\end{align}
+
+We only use one context-independent topological metric, namely the FollowerRank $FR(u)$, defined for instance in \cite{RIQUELME2016949} as:
+\begin{equation}
+FR(u) = \frac{F1(u)}{F1(u)+F2(u)}
+\end{equation}
+where $F1(u)$ and $F2(u)$ are the number of followers and followees of $u$.
+
+Finally, we use \textit{in-degree centrality} (one of the many measures of centrality listed in \cite{RIQUELME2016949}) as our only context-specific topological metric, defined as:
+\begin{equation}
+IC(u) = \frac{\mathit{indegree}(u)}{N-1}
+\end{equation}
+for each user $u$, where $N$ is the number of nodes in the network induced by $C$.
+
+\anote{not all steps will deserve their own subsection}
+
+
+
+\subsection{Harvesting Content and Creating Context networks}   \label{sec:harvesting}
+
+\anote{this is just a note on how data is collected from Twitter}
+
+\subsection{Community detection}   \label{sec:communities}
+
+\anote{describe Daemon in summary}
+
+\subsection{User selection and ranking}   \label{sec:communities}
+
+\anote{use network analysis for user selection. Mention in-degree centrality as the metric of choice, and justify intuitively (against others from the literature)}
+\anote{remove white list users (manual step)}
+\anote{user selection threshold as a parameter}
+
+\anote{Then collect user content data for the top-k users, and compute their score using content metrics}
+\anote{explain how each of the three families of metrics is computed -- when, what additional work is needed}
+
+\subsection{New context discovery}   \label{sec:context-discovery}
+
+\anote{as mentioned above, this is still manual so not much to say really?}
+
+%\noindent Context $C$ $\rightarrow$ all users $U(C)$ \\
+%$U(C)$ $\rightarrow$ retrieve context metrics  $\rightarrow$ build context network $N(U(C))$ \\
+%$N(U(C))$ $\rightarrow$  detect communities \\
+%for each community:  compute $\{ \mathit{in-degree}(u)\}_{u\in U}$ (relative to the community)\\
+%
+%in parallel also compute:\\
+%- context-independent metrics\\
+%- content-based metrics\\
+%
+%}
+
+\subsection{Prototype architecture}	 
+
+\anote{see ``Pipeline architecture'' in the presentation}
+
+
+
+\subsection{ORPHAN}
+
 
 The aim of the framework is to iteratively and efficiently discover user profiles from the Twitter post history that are relevant according to a specific set of user-defined criteria.
 %
@@ -261,105 +409,9 @@ In the rest of this section we describe each of the elements of the framework in
 	\label{fig:twitterframework}
 \end{figure*}
 
-\subsection{Contexts} \label{sec:contexts}
-
-As described In Sec. ~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
-In the Twitter settings we refer to these as \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
-We  denote a generic context as
-\begin{equation}
-    C = \langle s, [t_1, t_2], K \rangle 
-    \label{eq:context}
-\end{equation}
-where  $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interval, and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
-%
-$C$ defines search criteria, which produce a set $T(C)$ of tweets when submitted to Twitter.
-We only consider two Twitter activities: an \textit{original tweet}, or a \textit{retweet}.
-Let $u(t)$ be the user who originated a tweet $t \in T$.
-We say that both $t$ and  $u(t)$ are \textit{within context} $C$.
-
-We also define the complement $\Tilde{T}(C)$ of $T(C)$ as the set of tweets found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a  context $C'= \langle s, [t_1, t_2], \emptyset \rangle$, we define $\Tilde{T}(C) = T(C') \setminus T(C)$. 
-We refer to these tweets, and their respective users, as ``out of context $C$''.
-
-\subsection{Features  for online activists}
-
-For the purpose of our case study, we adopt a specific small set of such metrics, which together form   the basis for an operational definition of \textit{online activist}.
-The choice of metrics follows broadly the indications found in recent studies on online activism, namely \cite{Lotan2011} and  \cite{Poell2014}, and is as follows.
-
-For \textbf{content-based metrics} we use  \textit{Retweeting Rate} $CM_1$ (for ``Content Metric 1'', \textit{Retweeted Rate} $CM_2$, and  \textit{Topical Attachment}  $CM_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
-%
-For a user $u$ within context $C$, the \textit{Retweeting Rate}  $CM_1$ is intended to measure the impact of  original tweets posted  by other users on $u$'s activity within the context, while the \textit{Retweeted Rate} $CM_2$  measures the impact of original tweets produced by $u$ within the context, on other users.
-Formally, given a context $C$ containing user $u$, we define:
-
-\noindent 
-$R1(u)$: The number of retweets by $u$, of tweets from other in-context users;\\
-$R2(u)$: The number of unique users in $C$, who have been retweeted by $u$; \\
-$R3(u)$: The number of retweets of $u$'s  tweets; \\
-$R4(u)$: The number of unique users in $C$ who retweeted $u$'s tweets; \\
-$T1(u)$: The number of original tweets posted by $u$ within $C$; \\
-$T1(u)$: The total number of web links found in original tweets posted by $u$ within $C$.
-
-Furthermore, each of these base metrics  are qualified to indicate whether or not the activity is within or out of context.
-For instance, we write $R1_{on}(u)$ to denote the number of context retweets and $R1_{off}(u)$ the number of out-of-context retweets by $u$, i.e., these are retweets that occur within $C$'s spatio-temporal boundaries, but do not contain any of the hashtags or keywords that define $C$.  
-Using this notation, the \textit{Retweeting Rate} $RR_1(u)$, \textit{Retweeted Rate} $RR_2(u)$ and \textit{Topical Attachment} $TA(u)$ for each $u$ are defined as follows~\cite{Bizid:2015}:
-\begin{align}
-RR_1(u) & =  R1_{on}(u) \cdot \log(R2_{on}+1)(u) - R1_{off}(u) \cdot \log(R2_{off}(u)+1) \\
-RR_2(u) & =  R3_{on}(u) \cdot \log(R3_{on}+1)(u) - R3_{off}(u) \cdot \log(R4_{off}(u)+1) \\
-TA(u) & = \frac{T1_{on}(u) + T2_{on}(u)}{T1_{off}(u) + T2_{off}(u) +1} 
-\end{align}
-
-We only use one context-independent topological metric, namely the FollowerRank $FR(u)$, defined for instance in \cite{RIQUELME2016949} as:
-\begin{equation}
-FR(u) = \frac{F1(u)}{F1(u)+F2(u)}
-\end{equation}
-where $F1(u)$ and $F2(u)$ are the number of followers and followees of $u$.
-
-Finally, we use \textit{in-degree centrality} (one of the many measures of centrality listed in \cite{RIQUELME2016949}) as our only context-specific topological metric, defined as:
-\begin{equation}
-    IC(u) = \frac{\mathit{indegree}(u)}{N-1}
-\end{equation}
-for each user $u$, where $N$ is the number of nodes in the network induced by $C$.
-
-\anote{not all steps will deserve their own subsection}
-	
-\subsection{Harvesting Content and Creating Context networks}   \label{sec:harvesting}
-
-\anote{this is just a note on how data is collected from Twitter}
-
-\subsection{Community detection}   \label{sec:communities}
-
-\anote{describe Daemon in summary}
-
-\subsection{User selection and ranking}   \label{sec:communities}
-
-\anote{use network analysis for user selection. Mention in-degree centrality as the metric of choice, and justify intuitively (against others from the literature)}
-\anote{remove white list users (manual step)}
-\anote{user selection threshold as a parameter}
-
-\anote{Then collect user content data for the top-k users, and compute their score using content metrics}
-\anote{explain how each of the three families of metrics is computed -- when, what additional work is needed}
-
-\subsection{New context discovery}   \label{sec:context-discovery}
-
-\anote{as mentioned above, this is still manual so not much to say really?}
-
-%\noindent Context $C$ $\rightarrow$ all users $U(C)$ \\
-%$U(C)$ $\rightarrow$ retrieve context metrics  $\rightarrow$ build context network $N(U(C))$ \\
-%$N(U(C))$ $\rightarrow$  detect communities \\
-%for each community:  compute $\{ \mathit{in-degree}(u)\}_{u\in U}$ (relative to the community)\\
-%
-%in parallel also compute:\\
-%- context-independent metrics\\
-%- content-based metrics\\
-%
-%}
 
 	
-\subsection{Prototype architecture}	 
-
-	\anote{see ``Pipeline architecture'' in the presentation}
-	
-	
-\section{Experimental evaluation}
+\section{Case study: discovering online activists}
 
 \anote{here we note that functional evaluation was partially carried out in the previous section, while illustrating the pipeline. 
 	What we add here: 
