@@ -231,7 +231,7 @@ The size of the network is largely determined by the nature of the context, and 
 Large networks are further partitioned into communities, using the well-known Daemon community-detection algorithm \cite{DEMON}.
 %
 The goal of this further partitioning is to further narrow the scope and thus to enable weak-signal users to emerge relative to other influencers, who are socially more prominent but, in the context of our work, less interesting.
-Relevance features are then computed for each user within the scope of each community. 
+Relevance features are then computed for each user within the scope of each community. \anote{FLAVIO: also need to consider user inherent features such as popularity}
 Finally, a relevance score is associated with each user in the context, and used to update their global score in the database of relevant users.
 
 The final step in the iteration aims to discover new contexts. 
