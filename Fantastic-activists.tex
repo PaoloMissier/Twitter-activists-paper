@@ -185,7 +185,7 @@ We distinguish amongst three types of features, which differ in the way they are
 
 Note that the metrics we have selected are a superset of those indicated in recent studies on online activism, namely \cite{Lotan2011} and \cite{Poell2014}, and thus support our empirical evaluation, described in Sec.~\ref{sec:evaluation}.\\
 
-\noindent \textbf{1. Content-based metrics.} We use \textit{Retweeting Rate} $\mathit{CM}_1$ (for ``Content Metric 1''), \textit{Retweeted Rate} $\mathit{CM}_2$, and \textit{Topical Attachment} $\mathit{CM}_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
+\noindent \textbf{1. Content-based metrics.} \anote{FLAVIO: need to update the used metrics: add topical strength and event focus, remove retweeting rate and retweeted rate} We use \textit{Retweeting Rate} $\mathit{CM}_1$ (for ``Content Metric 1''), \textit{Retweeted Rate} $\mathit{CM}_2$, and \textit{Topical Attachment} $\mathit{CM}_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
 %
 For a user $u$ within context $C$, the \textit{Retweeting Rate} $\mathit{CM}_1$ is intended to measure the impact of original tweets posted by other users on $u$'s activity within the context, while the \textit{Retweeted Rate} $\mathit{CM}_2$ measures the impact of original tweets produced by $u$ within the context, on other users.
 Formally, given a context $C$ containing user $u$, we define:
@@ -277,15 +277,18 @@ While the process ends naturally when no new contexts are uncovered from the pre
 
 \subsection{Harvesting Content and Creating Context networks}  \label{sec:harvesting}
 After a topic and a set of contexts have been defined, tweets about each of them need to be harvested.
-Tweets are used to create a network graph which describes the relation among the users in the given context.
-Tweets about a context are obtained using the Twitter API 1.1 \anote{citation to twitter api 1.1 doc needed?}.
+
+Tweets are used to create a network graph which describes the relation among the users in the given context. Tweets are obtained using the Twitter API 1.1 \anote{citation to twitter api 1.1 doc needed?}.
+
 A query for a given context filters tweets on: hashtags, temporal interval and eventually location (if the context itself is not already localised in a specific place \anote{is it clear?}).
 After a query is executed, a total of 100 tweets are collected from the Twitter API (which is the maximum query limit).
+
 Tweets are then parsed iteratively to create a node and an edge list:
 \begin{itemize}
     \item node list: all the tweets authors and all the mentioned/retweeted users
 	\item edge list: directed weighted edge from a tweet author to the mentioned/retweeted user. Weight is defined as the sum of such mentions and retweets between the considered users.
 \end{itemize}
+
 Resulting network graph is directed and weighted and represents the relations among the users in a given context.
 
 \subsection{Community detection}  \label{sec:communities}
@@ -303,47 +306,53 @@ Demon works iteratively for each node v in the network graph:
     \item apply "label propagation" \anote{cit needed} to each neighbour n of v:
     \begin{enumerate}
         \item to each n is assigned a unique label l (which identifies a community).
-        \item each n gets gets the possibility to change its label with probability $\alpha$ based on the label majority of its neighbours.
+        \item each n gets the possibility to change its label with probability $\alpha$ based on the label majority of its neighbours.
         \item v gets assigned to the greatest community found by the labels (more than one community if same number of labels)
     \end{enumerate}
     \item Merge similar communities if and only if at most the $\epsilon \%$ of the smaller community is not included in the bigger one.
 \end{enumerate}
 Users which do not belong to any community are discarded from the whole process.
 
-In-degree centrality is then calculated for each node locally inside each found community.
+In-degree centrality is then calculated for each node locally to each found community.
 
-\subsection{User selection and ranking}  \label{sec:communities}
-\anote{use network analysis for user selection. Mention in-degree centrality as the metric of choice, and justify intuitively (against others from the literature)}
-\anote{remove white list users (manual step)}
-\anote{user selection threshold as a parameter}
+\subsection{User selection and ranking}  \label{sec:ranking}
+All users are enriched with data coming from their own Twitter timeline and profile section.
 
-\anote{Then collect user content data for the top-k users, and compute their score using content metrics}
-\anote{explain how each of the three families of metrics is computed -- when, what additional work is needed}
+This step is required in order to get information relative to the user itself and the user related to the context.
 
-\anote{FLAVIO:
-	\begin{itemize}
-	    \item briefly describe this step purpose
-		\item collection of profile data from each user on twitter
-		\item metrics on collected profile data: follower rank (popularity)
-		
-		\item collection of timeline data during the event from each user on twitter
-		\item metrics on collected timeline data: topical attachment, event focus, topical strength
-		
-		\item apply ranking functions on multiple features
-		\item list possible ranking functions
-	\end{itemize}
-}
+From the user profile section the following information are harvested:
+\begin{itemize}
+    \item personal information: the name of the user, the link to its website, the bio and the date the user joined Twitter.
+    \item profile statistics: the number of tweets published, the number of followers as well as the number of followees.
+\end{itemize}
+
+The number of follower and followees are then used to compute the Follower Rank \anote{cit needed}.
+
+In order to compute the context related features (topical attachment, context focus and topical strength \anote{link needed}), the user timeline at the time of the context must be analyzed.
+All the tweets from the user are then harvested in the timeframe the context occurs and they get categorised in several ways:
+\begin{itemize}
+    \item in-topic and off-topic: depending whether they contain an hashtag related to the context or not.
+    \item link on-topic and off-topic: depending whether they contain both a link and an hashtag related to the context or not.
+\end{itemize}
+From the harvested tweets, also the number of times a tweet gets retweeted is extracted (required for computing the topical strength).
+
+The collection and the computation of the aforementioned features, also from the previous steps, provides a solid foundation of structured information to work on.
+A ranking function can then be defined and thus apply an order to the users. It can either use the raw features as is, as well as relating the features one another, like for example considering the number of times a user appeared in different contexts.
 
 \subsection{New context discovery}  \label{sec:context-discovery}
+Because of how the framework is set up, it benefits from gaining new contexts to update and increase the number of users stored.
 
-\anote{as mentioned above, this is still manual so not much to say really?}
+New contexts are acquired in a manual fashion in the following manner.
 
-\anote{FLAVIO:
-	\begin{itemize}
-		\item briefly describe this step purpose
-		\item how context discovery in manually done
-	\end{itemize}
-}
+Given the top k ranked users, a manual analysis of the users timeline is performed.
+Each hashtag found in the timelines that is related to the broader topic and not yet considered in past iterations is stored.
+Each stored hashtag is then enriched with the information needed to perform a new iteration of the pipeline:
+\begin{itemize}
+    \item temporal and spatial information of the context
+    \item related hashtags
+\end{itemize}
+
+At this point a new iteration of the pipeline can start.
 
 %\noindent Context $C$ $\rightarrow$ all users $U(C)$ \\
 %$U(C)$ $\rightarrow$ retrieve context metrics $\rightarrow$ build context network $N(U(C))$ \\
