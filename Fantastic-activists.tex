@@ -276,35 +276,43 @@ While the process ends naturally when no new contexts are uncovered from the pre
 
 
 \subsection{Harvesting Content and Creating Context networks}  \label{sec:harvesting}
-
-\anote{this is just a note on how data is collected from Twitter}
-
-\anote{FLAVIO:
-	\begin{itemize}
-	    \item briefly describe this step purpose
-		\item brief description of the twitter api
-		\item how query for each event is composed
-		\item how edges are created (direction and weigths) and resulting network type
-	\end{itemize}
-}
+After a topic and a set of contexts have been defined, tweets about each of them need to be harvested.
+Tweets are used to create a network graph which describes the relation among the users in the given context.
+Tweets about a context are obtained using the Twitter API 1.1 \anote{citation to twitter api 1.1 doc needed?}.
+A query for a given context filters tweets on: hashtags, temporal interval and eventually location (if the context itself is not already localised in a specific place \anote{is it clear?}).
+After a query is executed, a total of 100 tweets are collected from the Twitter API (which is the maximum query limit).
+Tweets are then parsed iteratively to create a node and an edge list:
+\begin{itemize}
+    \item node list: all the tweets authors and all the mentioned/retweeted users
+	\item edge list: directed weighted edge from a tweet author to the mentioned/retweeted user. Weight is defined as the sum of such mentions and retweets between the considered users.
+\end{itemize}
+Resulting network graph is directed and weighted and represents the relations among the users in a given context.
 
 \subsection{Community detection}  \label{sec:communities}
+The context network graph is then partitioned in communities of users to make more local relations stand out.
 
-\anote{describe Demon in summary}
+Community detection algorithms partition network graphs in sets of nodes which are more related one another taking into account different criteria.
 
-\anote{FLAVIO:
-	\begin{itemize}
-	    \item briefly describe this step purpose
-		\item brief description of community detection concept
-		\item how demon works
-		\item why choose demon: ego-network, multiple communities
-		\item indegree centrality wrt communities
-		\item mention filtering out of users with no community
-	\end{itemize}
-}
+Demon \anote{cit needed} is the community detection algorithm of choice because it is based on the ego network concept and finds overlapping communities. 
+Overlapping communities means that a user could belong to more than one community, hence likely to be more engaged on the context of choice.
+Ego network is a network that considers a node and its neighbours only. It provides a local method of discovering user affiliations, thus more akin to a social context.
+
+Demon works iteratively for each node v in the network graph:
+\begin{enumerate}
+    \item get the ego network of v minus the node v.
+    \item apply "label propagation" \anote{cit needed} to each neighbour n of v:
+    \begin{enumerate}
+        \item to each n is assigned a unique label l (which identifies a community).
+        \item each n gets gets the possibility to change its label with probability $\alpha$ based on the label majority of its neighbours.
+        \item v gets assigned to the greatest community found by the labels (more than one community if same number of labels)
+    \end{enumerate}
+    \item Merge similar communities if and only if at most the $\epsilon \%$ of the smaller community is not included in the bigger one.
+\end{enumerate}
+Users which do not belong to any community are discarded from the whole process.
+
+In-degree centrality is then calculated for each node locally inside each found community.
 
 \subsection{User selection and ranking}  \label{sec:communities}
-
 \anote{use network analysis for user selection. Mention in-degree centrality as the metric of choice, and justify intuitively (against others from the literature)}
 \anote{remove white list users (manual step)}
 \anote{user selection threshold as a parameter}
