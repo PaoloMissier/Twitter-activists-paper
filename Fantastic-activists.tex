@@ -154,7 +154,7 @@ clarify our evaluation is not based on ground truth}
 The aim of the pipeline is to repeatedly and efficiently discover user profiles from the Twitter post history within user-specified contexts,\footnote{Our plan is automate context discovery in the next phase of this work.} and use the process to grow a database of feature-rich user profiles that can be used to rank users according to user-defined relevance functions. 
 The criteria used to define contexts, profile relevance functions, and associated user relevance thresholds can be configured for specific applications.
 
-\subsection{Contexts} \label{sec:contexts}
+\subsection{Contexts and Context networks} \label{sec:contexts}
 
 As described In Sec.~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
 These are \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram, or Meetup).
@@ -167,64 +167,143 @@ where $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interv
 %
 $C$ defines search criteria, which produce a set $P(C)$ of posts when submitted to Twitter.
 We only consider two Twitter activities: an \textit{original tweet}, or a \textit{retweet}.
-Let $u(p)$ be the user who originated a tweet $p \in P$.
+Let $u(p)$ be the user who originated a tweet $p \in P(C)$.
 We say that both $p$ and $u(p)$ are \textit{within context} $C$.
 
 We also define the complement $\Tilde{P}(C)$ of $P(C)$ as the set of posts found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a context $C'= \langle s, [t_1, t_2], \emptyset \rangle$ with no terms constraints, we define $\Tilde{P}(C) = P(C') \setminus P(C)$. 
 We refer to these posts, and their respective users, as ``out of context $C$''.
 
-\subsection{Core metrics}
+The set of posts $P(C)$ induces a user-user social network graph $G_C = (V,E)$ where $V$ is the set of all users who have authored any $p \in P(C)$: 
+$V = \{ u(p) | p \in P(C) \}$, and a weighted edge $e = \langle u_1, u_2, w \rangle$ is added to $E$ for each pair of posts $p_1, p_2$ such that $u(p_1) = u_1, u(p_2) = u_2$ and 
+either (i) $p_2$ is a retweet of $p_1$, or (ii) $p_1$ contains a mention of $u_2$.
+For any such edge, the weight $w$ is a count of such pairs of posts occuring in $P(C)$ for the same pair of users.
+
+\subsection{User relevance metrics}
 
 We support a number of metrics that are generally accepted by the community as forming a core, from which many different social user roles are derived~\cite{RIQUELME2016949}. 
 We distinguish amongst three types of features, which differ in the way they are computed from the raw Twitter feed:
-\begin{enumerate}
-	\item Metrics that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, i.e., a context;
-	\item Topological metrics that encode context-independent, long-lived relationships amongst users, i.e., follower/followee; and 
-	\item Context-specific topological metrics, that is, metrics that encode user relationships that occur specifically within a context.
-\end{enumerate}
+\begin{description}
+	\item[Content-based metrics] that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, i.e., a context;
+	\item[Context-independent topological metrics] that encode context-independent, long-lived relationships amongst users, i.e., follower/followee; and 
+	\item[Context-specific topological metrics] that encode user relationships that occur specifically within a context.
+\end{description}
 
-Note that the metrics we have selected are a superset of those indicated in recent studies on online activism, namely \cite{Lotan2011} and \cite{Poell2014}, and thus support our empirical evaluation, described in Sec.~\ref{sec:evaluation}.\\
-
-\noindent \textbf{1. Content-based metrics.} \anote{FLAVIO: need to update the used metrics: add topical strength and event focus, remove retweeting rate and retweeted rate} We use \textit{Retweeting Rate} $\mathit{CM}_1$ (for ``Content Metric 1''), \textit{Retweeted Rate} $\mathit{CM}_2$, and \textit{Topical Attachment} $\mathit{CM}_3$, first proposed in \cite{Bizid:2015} (the use of \textit{Topical Attachment} was suggested in \cite{Poell2014}).
-%
-For a user $u$ within context $C$, the \textit{Retweeting Rate} $\mathit{CM}_1$ is intended to measure the impact of original tweets posted by other users on $u$'s activity within the context, while the \textit{Retweeted Rate} $\mathit{CM}_2$ measures the impact of original tweets produced by $u$ within the context, on other users.
-Formally, given a context $C$ containing user $u$, we define:
+All metrics are functions of a few core features that can be directly extracted from Twitter posts. 
+We start with a set of features that are commonly used in the literature as a baseline.
+Given a context $C$ containing user $u$, we define:
 %
 \begin{align*}
-\mathit{R1}(u) &\text{: The number of retweets by $u$, of tweets from other in-context users;}\\
-\mathit{R2}(u)&\text{: The number of unique users in $C$, who have been retweeted by $u$;}\\
-\mathit{R3}(u)&\text{: The number of retweets of $u$'s tweets;}\\
-\mathit{R4}(u)&\text{: The number of unique users in $C$ who retweeted $u$'s tweets;}\\
-\mathit{P1}(u)&\text{: The number of original posts by $u$ within $C$;}\\
-\mathit{P2}(u)&\text{: The total number of web links found in original posts by $u$ within $C$.}
+\mathit{R1}(u) &\text{: Number of retweets by $u$, of tweets from other in-context users;}\\
+\mathit{R2}(u)&\text{: Number of unique users in $C$, who have been retweeted by $u$;}\\
+\mathit{R3}(u)&\text{: Number of retweets of $u$'s tweets;}\\
+\mathit{R4}(u)&\text{: Number of unique users in $C$ who retweeted $u$'s tweets;}\\
+\mathit{P1}(u)&\text{: Number of original posts by $u$ within $C$;}\\
+\mathit{P2}(u)&\text{: Number of web links found in original posts by $u$ within $C$;} \\
+\mathit{F1}(u)& \text{: Number of followers of $u$;}\\
+\mathit{F2}(u)& \text{: Number of followees of $u$}
 \end{align*}
 %
-Furthermore, each of these base metrics are qualified to indicate whether or not the activity is within or out of context.
-For instance, we write $R1_{on}(u)$ to denote the number of context retweets and $R1_{\mathit{off}}(u)$ the number of out-of-context retweets by $u$, i.e., these are retweets that occur within $C$'s spatio-temporal boundaries, but do not contain any of the hashtags or keywords that define $C$. 
-Using this notation, the \textit{Retweeting Rate} $\mathit{RR}_1(u)$, \textit{Retweeted Rate} $\mathit{RR}_2(u)$ and \textit{Topical Attachment} $TA(u)$ for each $u$ are defined as follows~\cite{Bizid:2015}:
-\begin{align*}
-\mathit{RR}_1(u) & = \mathit{R1}_{on}(u) \cdot \log(\mathit{R2}_{on}+1)(u) - \mathit{R1}_{\mathit{off}}(u) \cdot \log(\mathit{R2}_{\mathit{off}}(u)+1) \\
-\mathit{RR}_2(u) & = \mathit{R3}_{on}(u) \cdot \log(\mathit{R3}_{on}+1)(u) - \mathit{R3}_{\mathit{off}}(u) \cdot \log(\mathit{R4}_{\mathit{off}}(u)+1) \\
-\mathit{TA}(u) & = \frac{\mathit{P1}_{on}(u) + \mathit{P2}_{on}(u)}{\mathit{P1}_{\mathit{off}}(u) + \mathit{P2}_{\mathit{off}}(u) +1} 
-\end{align*}
 
+Note that, given $C$, we can evaluate each of the features above with respect to either $P(C)$ or  $\Tilde{P}(C)$ independently from each other, that is, we can consider a ``on-context'' and an ``off-context'' version of each feature.
+%
+For example, we are going to write $R1_{on}(u)$ to denote the number of context retweets and $R1_{\mathit{off}}(u)$ the number of out-of-context retweets by $u$, i.e., these are retweets that occur within $C$'s spatio-temporal boundaries, but do not contain any of the hashtags or keywords that define $C$.  
+%
+We similarly qualify all other features.
+%
+Using these core features, we have implemented the following metrics.
 
-\noindent \textbf{2. Context-independent topological metric.} We only use the FollowerRank $\mathit{FR}(u)$, defined for instance in \cite{RIQUELME2016949} as:
-\begin{equation}
-\mathit{FR}(u) = \frac{\mathit{F1}(u)}{\mathit{F1}(u)+\mathit{F2}(u)}
-\end{equation}
-where $\mathit{F1}(u)$ and $\mathit{F2}(u)$ are the number of followers and followees of $u$.\\
+For \textbf{content-based metrics}, we have:
+\begin{align}
+\textit{Topical Focus:~\cite{Missier2017}:} ~ \mathit{TF}(u) & =  \frac{\mathit{P1}_{\mathit{on}}(u)}{\mathit{P1}_{\mathit{off}}(u) +1}\\
+\textit{Topical Strength~\cite{Bizid2018}:} ~\mathit{TS}(u) & =	\frac{\mathit{P2}_{\mathit{on}}(u) \cdot \log(\mathit{P2}_{\mathit{on}}(u) + R3_{\mathit{on}} +1 )}{\mathit{P2}_{\mathit{off}}(u) \cdot \log(\mathit{P2}_{\mathit{off}}(u) + R3_{\mathit{off}} +1 ) + 1}   \\
+\textit{Topical Attachment~\cite{Bizid:2015,Poell2014}:} ~\mathit{TA}(u) & = \frac{\mathit{P1}_{\mathit{on}}(u) + \mathit{P2}_{\mathit{on}}(u)}{\mathit{P1}_{\mathit{off}}(u) + \mathit{P2}_{\mathit{off}}(u) +1} 
+\end{align}
 
-\noindent \textbf{3. Context-specific topological metric.} We use \textit{in-degree centrality} (one of the many measures of centrality listed in \cite{RIQUELME2016949}), defined as:
-\begin{equation}
-\mathit{IC}(u) = \frac{\mathit{indegree}(u)}{N-1}
-\end{equation}
-for each user $u$, where $N$ is the number of nodes in the network induced by $C$.
+We implement one \textbf{Context-independent topological metric} and one \textbf{Context-specific topological metric}, both commonly used, see e.g.~\cite{RIQUELME2016949}:
+\begin{align}
+\textit{Follower Rank:}  \quad \mathit{FR}(u) = \frac{\mathit{F1}(u)}{\mathit{F1}(u)+\mathit{F2}(u)} \\
+\textit{In-degree centrality:} \quad \mathit{IC}(u) = \frac{\mathit{indegree}(u)}{N-1}
+\end{align}
+where $N$ is the number of nodes in the network induced by $C$.
 
+Note that the metrics we have selected are a superset of those indicated in recent studies on online activism, namely \cite{Lotan2011} and \cite{Poell2014}, and thus support our empirical evaluation, described in Sec.~\ref{sec:evaluation}.
 
 %%%%%%%%%%%%%%%%%%%%
 \subsection{Pipeline data flow and architecture} \label{sec:Pipeline}
 %%%%%%%%%%%%%%%%%%%%
+
+The content processing pipeline operates iteratively on a set of contexts that is dynamically updated at the end of each iteration. 
+The process is therefore potentially open-ended, as long as new contexts can be discovered, as explained below.
+Let an initial user-defined context $C$ be given. 
+During one iteration, the user discovery process generates a list of users who participate in $C$, along with the complete set of their features and metrics as described above, and adds them to a user profiles database.
+The final step in the iteration involves semi-automatically discovering new contexts, thus making further iterations possible.
+
+The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterframework}.
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/TwitterFramework}
+	\caption{\comment{Schematic diagram of the user discovery framework }{this is a placeholder -- to be redrawn -PM }}
+	\label{fig:twitterframework}
+\end{figure*}
+
+\subsection{Harvesting Content and Creating Context networks}  \label{sec:harvesting}
+
+Firstly, all\footnote{Importantly, the Twitter API only allows a small fraction of the content history to be retrieved. We discuss this limitation in Sec. \ref{sec:limitations}.}
+Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search and streaming Twitter APIs.
+
+Secondly, the context $G_C$ is generated as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
+The size of the network is largely determined by the nature of the context, and may range from a few \hl{XX} users for a small context such as a local awareness event, to \hl{XX} users for a large national event that extends over a long timeframe, such as a political election campaign.
+
+
+\subsection{Community detection}  \label{sec:communities}
+
+\anote{IN PROGRESS}
+
+Next, the context network graph $G_C$  is partitioned into communities of users.
+The goal of this partitioning is to further narrow the scope for the topology-sensitive metrics, namely FollowerRank and in-degree centrality, 
+and thus to enable weak-signal users to emerge relative to other influencers, who are socially more prominent but, in the context of our work, less interesting.
+
+Community detection algorithms partition network graphs in sets of nodes which are more related one another taking into account different criteria.
+
+Demon \anote{cit needed} is the community detection algorithm of choice because it is based on the ego network concept and finds overlapping communities. 
+Overlapping communities means that a user could belong to more than one community, hence likely to be more engaged on the context of choice.
+Ego network is a network that considers a node and its neighbours only. It provides a local method of discovering user affiliations, thus more akin to a social context.
+
+Demon works iteratively for each node v in the network graph:
+\begin{enumerate}
+	\item get the ego network of v minus the node v.
+	\item apply "label propagation" \anote{cit needed} to each neighbour n of v:
+	\begin{enumerate}
+		\item to each n is assigned a unique label l (which identifies a community).
+		\item each n gets the possibility to change its label with probability $\alpha$ based on the label majority of its neighbours.
+		\item v gets assigned to the greatest community found by the labels (more than one community if same number of labels)
+	\end{enumerate}
+	\item Merge similar communities if and only if at most the $\epsilon \%$ of the smaller community is not included in the bigger one.
+\end{enumerate}
+Users which do not belong to any community are discarded from the whole process.
+
+In-degree centrality is then calculated for each node locally to each found community.
+
+Large networks are further partitioned into communities, using the well-known Demon community-detection algorithm \cite{DEMON}.
+%
+
+
+\anote{TO EDIT: BELOW}
+
+
+
+Relevance features are then computed for each user within the scope of each community. 
+Finally, a relevance score is associated with each user in the context, and used to update their global score in the database of relevant users.
+
+The final step in the iteration aims to discover new contexts. 
+This is achieved by looking for relevant new keywords and hashtags and that are found in the post history (retrieved earlier) for the top-$k$ new users identified during the iteration. 
+This last step is currently not automated, and involves humans who are knowledgeable with the domain. 
+As such knowledge is not particularly deep or difficult to source, in the future we plan to crowdsource this particular step.
+
+The new context constructed using the new keywords and hashtags are used to initiate the next iteration. 
+While the process ends naturally when no new contexts are uncovered from the previous ones, the system continuously monitors the Twitter stream for recent contexts. These may typically include events that are temporally recurring, and use similar hashtags for each new edition. In this case, their relevance is assessed on the basis of their past history.
+
 
 
 \anote{
@@ -239,81 +318,8 @@ for each user $u$, where $N$ is the number of nodes in the network induced by $C
 
 \comment{Since our method relies on small networks that represent limited topical context, our challenge is to find metrics that operate well on small networks.}{rephrase}
 
-The framework schematic structure and data flow are illustrated in Fig. ~\ref{fig:twitterframework}.
-
-\begin{figure*}
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/TwitterFramework}
-	\caption{\comment{Schematic diagram of the user discovery framework }{this is a placeholder -- to be redrawn -PM }}
-	\label{fig:twitterframework}
-\end{figure*}
-
-The iterative user discovery process is as follows.
-Each iteration processes one context $C$. 
-
-Firstly, all\footnote{Importantly, the Twitter API only allows a small fraction of the content history to be retrieved. We discuss this limitation in Sec. \ref{sec:limitations}.}
-Twitter posts that satisfy the criteria set in $C$ are retrieved.
-
-contexts are used to retrieve 
-User interactions within the context are reconstructed using retweet and mention activities, and represented as a user-user network for each context. 
-%
-Context-independent follower/followee user relationships are also retrieved from Twitter and added to the network as additional user-user edges.
-The size of the network is largely determined by the nature of the context, and may range from a few \hl{XX} users for a small context such as a local awareness event, to \hl{XX} users for a large national event that extends over a long timeframe, such as a political election campaign.
-
-Large networks are further partitioned into communities, using the well-known Demon community-detection algorithm \cite{DEMON}.
-%
-The goal of this further partitioning is to further narrow the scope and thus to enable weak-signal users to emerge relative to other influencers, who are socially more prominent but, in the context of our work, less interesting.
-Relevance features are then computed for each user within the scope of each community. 
-Finally, a relevance score is associated with each user in the context, and used to update their global score in the database of relevant users.
-
-The final step in the iteration aims to discover new contexts. 
-This is achieved by looking for relevant new keywords and hashtags and that are found in the post history (retrieved earlier) for the top-$k$ new users identified during the iteration. 
-This last step is currently not automated, and involves humans who are knowledgeable with the domain. 
-As such knowledge is not particularly deep or difficult to source, in the future we plan to crowdsource this particular step.
-
-The new context constructed using the new keywords and hashtags are used to initiate the next iteration. 
-While the process ends naturally when no new contexts are uncovered from the previous ones, the system continuously monitors the Twitter stream for recent contexts. These may typically include events that are temporally recurring, and use similar hashtags for each new edition. In this case, their relevance is assessed on the basis of their past history.
 
 
-\subsection{Harvesting Content and Creating Context networks}  \label{sec:harvesting}
-After a topic and a set of contexts have been defined, tweets about each of them need to be harvested.
-
-Tweets are used to create a network graph which describes the relation among the users in the given context. Tweets are obtained using the Twitter API 1.1 \anote{citation to twitter api 1.1 doc needed?}.
-
-A query for a given context filters tweets on: hashtags, temporal interval and eventually location (if the context itself is not already localised in a specific place \anote{is it clear?}).
-After a query is executed, a total of 100 tweets are collected from the Twitter API (which is the maximum query limit).
-
-Tweets are then parsed iteratively to create a node and an edge list:
-\begin{itemize}
-    \item node list: all the tweets authors and all the mentioned/retweeted users
-	\item edge list: directed weighted edge from a tweet author to the mentioned/retweeted user. Weight is defined as the sum of such mentions and retweets between the considered users.
-\end{itemize}
-
-Resulting network graph is directed and weighted and represents the relations among the users in a given context.
-
-\subsection{Community detection}  \label{sec:communities}
-The context network graph is then partitioned in communities of users to make more local relations stand out.
-
-Community detection algorithms partition network graphs in sets of nodes which are more related one another taking into account different criteria.
-
-Demon \anote{cit needed} is the community detection algorithm of choice because it is based on the ego network concept and finds overlapping communities. 
-Overlapping communities means that a user could belong to more than one community, hence likely to be more engaged on the context of choice.
-Ego network is a network that considers a node and its neighbours only. It provides a local method of discovering user affiliations, thus more akin to a social context.
-
-Demon works iteratively for each node v in the network graph:
-\begin{enumerate}
-    \item get the ego network of v minus the node v.
-    \item apply "label propagation" \anote{cit needed} to each neighbour n of v:
-    \begin{enumerate}
-        \item to each n is assigned a unique label l (which identifies a community).
-        \item each n gets the possibility to change its label with probability $\alpha$ based on the label majority of its neighbours.
-        \item v gets assigned to the greatest community found by the labels (more than one community if same number of labels)
-    \end{enumerate}
-    \item Merge similar communities if and only if at most the $\epsilon \%$ of the smaller community is not included in the bigger one.
-\end{enumerate}
-Users which do not belong to any community are discarded from the whole process.
-
-In-degree centrality is then calculated for each node locally to each found community.
 
 \subsection{User selection and ranking}  \label{sec:ranking}
 All users are enriched with data coming from their own Twitter timeline and profile section.
