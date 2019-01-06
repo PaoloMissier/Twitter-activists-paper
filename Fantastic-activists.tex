@@ -327,30 +327,118 @@ One can easily imagine this step to completely automated, however, and this is o
 While the process ends naturally when no new contexts are uncovered from the previous ones, the system continuously monitors the Twitter stream for recent contexts. These may typically include events that are temporally recurring, and use similar hashtags for each new edition. In this case, their relevance is assessed on the basis of their past history.
 
 
-\section{Empirical Evaluation: activists} \label{sec:evaluation}
+\section{Empirical Evaluation} \label{sec:evaluation}
+
+We have clarified in the introduction that our approach top discovering interesting users is \textit{unsupervised}. 
+Unlike most paper on user discovery, we do not make use of expert-generated ground truth, which would inevitably be biased by the specific experts' own opinion. 
+Instead, we aim to create a feature-rich and comprehensive database of users to which a variety of user-defined ranking functions can be applied, possibly yielding very different results. 
+
+Thus, our evaluation aims to show that the process is effective in building up such a database, and is articulated in two phases. 
+Firstly, we use a manually-picked selection of meaningful contexts from the same social domain, namely public healthcare campaigns, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
+Secondly, we provide examples of ranking functions that we believe to capture the notion of  \textit{online activists}, and we empirically validate them by inspecting the profiles of representative top-k users.
+
+ \subsection{Contexts, networks, and communities}  \label{sec:contexts}
+ 
+ 
+ \anote{FLAVIO:
+ 	\begin{itemize}
+ 		\item describe context of choice "UK healthcare campaigns"
+ 		\item harvesting content and creating context networks
+ 		\begin{itemize}
+ 			\item table of each event harvested together with a description (like on report 10)
+ 			\item table for each event describing the related graphs (\#nodes, \#edges, avg weighted degree)
+ 		\end{itemize}
+ 		\item community detection:
+ 		\begin{itemize}
+ 			\item describe the avg \# of nodes per community, avg \# of edges per community, avg \# of users that belongs to more than one community(?)
+ 			\item partition qualities avg: internal density, avg degree, FOMD, cut ratio and expansion (chosen because more suitable for overlapping commmunity detection algorithms https://github.com/Lab41/survey-community-detection)
+ 		\end{itemize}
+ 	\end{itemize}
+ }
+ 
+ 
+ We have manually selected 25 contexts within the scope of healthcare campaigns in the UK, all occurring in 2018. 
+These are listed in Table~\ref{tab:contexts}.
+Contexts are either time-limited events or public health awareness campaigns, and are well-characterised using predefined hashtags as shown in the Table.
+
+In Fig \hl{XXX} we report summary statistics for the 25 user-user networks constructed by harvesting posts for each context. 
+We can notice that \hl{XXX}...
+
+Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \textit{Demon} and \textit{Girwan-Newman}, on each of the networks. 
+As we can see, Demon either identifies a very small number of small communities, and only retains users who belong to at least one community, or it ``disintegrates'' the network into degenerate, one-node communities. 
+In this latter case, our pipeline disregards the communities and computes the users' topological metrics on the whole network.
+In order to decide whether the comunities are usable, we use a number of metrics that quantify partition quality, namely  the \textit{internal density} and \hl{XXX}.
+
+\anote{comment on Girwan-Newman when data becomes available}
+
+\begin{table}
+\begin{center}
+	\framebox{list all contexts}
+	\end{center}
+		
+	Summary of events:   \\
+	no\_edges, \\
+	no\_nodes, \\
+	avg\_degree, \\
+	connectivity: no\_SSC \ no\_nodes
+	\caption{Summary of contexts used in the experiments}
+	\label{tab:contexts}
+\end{table}	 
+
+\begin{table}
+\begin{center}	\framebox{summary stats for communities} \end{center}
+	
+		fraction of networks that ``disintegrate'' into atomic commuities using Demon\\
+		fraction of networks that are broken down into meaningful  communities \\
+		avg number of communities per network (for the good ones) \\
+		avg fraction of users that survive as community members\\
+		summary of community quality metrics to show how we can set a threshold and automatically reject poor communities 		
+	\caption{Summary statistics of context networks and their communities}
+	\label{tab:networks}
+\end{table}	 
+
+\subsection{Users discovery}  \label{sec:users}
+
+
 
 \anote{FLAVIO:
 	\begin{itemize}
-		\item describe context of choice "UK healthcare campaigns"
-		\item harvesting content and creating context networks
-		\begin{itemize}
-		    \item table of each event harvested together with a description (like on report 10)
-		    \item table for each event describing the related graphs (\#nodes, \#edges, avg weighted degree)
-		\end{itemize}
-		\item community detection:
-		\begin{itemize}
-		    \item describe the avg \# of nodes per community, avg \# of edges per community, avg \# of users that belongs to more than one community(?)
-		    \item partition qualities avg: internal density, avg degree, FOMD, cut ratio and expansion (chosen because more suitable for overlapping commmunity detection algorithms https://github.com/Lab41/survey-community-detection)
-		\end{itemize}
 		\item User selection and ranking:
 		\begin{itemize}
-		    \item feature 2-3 different ranking functions
-		    \item briefly describe the number inside functions (example: the \# of events a user is in, the \# of communities a user is in, indegree cetrality)
-		    \item decide over a method for comparison for the functions (list top-k users for each function and look for them over twitter, check how selective are and the diagram wrt \#users)
-		\end{itemize}
+			\item feature 2-3 different ranking functions
+			\item briefly describe the number inside functions (example: the \# of events a user is in, the \# of communities a user is in, indegree cetrality)
+			\item decide over a method for comparison for the functions (list top-k users for each function and look for them over twitter, check how selective are and the diagram wrt \#users)
+		\end{itemize} 
 		\item new context discovery (?)
 	\end{itemize}
 }
+ 
+Finally, from each context we extract all users who are either part of a community, or in the case of non-meaningful communities, all users in the network.
+Using these criteria, a total of \hl{XX} users has been added to the database.
+It is interesting to note that out of those, 160 users appear in more than one context. 
+Of those, 115 are found within the entire context network, and 45 are selected as being part of (at least) one community.
+Overall, 5 repeat users appear in 4 different contexts, 18 appear in 2 contexts, and the remaining 137 appear in two contexts (all other users only appear in one context).  
+Table~\ref{tab:repeat-users} reports the top repeat users with a brief description of their profile. 
+
+The chart in Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context. 
+
+\anote{comment on whether these are individuals or well-known organisations}
+
+\begin{table}
+	\centering
+	\framebox{table content here}
+	\caption{Top-k repeat users, amongst those identified as belonging to some community.}
+	\label{tab:networks}
+\end{table}	 
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/repeat-users-frequency}
+	\caption{Number of repeat users broken down by context}
+	\label{fig:repeat-users-frequency}
+\end{figure*}
+
+  
 	
 \section{Discussion and ongoing work}
 
