@@ -329,40 +329,19 @@ While the process ends naturally when no new contexts are uncovered from the pre
 
 \section{Empirical Evaluation} \label{sec:evaluation}
 
-We have clarified in the introduction that our approach top discovering interesting users is \textit{unsupervised}. 
-Unlike most paper on user discovery, we do not make use of expert-generated ground truth, which would inevitably be biased by the specific experts' own opinion. 
-Instead, we aim to create a feature-rich and comprehensive database of users to which a variety of user-defined ranking functions can be applied, possibly yielding very different results. 
+We have clarified in the introduction that our approach to discovering interesting users is \textit{unsupervised}, as the usual approach of having experts manually generate ground truth is vulnerable to the subjectivity of the experts. Thus, the evaluation would simply be measuring the fit of the model to the specific experts' own opinion. 
+Instead, our pipeline creates a feature-rich database of online profiles that are pre-selected according to specific topological properties in order to filter out background noise, but are otherwise objectively represented and ready to be mined using any user-defined function of the available features.
 
-Thus, our evaluation aims to show that the process is effective in building up such a database, and is articulated in two phases. 
-Firstly, we use a manually-picked selection of meaningful contexts from the same social domain, namely public healthcare campaigns, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
-Secondly, we provide examples of ranking functions that we believe to capture the notion of  \textit{online activists}, and we empirically validate them by inspecting the profiles of representative top-k users.
+Thus, our evaluation shows that the process is effective in building up such a database, by (i) showing the pipeline in action on a significant set of contexts, and (ii) demonstrating user-defined ranking functions that operate on the resulting database.
+Specifically, we  start by manually selecting meaningful contexts from the same social domain, namely public healthcare campaigns, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
+We then provide examples of ranking functions that we believe to capture the notion of  \textit{online activists}, and we empirically validate them by inspecting the profiles of representative top-k users.
 
  \subsection{Contexts, networks, and communities}  \label{sec:contexts}
  
- 
- \anote{FLAVIO:
- 	\begin{itemize}
- 		\item describe context of choice "UK healthcare campaigns"
- 		\item harvesting content and creating context networks
- 		\begin{itemize}
- 			\item table of each event harvested together with a description (like on report 10)
- 			\item table for each event describing the related graphs (\#nodes, \#edges, avg weighted degree)
- 		\end{itemize}
- 		\item community detection:
- 		\begin{itemize}
- 			\item describe the avg \# of nodes per community, avg \# of edges per community, avg \# of users that belongs to more than one community(?)
- 			\item partition qualities avg: internal density, avg degree, FOMD, cut ratio and expansion (chosen because more suitable for overlapping commmunity detection algorithms https://github.com/Lab41/survey-community-detection)
- 		\end{itemize}
- 	\end{itemize}
- }
- 
- 
- We have manually selected 25 contexts within the scope of healthcare campaigns in the UK, all occurring in 2018. 
-These are listed in Table~\ref{tab:contexts}.
-Contexts are either time-limited events or public health awareness campaigns, and are well-characterised using predefined hashtags as shown in the Table.
 
-In Fig \hl{XXX} we report summary statistics for the 25 user-user networks constructed by harvesting posts for each context. 
-We can notice that \hl{XXX}...
+ We have manually selected 25 contexts within the scope of healthcare campaigns in the UK, all occurring in 2018 (Table~\ref{tab:contexts}). 
+ Table~\ref{tab:networks-summary} provides summary statistics for  the corresponding user-user networks constructed by harvesting posts for each context.
+Contexts are either time-limited events or public health awareness campaigns, and are well-characterised using predefined hashtags as shown in the Table.
 
 Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \textit{Demon} and \textit{Girwan-Newman}, on each of the networks. 
 As we can see, Demon either identifies a very small number of small communities, and only retains users who belong to at least one community, or it ``disintegrates'' the network into degenerate, one-node communities. 
@@ -373,46 +352,51 @@ In order to decide whether the comunities are usable, we use a number of metrics
 
 \begin{table}
 \begin{center}
-	\framebox{list all contexts}
+	\includegraphics[width=0.7\linewidth]{figures/summary-events}
 	\end{center}
-		
-	Summary of events:   \\
-	no\_edges, \\
-	no\_nodes, \\
-	avg\_degree, \\
-	connectivity: no\_SSC \ no\_nodes
-	\caption{Summary of contexts used in the experiments}
+
+\anote{omit location as it's all UK}		
+	\caption{List of contexts used in the experiments}
 	\label{tab:contexts}
 \end{table}	 
 
+
 \begin{table}
-\begin{center}	\framebox{summary stats for communities} \end{center}
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{figures/summary-events-graphs.png}
+	\end{center}
 	
+		Summary of networks, retain these metrics   \\
+	(min, max, avg, std dev) for no\_edges, 	no\_nodes, density, avg\_degree, assortativity\\
+	
+	use a different way to report SSC: SSC as counted here have no meaning, what matters is the ratio of SSC to no_nodes	
+	
+	\caption{Summary statistics for the user-user networks for all the contexts in Table~\ref{tab:contexts}}
+	\label{tab:networks}
+\end{table}	 
+
+
+
+\begin{table}
+\begin{center}
+	
+	\includegraphics[width=0.7\linewidth]{figures/summary-networks-stats}
+\end{center}
 		fraction of networks that ``disintegrate'' into atomic commuities using Demon\\
 		fraction of networks that are broken down into meaningful  communities \\
 		avg number of communities per network (for the good ones) \\
 		avg fraction of users that survive as community members\\
 		summary of community quality metrics to show how we can set a threshold and automatically reject poor communities 		
-	\caption{Summary statistics of context networks and their communities}
-	\label{tab:networks}
+	\caption{Summary statistics of communities extracted from the context networks}
+	\label{tab:commiunities}
 \end{table}	 
+
 
 \subsection{Users discovery}  \label{sec:users}
 
 
+\anote{3576 users}
 
-\anote{FLAVIO:
-	\begin{itemize}
-		\item User selection and ranking:
-		\begin{itemize}
-			\item feature 2-3 different ranking functions
-			\item briefly describe the number inside functions (example: the \# of events a user is in, the \# of communities a user is in, indegree cetrality)
-			\item decide over a method for comparison for the functions (list top-k users for each function and look for them over twitter, check how selective are and the diagram wrt \#users)
-		\end{itemize} 
-		\item new context discovery (?)
-	\end{itemize}
-}
- 
 Finally, from each context we extract all users who are either part of a community, or in the case of non-meaningful communities, all users in the network.
 Using these criteria, a total of \hl{XX} users has been added to the database.
 It is interesting to note that out of those, 160 users appear in more than one context. 
