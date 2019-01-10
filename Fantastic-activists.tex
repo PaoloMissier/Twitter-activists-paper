@@ -14,25 +14,34 @@
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
-Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
-Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
+\author{Flavio Primo\inst{1} \and
+Paolo Missier\inst{1}\orcidID{0000-0002-0978-2446} \and
+Alexander Romanovsky\inst{1} \and
+Mickael Figueredo\inst{2} \and
+Nelio Azevedo Cacho\inst{2}}
+
 %
-\authorrunning{F. Author et al.}
+\authorrunning{F. Primo et al.}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
-\institute{affiliation 1 \and
-Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
-\email{lncs@springer.com}\\
-\url{http://www.springer.com/gp/computer-science/lncs} \and
-ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
-\email{\{abc,lncs\}@uni-heidelberg.de}}
+\institute{Newcastle University, School of Computing Science \\
+Science Central, Newcastle upon Tyne, UK \\
+\email{\{firstname.lastname\}@ncl.ac.uk}  \and
+Universidade Federal do Rio Grande do Norte \\
+Natal/RN - Brasil\\
+\email{neliocacho@dimap.ufrn.br}}
 %
 \maketitle       % typeset the header of the contribution
 %
 \begin{abstract}
-last to be written
+On social media platforms and Twitter in particular, some classes of users, such as the \textit{influencers}, have been given satisfactory operational definitions in terms of Twitter content metrics.
+Other kinds of users, for instance \textit{online activists}, are less precisely defined.
+We find that supervised machine learning approaches are unsatisfactory, as they produce models that reflect the judgment of a few experts, often on a limited training set.
+%
+To overcome this problem, we suggest a semi-supervised approach whereby a growing dataset of candidate users, selected from the general population using network analysis techniques, is made available to experts for mining, i.e., by experimenting with multiple user ranking functions.
+In this paper we describe the design and implementation of a process that populates such dataset, by repeatedly harvesting \textit{contexts}, i.e., small but topical fragments of the  network from social events or campaigns with a significant footprint on Twitter.
+We empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports the experimental definition of online activism.
 \keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
 \end{abstract}
 %
@@ -42,9 +51,6 @@ last to be written
 \section{Introduction}
 
 In this paper we present a generic and customisable software framework for incrementally discovering and ranking individual profiles for classes of online users, through analysis of their social activity in micro-blogging platforms, specifically Twitter.
-
-\subsection{Motivation} \label{sec:motivation}
-
 Practical motivation for this work comes from our ongoing effort to support health officers in tropical countries, specifically in Brazil, in their fight against airborne virus epidemics like Dengue and Zika, which are carried by mosquitoes. Help from community activists is badly needed to supplement the scarce public resources deployed on the ground. Our past work has therefore focused on identifying relevant content on Twitter that may point health authorities directly to mosquito breeding sites~\cite{Sousa2018}, or to users who have given some sign of interest in those topics, i.e., by posting relevant content on Twitter~\cite{Missier2017}. 
 
 The approach described in this paper generalises those past efforts, by attempting to discover users who demonstrate an inclination to become engaged in social issues, regardless of specific topics.
@@ -291,10 +297,10 @@ Once communities are identified, we calculate  in-degree centrality (\ref{eq:IDC
 
 \anote{what happens when nodes belong to more than one community?}
 
-\subsection{Computing user features and ranking}  \label{sec:features}
+\subsection{Computing user features and ranking  \anote{PM to fix wording}}  \label{sec:features}
 
 The next step in the process involves retrieving the core features and then the user relevance metrics as defined in Sec. ~\ref{sec:metrics}, for each user in each of the communities.
-
+%
 As this involves querying the Twitter API for many user profiles, this step hits the limitations imposed by Twitter \anote{be specific}.
 To get around this problem, we have implemented a dedicated component to \textit{scrape} user information directly from their profile Web pages, namely:
 \begin{itemize}
@@ -384,7 +390,7 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 			\hline 
 	\end{tabular}}
 	
-	\anote{add missing data from the original tables}
+	\anote{add the rest of the  data from the original tables}
 	\caption{List of contexts used in the experiments along with network metrics and count of \demon communities}
 	\label{tab:contexts}
 \end{table}	 
