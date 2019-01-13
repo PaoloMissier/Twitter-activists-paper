@@ -35,36 +35,40 @@ Natal/RN - Brasil\\
 \maketitle       % typeset the header of the contribution
 %
 \begin{abstract}
-On social media platforms and Twitter in particular, some classes of users, such as the \textit{influencers}, have been given satisfactory operational definitions in terms of Twitter content metrics.
-Other kinds of users, for instance \textit{online activists}, are less precisely defined.
-We find that supervised machine learning approaches are unsatisfactory, as they produce models that reflect the judgment of a few experts, often on a limited training set.
+On social media platforms and Twitter in particular, \textit{influencers}c and other classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
+Others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
+Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
 %
-To overcome this problem, we suggest a semi-supervised approach whereby a growing dataset of candidate users, selected from the general population using network analysis techniques, is made available to experts for mining, i.e., by experimenting with multiple user ranking functions.
-In this paper we describe the design and implementation of a process that populates such dataset, by repeatedly harvesting \textit{contexts}, i.e., small but topical fragments of the  network from social events or campaigns with a significant footprint on Twitter.
-We empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports the experimental definition of online activism.
+In contrast, we suggest a semi-supervised approach that combines two main elements. 
+Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the  network from social events or campaigns that have with a significant footprint on Twitter.
+We make the hypothesis that such context contain meaningful signals to help us recognise activists. 
+Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context,  and we associate a set of quantitative Twitter-related user metrics to them.
+As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
+In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
+
 \keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
 \end{abstract}
 %
 
-%
-%
 \section{Introduction}
 
 In this paper we present a generic and customisable software framework for incrementally discovering and ranking individual profiles for classes of online users, through analysis of their social activity in micro-blogging platforms, specifically Twitter.
-Practical motivation for this work comes from our ongoing effort to support health officers in tropical countries, specifically in Brazil, in their fight against airborne virus epidemics like Dengue and Zika, which are carried by mosquitoes. Help from community activists is badly needed to supplement the scarce public resources deployed on the ground. Our past work has therefore focused on identifying relevant content on Twitter that may point health authorities directly to mosquito breeding sites~\cite{Sousa2018}, or to users who have given some sign of interest in those topics, i.e., by posting relevant content on Twitter~\cite{Missier2017}. 
+Practical motivation for this work comes from our ongoing effort to support health officers in tropical countries, specifically in Brazil, in their fight against airborne virus epidemics like Dengue and Zika, which are carried by mosquitoes. Help from community activists is badly needed to supplement the scarce public resources deployed on the ground. Our past work has therefore focused on identifying relevant content on Twitter that may point health authorities directly to mosquito breeding sites~\cite{Sousa2018}, as well as to users who have shown interest in those topics, i.e., by posting relevant content on Twitter~\cite{Missier2017}. 
 
-The approach described in this paper generalises those past efforts, by attempting to discover users who demonstrate an inclination to become engaged in social issues, regardless of specific topics.
+The approach described in this paper generalises those past efforts, by attempting to discover users who demonstrate an inclination \textit{to become engaged in social issues, regardless of the specific topic}.
 We refer to this class of users as \textit{activists}.
-The rationale for this approach is that activists who manifest themselves online on a range of social initiatives, may be more sensitive to requests for help on specific issues, such as controlling tropical epidemics \anote{FLAVIO: I would still specify that we search in related broader topics such as healthcare. otherwise seems too optimistic (?)}.
+The rationale for this approach is that activists who manifest themselves online on a range of social initiatives, may be more sensitive to requests for help on specific issues. 
+In the paper we experiment with healthcare-related online campaigns in the UK.
 
 To be clear, this work is not about providing a robust definition of online activism, or to demonstrate that online activism translates into actual engagement in the ``real world''.
 %
 Instead, we acknowledge that the notion of activist is not as well formalised in the literature as that of, for example, \textit{influencers}. 
 Thus, we have developed a generic content processing pipeline which can be customised to target specific users contexts. 
-The pipeline repeatedly searches for and ranks Twitter user profiles and collects a rich set of quantifiable network- and content-based user metrics. 
-Thus, once targeted to a topic the pipeline provides a tool for exploring various concrete definitions of user roles, including online activism, i.e., by combining the metrics into higher level user features to be used for ranking.
+The pipeline repeatedly searches for and ranks Twitter user profiles by collecting a rich set of quantifiable network- and content-based user metrics. 
+Once targeted to a specific topic, it provides a tool for exploring operational definitions of user roles, including online activism, i.e., by combining the metrics into higher level user features to be used for ranking.
 
-We begin by arguing for the need for a new discovery process for this class of users, and then present the pipeline as our main research contribution.
+Although the user harvesting pipeline described in the rest of the paper is generally applicable to the analysis of a variety of user profiles, the search for a satisfactory operational definition of online activism 
+provides our main motivation. 
 %
 According to the Cambridge Dictionary, an \textit{activist} is ``A person who believes strongly in political or social change and takes part in activities such as public protests to try to make this happen''.
 %
@@ -73,24 +77,15 @@ In contrast, we are interested in the fine-grained discovery of activists at the
 Searching for online activists is a realistic goal, as activists presence in social media is widely acknowledged, and it is also clear that social media facilitates activists communication and organization \cite{Poell2014,Youmans2012}. 
 Specific traits that characterise activists include awareness of causes and social topic and the organization of social gatherings and activities, including in emergency situations, by helping organize support efforts and diffusion of useful information.
  
-Informal as it sounds, this characterisation of online activism is different enough from that of \textit{influencer} to merit its own definition.
-According to ~\cite{Kardara2015}, \textit{influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.}
-A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more.
-%
-Algorithms to find influencers favour high visibility profiles, typically across global networks.
-In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. \anote{FLAVIO: do we need a citation here or simple rephrasing?}
-%
-While we believe that specific activist behaviour can be characterised using some of the well-tested quantifiable metrics known from the literature cited above~\cite{RIQUELME2016949}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
-
 \subsection{Challenges}
-
-Motivated by these observations, our search for activists faces a number of challenges.
+ 
+The challenges posed by the definition of online activism translate into requirements and technical challenges in systematically harvesting candidate users.
 %
-Firstly, we note that, given their potentially more subdue nature, it is intuitively more difficult to separate their online footprint from the background noise of general conversations, than it is for an influencer.
+Firstly, the potentially more subdue nature of activists, relative to influencers, makes it particularly difficult to separate their online footprint from the background noise of general conversations.
 Also, interesting activists are by their nature associated to specific topics and manifest their nature in local contexts, for instance as organisers or participants to local events. 
 Finally, we expect personal engagement to be sustained over time and across multiple such contexts. 
 These observations suggest that the models and algorithms developed for influencers are not immediately applicable, because they mostly operate on global networks, where less prominent users have less of a chance to emerge.
-Some topic-sensitive metrics and models have been proposed to measure social influence, for example, \textit{alpha centrality}~\cite{Bonacich2001,Overbey2013}, and the \textit{Information Diffusion} model~\cite{Pal2011}. Algorithms based on topic models have also been proposed to account for topic specificity~\cite{Zhao2011b}. However, these approaches are still aimed at measuring influence, not activism, and assume a one-shot discovery process, as opposed to a continuous, incremental approach.
+Some topic-sensitive metrics and models have been proposed to measure social influence, for example, \textit{alpha centrality}~\cite{Bonacich2001,Overbey2013} and the \textit{Information Diffusion} model~\cite{Pal2011}. Algorithms based on topic models have also been proposed to account for topic specificity~\cite{Zhao2011b}. However, these approaches are still aimed at measuring influence, not activism, and assume a one-shot discovery process, as opposed to a continuous, incremental approach.
 
 \subsection{Approach}
 
@@ -98,9 +93,9 @@ To address these challenges, the approach we propose involves two strategies.
 Firstly, we identify suitable contexts that are topic-specific and limited both in time and, optionally, also in space, i.e., regional initiatives, events, or campaigns.
 We then search for users only within these contexts, using a combination of network and content metrics. 
 This follows the intuition that low-key users who produce weak online signal have a better chance to be discovered when the search is localised and then repeated across multiple such contexts.
-By \textit{continuously discovering new contexts} and searching for users engaged in those events and campaigns, we hope to incrementally build up a users' database where users who appear in multiple contexts are progressively more strongly characterised.
+By \textit{continuously discovering new contexts} and searching for users engaged in those events and campaigns, we hope to incrementally build up a users' dataset where users who appear in multiple contexts are progressively more strongly characterised.
 %
-Secondly, to allow experimenting with varying technical definitions of \textit{activist}, we collect a number of network-based and content-based user profile raw features, and make it available for mining. The raw features can be combined into more complex engineered features which in turn can be used to filter and rank users in various ways.
+Secondly, to allow experimenting with varying technical definitions of \textit{activist}, we collect a number of network-based and content-based user profile features, mostly known from the literature, and make it available for mining. Those features can be combined to generate scores that can be used to experiment with a variety of user rankings.
 
 \subsection{ Contributions}
 The paper makes the following specific contributions.
@@ -111,20 +106,20 @@ The pipeline includes community detection and network analysis algorithms aimed 
 Secondly, we have implemented a comprehensive set of content-based metrics that results into an ever-growing database of user profile features, which can then be used for mining purposes. 
 User profiles are updated when they are repeatedly found in multiple contexts.
 
-Lastly, for empirical evaluation of our implementation, we demonstrate an operational definition of the activist profile, defined in terms of the features available in the database, by collecting \hl{XX} users across \hl{YY} contexts in the \hl{XX} domain. 
-\comment{Note that application of the approach to contexts specific to Zika is ongoing and is not reported at this stage of the research}{unless we can do it in time}
-
-
-\subsection{Reference case study and running example} \label{sec:reference}
-
-\anote{the health care events and campaigns used as running examples.
-	
-	justify why Zika campaigns are not used. Too specific, only regional?
-
-clarify our evaluation is not based on ground truth}
-
+Lastly, for empirical evaluation of our implementation, we demonstrate an operational definition of the activist profile, defined in terms of the features available in the database, by collecting about 3,500 users  across 25 contexts in the domain of healthcare awareness campaigns in the UK during 2018. 
+The application of the approach to the specific challenge of combating tropical disease epidemics in Brasil is currently in progress and is not reported in this paper.
 
 \subsection{Related Work}
+
+The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers} 
+The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
+According to ~\cite{Kardara2015}, \textit{influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.}
+A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more.
+%
+Algorithms to find influencers favour high visibility profiles, typically across global networks.
+In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. \anote{FLAVIO: do we need a citation here or simple rephrasing?}
+%
+While we believe that specific activist behaviour can be characterised using some of the well-tested quantifiable metrics known from the literature cited above~\cite{RIQUELME2016949}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
 
 
 \anote{topic-specific influencers. cite \cite{Schenk2011} SCHENK 2011}\\
