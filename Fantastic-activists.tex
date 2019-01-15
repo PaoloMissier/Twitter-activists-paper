@@ -8,7 +8,7 @@
 
 \begin{document}
 %
-\title{Building a customisable pipeline for continuously harvesting socially-minded Twitter users: how and why\thanks{}}
+\title{A customisable pipeline for continuously harvesting socially-minded Twitter users}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -35,7 +35,7 @@ Natal/RN - Brasil\\
 \maketitle       % typeset the header of the contribution
 %
 \begin{abstract}
-On social media platforms and Twitter in particular, \textit{influencers}c and other classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
+On social media platforms and Twitter in particular, \textit{influencers} and other classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
 Others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
 Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
 %
@@ -341,11 +341,21 @@ Thus, our evaluation (i) shows the pipeline in action on a significant set of co
 Specifically, we  start by manually selecting homogeneous contexts from a single social domain, namely public healthcare campaigns, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
 We then provide examples of ranking functions aimed at capturing the notion of  \textit{online activists}, and we empirically validate them by inspecting the profiles of representative top-k users.
 
+\anote{implementation:
+	
+	all in python. using Pandas, NetworkX, Selenium public libraries. 
+	
+	deployed on Azure cloud, one node with standard commodity configuration.
+	
+}
+
+
  \subsection{Contexts and networks}  \label{sec:contexts}
  
- We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018, all well-characterised using predefined hashtags.
- Table~\ref{tab:contexts}) lists the events along with key metrics for their corresponding user-user networks. 
-To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree (>0) or with a different degree (<0). 
+We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018, all well-characterised using predefined hashtags.
+Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
+ Table~\ref{tab:contexts} lists the events along with key metrics for their corresponding user-user networks. 
+To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree ($>0$) or with a different degree ($<0$). 
 Negative figures (mean: -0.22, std dev: 0.17) are in line with what is observed on the broader Twitter network \hl{add ref-about-assortativity-in-Twitter}.
 %
 The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} (\mathit{\#nodes} -1)}$, suggest very few connections exist amongst users within a context. 
@@ -357,33 +367,37 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	\anote{content for this comes from cell [5] and cell [6] table 2 and cell [8]}
 	
 	\resizebox{\textwidth}{!}{%
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+%		\begin{tabularx}{|X|X|X|X|X|X|X|X|X|X|X|X|}
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex} \textbf{Context name} &  \textbf{start date} & \textbf{end date}  & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} & \textbf{communities / nodes} \\ 
+			\rule[-1ex]{0pt}{2.5ex} \textbf{Context name} &  \textbf{start date} & \textbf{end date}  & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} & \textbf{\demon~ communities / nodes} &  \textbf{\infomap~ communities / nodes} \\ 
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex} 16-days-of-action-2018  &  11-25&	12-10	& 	[\#16days, \#16daysofaction, \#16daysofactiontool...] & -0.1319 &  1.7626	 &  0.0022	 & 349 & 396 &  0.99 & 0\\ 
+			\rule[-1ex]{0pt}{2.5ex} 16-days-of-action-2018  &  11-25&	12-10	& 	[\#16days, \#16daysofaction, \#16daysofactiontool...] & -0.1319 &  1.7626	 &  0.0022	 & 349 & 396 &  0.99 & 0  &\\ 
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  elf-day &	12-03	& 12-12	&	[\#elfday, \#elfday2018] &  -0.1822	 &  2.3890	 & 0.0033	& 436	& 365	& 0.98  & 0.125 \\ 
+			\rule[-1ex]{0pt}{2.5ex}  elf-day &	12-03	& 12-12	&	[\#elfday, \#elfday2018] &  -0.1822	 &  2.3890	 & 0.0033	& 436	& 365	& 0.98  & 0.125 &\\ 
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  dry-january-2018	& 01-01	& 01-31	&	[\#dryjanuary] & -0.2833	 &  1.9915	& 0.0043	& 234	& 235	& 0.982979 & 0.25 \\ 
+			\rule[-1ex]{0pt}{2.5ex}  dry-january-2018	& 01-01	& 01-31	&	[\#dryjanuary] & -0.2833	 &  1.9915	& 0.0043	& 234	& 235	& 0.982979 & 0.25 &\\ 
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  cervical-cancer-prevention-week-2018	& 01-21	& 01-27	& 	[\#cervicalcancer]&  -0.0909	 &  1.8373	& 0.0044	& 192	& 209	& 0.976077 & 0.18 \\ 
+			\rule[-1ex]{0pt}{2.5ex}  cervical-cancer-prevention-week-2018	& 01-21	& 01-27	& 	[\#cervicalcancer]&  -0.0909	 &  1.8373	& 0.0044	& 192	& 209	& 0.976077 & 0.18 & \\ 
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  time-to-talk-day-2018	& 02-06	& 02-07	& [\#timetotalk]&  -0.2489	 &  1.7239	& 0.0032	& 231	& 268	& 0.988806 & 0.2 \\
+			\rule[-1ex]{0pt}{2.5ex}  time-to-talk-day-2018	& 02-06	& 02-07	& [\#timetotalk]&  -0.2489	 &  1.7239	& 0.0032	& 231	& 268	& 0.988806 & 0.2  &\\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  eating-disorder-awareness-week-2018	& 02-25	& 03-03	&	[\#edaw18, \#edaw2018, \#eatingdisordersawareness...]  &  -0.1544 & 1.8828	& 0.0037	& 241	& 256 & 0.988281 & 0.25 \\
+			\rule[-1ex]{0pt}{2.5ex}  eating-disorder-awareness-week-2018	& 02-25	& 03-03	&	[\#edaw18, \#edaw2018, \#eatingdisordersawareness...]  &  -0.1544 & 1.8828	& 0.0037	& 241	& 256 & 0.988281 & 0.25 & \\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  rare-disease-day-2018	& 02-28	& 03-01	& 	[\#rarediseaseday]&  -0.2443	 & 1.4014 & 0.0024	& 206	& 294 & 1.000000 & 0\\
+			\rule[-1ex]{0pt}{2.5ex}  rare-disease-day-2018	& 02-28	& 03-01	& 	[\#rarediseaseday]&  -0.2443	 & 1.4014 & 0.0024	& 206	& 294 & 1.000000 & 0 &\\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  ovarian-cancer-awareness-month-2018	& 03-01	& 03-31	& 	[\#ovariancancer, \#ovariancancerawareness]  &  -0.3707	 & 1.8791	& 0.0044	& 202	& 215	& 0.986047 & 0\\
+			\rule[-1ex]{0pt}{2.5ex}  ovarian-cancer-awareness-month-2018	& 03-01	& 03-31	& 	[\#ovariancancer, \#ovariancancerawareness]  &  -0.3707	 & 1.8791	& 0.0044	& 202	& 215	& 0.986047 & 0 &\\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  nutrition-and-hydration-week-2018	& 03-11	& 03-17	&	[\#nutritionandhydrationweek, \#NHW2018]&  -0.2841	 &  2.3883	& 0.0044	& 326	& 273	& 0.985348 & 0.12\\
+			\rule[-1ex]{0pt}{2.5ex}  nutrition-and-hydration-week-2018	& 03-11	& 03-17	&	[\#nutritionandhydrationweek, \#NHW2018]&  -0.2841	 &  2.3883	& 0.0044	& 326	& 273	& 0.985348 & 0.12 &\\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  brain-awareness-week-2018	& 03-11	03-17	& 2018-03-17 &	[\#brainawarenessweek, \#brainweek]& -0.0818	 &  1.8306	& 1.9349	& 281	& 307	& 0.996743 & 0 \\
+			\rule[-1ex]{0pt}{2.5ex}  brain-awareness-week-2018	& 03-11	03-17	& 2018-03-17 &	[\#brainawarenessweek, \#brainweek]& -0.0818	 &  1.8306	& 1.9349	& 281	& 307	& 0.996743 & 0 & \\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  &  &  &  &  & & & & & & \\ 
+			\rule[-1ex]{0pt}{2.5ex}  &  &  &  &  & & & & & & &\\ 
 			\hline 
+%	\end{tabularx}}
 	\end{tabular}}
+	\anote{update last column with Flavio's latest figures}
+	
 	
 	\anote{add the rest of the  data from the original tables}
 	\caption{List of contexts used in the experiments along with network metrics and count of \demon communities}
@@ -393,35 +407,46 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 
 \subsection{Communities}  \label{sec:communities}
 
-Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \demon and \hl{\textit{Girwan-Newman}}, on each of the networks. 
-As we can see, within each network \demon either identifies a very small number of small communities, where it only retains users who belong to at least one community, or it ``disintegrates'' the network into degenerate, one-node communities. 
-One-node communities are ignored by the pipeline. Whenever a network is broken down into one-node communities, the whole network is considered in users' in-degree calculations.
-The rightmost column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks.
+Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \demon~and \infomap, on each of the networks. 
+%
+Regarding \demon, we find that, within each network, the algorithm  identifies \textit{meaningful} communities consisting of more than one single node in only 48\% of the networks, while for the remaining 52\% 
+it does not detect any communities.
+In this situation our pipeline creates only one community consisting of the entire network, which is used to calculate the users' in-degrees, and all users in the network are added to the database.
+%
+When meaningful communities are found, on the other hand, only users who belong to one of those community are added. 
+These are about  6\% of the users on average, with an average of only 1.92 communities per network.
+The penultimate column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks. 
+A value of zero indicates that no meaningful communities were used.
+%
+This approach results in \hl{XX} users being added to the database.
+The average assortativity of individual \demon~communities is slightly negative \hl{XX}, in line with the average for their parent networks.
 
-Overall, \demon finds meaningful communities in 48\% of the networks, with 1.92 communities per network on average. 
-As mentioned, when communities are meaningful, only users who belong to at least one community are added to the database. 
-On average, for these networks this is 6\% of users.
-In terms of connectedness and assortativity, unsurprisingly individual \demon communities are in line with the average for their parent networks, i.e., slightly negative average assortativity (details omitted due to space constraints).
+In contrast, the \infomap~ algorithm provides meaningful communities for all networks.
+Those with with fewer than 3 users are discarded, leaving  \hl{XX} communities per network on average (as opposed to 1.92 for \demon).
+The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, 
+where a community contains \hl{XX} users on average. 
+Overall, this approach resulted in \hl{XX} users being added to the database (on average \hl{XX} users per network).
+The average assortativity across all communities is again slightly negative (\hl{XX}).
 
-%   cell [9]  not to be used
+
+\anote{conclude that \infomap~is preferrable and this is where the users in the database come from}
 
 \anote{cell [10]: think about how to comment on histogram or omit altogether}
 
-\anote{add report on Girwan-Newman communities }
 
 \subsection{Users discovery}  \label{sec:users}
 
 Finally, from each context we have extracted users who are either part of a community, or in the case of non-meaningful communities, all users in the network.
-Using these criteria, a total of 3576 users has been added to the database from 25 contexts.
-We are interested in tracking users' presence across more than one context, and in the specification of ranking functions that let specific user profiles emerge.
+Using these criteria, a total of \hl{XX} users has been added to the database from 25 contexts.
+We are interested in tracking the users' presence across more than one context, and in the specification of ranking functions that let specific user profiles emerge.
 
-Regarding user presence, we found that there are 160 users who appear at least in two contexts. 
+Regarding user presence, we found that there are \hl{160} users who appear at least in two contexts. 
 After community detection, only a fraction of these users survive. 
 These are either users who belong to a meaningful community, or users who belong to a context network where communities could not be identified.
 
-This filtering process results in 45 of the 160 users still seen as repeat users, while the remaining 115 are either removed altogether, or they only appear once. 
-Out of these, 41 appear twice, and 4 appear three times. 
-Thus, only 1.2\% of users appear more than once when communities are considered, compared to the overall 4.5\% repeat users.
+This filtering process results in \hl{45} of the \hl{160} users still seen as repeat users, while the remaining \hl{115} are either removed altogether, or they only appear once. 
+Out of these, \hl{41} appear twice, and \hl{4} appear three times. 
+Thus, only \hl{1.2\%} of users appear more than once when communities are considered, compared to the overall \hl{4.5\%} repeat users.
 %
 Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{comment on whether these are individuals or well-known organisations}
 \anote{can we sort these by no-participation and follower-rank??}
@@ -442,7 +467,7 @@ Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per conte
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=1\linewidth]{figures/repeat-users-frequency}
+	\includegraphics[width=1.2\linewidth]{figures/repeat-users-frequency}
 	\caption{Number of repeat users for each context}
 	\label{fig:repeat-users-frequency}
 \end{figure*}
@@ -451,17 +476,20 @@ Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per conte
   
   \anote{show the effect of one or two ranking functions and single out users that ``look like activists'' top empirically prove the point}
 	
-\section{Discussion and ongoing work}
+	\section{Implementation Limitations and Discussion}
+
+	\anote{tweets harvest from the Twitter API: 200 tweets (limit is 100 but with developer account we can increase).  200 is chosen as a trade-off bet2ween the limitations on the monthly allowance (50 requests and 100/ request). we have used one single account}
+
+
+\anote{network and community detection are not a bottleneck}
+
 
 \anote{
 	we say that events are manually identified. Sketch the events bootstrapping idea.
+
+   also limitation from Twitter API -- 200 tweets per event.
 }
 
-\anote{FLAVIO:
-	\begin{itemize}
-		\item unsupervised learning?
-	\end{itemize}
-}
 
  \bibliographystyle{splncs04}
  \bibliography{icwe19}
