@@ -16,7 +16,7 @@
 %
 \author{Flavio Primo\inst{1} \and
 Paolo Missier\inst{1}\orcidID{0000-0002-0978-2446} \and
-Alexander Romanovsky\inst{1} \and
+Alexander Romanovsky\inst{1}\orcidID{0000-0002-4076-3331} \and
 Mickael Figueredo\inst{2} \and
 Nelio Cacho\inst{2}}
 
@@ -25,7 +25,7 @@ Nelio Cacho\inst{2}}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
-\institute{Newcastle University, School of Computing Science \\
+\institute{Newcastle University, School of Computing \\
 Science Central, Newcastle upon Tyne, UK \\
 \email{\{firstname.lastname\}@ncl.ac.uk}  \and
 Universidade Federal do Rio Grande do Norte \\
@@ -40,9 +40,9 @@ Others, for instance \textit{online activists}, are no less important in practic
 Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
 %
 In contrast, we suggest a semi-supervised approach that combines two main elements. 
-Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the  network from social events or campaigns that have with a significant footprint on Twitter.
-We make the hypothesis that such context contain meaningful signals to help us recognise activists. 
-Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context,  and we associate a set of quantitative Twitter-related user metrics to them.
+Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
+We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
+Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
 As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
 In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
 
@@ -114,7 +114,8 @@ The application of the approach to the specific challenge of combating tropical 
 The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers} 
 The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
 According to ~\cite{Kardara2015}, \textit{influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.}
-A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more.
+
+A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more. 
 %
 Algorithms to find influencers favour high visibility profiles, typically across global networks.
 In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. \anote{FLAVIO: do we need a citation here or simple rephrasing?}
@@ -253,7 +254,7 @@ The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterfr
 
 \subsection{Harvesting Content and Creating Context networks}  \label{sec:harvesting}
 
-Firstly, all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accouts are used to get around the well-known Twitter API limitations for retrieving tweets.}
+Firstly, all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
 %
 Secondly, the context network $G_C$ is generated as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
 The size of the network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:networks}).
@@ -278,7 +279,7 @@ Specifically, \demon operates on one node $v$ at a time in our context network $
 
 It applies a \textit{label propagation} algorithm to each neighbour $v'$ of $v$, as follows. First, a new label $l$, which identifies a new community, is tentatively assigned to $v'$. 
 	Then, with probability $\alpha$ $v'$ changes its label to that of the majority of its own neighbours. 
-	At this point, each of $v$'s neighbours has a label, which is either new of that of the majority of its own neighbours (excecpt $v$ itself).
+	At this point, each of $v$'s neighbours has a label, which is either new or that of the majority of its own neighbours (except $v$ itself).
 	$v$ is then assigned majority labels amongst those of its neighbours. 
 	This determines $v$'s community. 
 	When more than one label has the same count, $v$ is assigned to all of those communities.
@@ -367,8 +368,8 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	\anote{content for this comes from cell [5] and cell [6] table 2 and cell [8]}
 	
 	\resizebox{\textwidth}{!}{%
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-%		\begin{tabularx}{|X|X|X|X|X|X|X|X|X|X|X|X|}
+%		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|X|X|X|X|X|}
 			\hline 
 			\rule[-1ex]{0pt}{2.5ex} \textbf{Context name} &  \textbf{start date} & \textbf{end date}  & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} & \textbf{\demon~ communities / nodes} &  \textbf{\infomap~ communities / nodes} \\ 
 			\hline 
@@ -392,18 +393,44 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 			\hline 
 			\rule[-1ex]{0pt}{2.5ex}  brain-awareness-week-2018	& 03-11	03-17	& 2018-03-17 &	[\#brainawarenessweek, \#brainweek]& -0.0818	 &  1.8306	& 1.9349	& 281	& 307	& 0.996743 & 0 & \\
 			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  &  &  &  &  & & & & & & &\\ 
+						\rule[-1ex]{0pt}{2.5ex}  no-smoking-day-2018 & 2018-03-13  & 2018-03-14 & [\#nosmokingday \#smokefree]    & & & & & \\ 
 			\hline 
-%	\end{tabularx}}
-	\end{tabular}}
-	\anote{update last column with Flavio's latest figures}
-	
+			\rule[-1ex]{0pt}{2.5ex}  epilepsy-awareness-purple-day-2018 & 2018-03-26  & 2018-03-27 & \#purpleday \#epilepsyawareness \#purpleday2018    & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  experience-of-care-week-2018 & 2018-04-23  & 2018-04-27 & \#experienceofcareweek \#patientexperienceweek    & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  brain-injury-week-2018               & 2018-05-01  & 2018-05-31 & \#braininjuryweek \#braininjuryweek2018 \#abi2018 \#actionbraininjury2018 \#abiweek \#hatsforheadway    & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  mental-health-awareness-week-2018    & 2018-05-14  & 2018-05-20 & \#mentalhealthawarenessweek \#mentalhealthawareness      & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  dementia-action-week-2018  & 2018-05-21  & 2018-05-31 & \#dementiaactionweek      & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  mnd-awareness-month-2018 & 2018-06-01  & 2018-06-30 & \#mndawareness \#mndawarenessmonth         & & & & & \\ 
+			\hline
+			\rule[-1ex]{0pt}{2.5ex}   wear-purple-for-jia-2018             & 2018-06-01  & 2018-06-30 & \#wearpurpleforjia         & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}   carers-week-2018                     & 2018-06-11  & 2018-06-17 & \#carersweek \#realcarersweek \#carersweek2018        & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  national-dementia-carers-2018        & 2018-09-09  & 2018-09-10 & \#NationalDementiaCarersDay \#dementiafriendly           & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  mens-health-week-2018                & 2018-06-11  & 2018-06-17 & \#menshealthweek           & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  stress-awareness-day                 & 2018-11-07  & 2018-11-08 & \#stressawarenessday \#nationalstresswawarenessday \#mentalhealthinscholls \#listenlucy             & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  national-dyslexia-week-2018          & 2018-10-01  & 2018-10-07 & \#nationaldyslexiaweek \#dyslexiaweek \#dyslexiaawarenessweek               & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  ocd-awareness-week-2018              & 2018-10-07  & 2018-10-13 & \#ocdawarenessweek \#ocdweek         & & & & & \\ 
+			\hline 
+			\rule[-1ex]{0pt}{2.5ex}  jeans-for-genes-day                  & 2018-09-21  & 2018-09-22 & \#jeansforgenes \#jeansforgenesday           & & & & & \\ 
+			\hline 
+%		\end{tabular}
+	\end{tabularx}
+	}
 	
 	\anote{add the rest of the  data from the original tables}
 	\caption{List of contexts used in the experiments along with network metrics and count of \demon communities}
 	\label{tab:contexts}
 \end{table}	 
-
 
 \subsection{Communities}  \label{sec:communities}
 
