@@ -113,14 +113,21 @@ The application of the approach to the specific challenge of combating tropical 
 
 The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers} 
 The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
-According to ~\cite{Kardara2015}, \textit{influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.}
+According to ~\cite{Kardara2015}, influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.
 
 A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more. 
-%
-Algorithms to find influencers favour high visibility profiles, typically across global networks.
-In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. \anote{FLAVIO: do we need a citation here or simple rephrasing?}
-%
-While we believe that specific activist behaviour can be characterised using some of the well-tested quantifiable metrics known from the literature cited above~\cite{RIQUELME2016949}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
+
+However, most basic metrics tend to be efficient at identifying users who get great attention from their followers, such as newspapers or celebrities, but have small impact on users' actions \cite{MEEYOUNG2010}. In this way, these types of untreated metrics become inefficient to identify really active users within a topic.
+
+In this way, algorithms to find influencers favour high visibility profiles, typically across global networks. In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. 
+
+While we believe that specific activist behavior can be characterized using some of the well-tested quantifiable metrics known from the literature cited above~\cite{RIQUELME2016949}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
+
+In \cite{MATIC2011}, a customizable valuation algorithm is created to identify influencer who are creating a revitalized level of brand awareness for companies. In this way, the raking metric is limited to one topic context. The proposed approach is cross-section variables that rate influence in social media conversations about a particular topic. The cited variables used in this study are measured using quantitative and qualitative approaches to rank the users inside a topic conversation. In the quantitative side, variables such as likes, viewers per months, post frequency the number of comments in posts are accounted. For the qualitative metrics, the number of posts positives and negatives about one topic, participation in others social medias and posts related to the main topic are considered.  The proposed approach is quite interesting to evaluate the varying degree of influence of any blogger on a particular topic. However, this approach is complex to automate due to the use of qualitative methods for the calculation of influence ranking.
+
+Based on metrics that can be computed in an automatic way and real time, in \cite{Kardara2015} a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. However, the approach is limited to look for users using classical statics based on network created in real time. Use these ranking approach brigs the limitation to find users that are a lot of attention, but cannot create a real impact over users inside one topic.
+
+Some approaches tries to extract the content of conversations over topics to understand the ability of a user to be influential within a topic. In \cite{Biran2012}, a classifier is trained to identify when an user is able to influencer another inside a conversation. However, in this case the necessity of create labeled data to build a machine learning classifier makes this approach impracticable in our case, which aims to be most practical possible. In addition the need to create a classifier for each topic makes the context work of this system extremely limited.
 
 
 \anote{topic-specific influencers. cite \cite{Schenk2011} SCHENK 2011}\\
@@ -357,7 +364,7 @@ We have manually selected 25 contexts within the scope of health awareness campa
 Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
  Table~\ref{tab:contexts} lists the events along with key metrics for their corresponding user-user networks. 
 To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree ($>0$) or with a different degree ($<0$). 
-Negative figures (mean: -0.22, std dev: 0.17) are in line with what is observed on the broader Twitter network \hl{add ref-about-assortativity-in-Twitter}.
+Negative figures (mean: -0.22, std dev: 0.17) are in line with what is observed on the broader Twitter network~\cite{Fisher2017}.
 %
 The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} (\mathit{\#nodes} -1)}$, suggest very few connections exist amongst users within a context. 
 This makes it difficult to detect meaningful communities, as described below, thus for some context the topological metrics are measured on the entire network as opposed to within each community.
@@ -367,64 +374,38 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	
 	\anote{content for this comes from cell [5] and cell [6] table 2 and cell [8]}
 	
-	\resizebox{\textwidth}{!}{%
-%		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-		\begin{tabularx}{\textwidth}{|X|X|X|p{2.5cm}|X|X|X|X|X|X|X|X|}
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex} \textbf{Context name} &  \textbf{start date} & \textbf{end date}  & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} & \textbf{\demon~ communities / nodes} &  \textbf{\infomap~ communities / nodes} \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex} 16-days-of-action-2018  &  11-25&	12-10	& 	[\#16days, \#16daysofaction, \#16daysofactiontool...] & -0.1319 &  1.7626	 &  0.0022	 & 349 & 396 &  0.99 & 0  &\\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  elf-day &	12-03	& 12-12	&	[\#elfday, \#elfday2018] &  -0.1822	 &  2.3890	 & 0.0033	& 436	& 365	& 0.98  & 0.125 &\\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  dry-january-2018	& 01-01	& 01-31	&	[\#dryjanuary] & -0.2833	 &  1.9915	& 0.0043	& 234	& 235	& 0.982979 & 0.25 &\\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  cervical-cancer-prevention-week-2018	& 01-21	& 01-27	& 	[\#cervicalcancer]&  -0.0909	 &  1.8373	& 0.0044	& 192	& 209	& 0.976077 & 0.18 & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  time-to-talk-day-2018	& 02-06	& 02-07	& [\#timetotalk]&  -0.2489	 &  1.7239	& 0.0032	& 231	& 268	& 0.988806 & 0.2  &\\
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  eating-disorder-awareness-week-2018	& 02-25	& 03-03	&	[\#edaw18, \#edaw2018, \#eatingdisordersawareness...]  &  -0.1544 & 1.8828	& 0.0037	& 241	& 256 & 0.988281 & 0.25 & \\
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  rare-disease-day-2018	& 02-28	& 03-01	& 	[\#rarediseaseday]&  -0.2443	 & 1.4014 & 0.0024	& 206	& 294 & 1.000000 & 0 &\\
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  ovarian-cancer-awareness-month-2018	& 03-01	& 03-31	& 	[\#ovariancancer, \#ovariancancerawareness]  &  -0.3707	 & 1.8791	& 0.0044	& 202	& 215	& 0.986047 & 0 &\\
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  nutrition-and-hydration-week-2018	& 03-11	& 03-17	&	[\#nutritionandhydrationweek, \#NHW2018]&  -0.2841	 &  2.3883	& 0.0044	& 326	& 273	& 0.985348 & 0.12 &\\
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  brain-awareness-week-2018	& 03-11	03-17	& 2018-03-17 &	[\#brainawarenessweek, \#brainweek]& -0.0818	 &  1.8306	& 1.9349	& 281	& 307	& 0.996743 & 0 & \\
-			\hline 
-						\rule[-1ex]{0pt}{2.5ex}  no-smoking-day-2018 & 2018-03-13  & 2018-03-14 & [\#nosmokingday \#smokefree]    & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  epilepsy-awareness-purple-day-2018 & 2018-03-26  & 2018-03-27 & \#purpleday \#epilepsyawareness \#purpleday2018    & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  experience-of-care-week-2018 & 2018-04-23  & 2018-04-27 & \#experienceofcareweek \#patientexperienceweek    & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  brain-injury-week-2018               & 2018-05-01  & 2018-05-31 & \#braininjuryweek \#braininjuryweek2018 \#abi2018 \#actionbraininjury2018 \#abiweek \#hatsforheadway    & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  mental-health-awareness-week-2018    & 2018-05-14  & 2018-05-20 & \#mentalhealthawarenessweek \#mentalhealthawareness      & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  dementia-action-week-2018  & 2018-05-21  & 2018-05-31 & \#dementiaactionweek      & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  mnd-awareness-month-2018 & 2018-06-01  & 2018-06-30 & \#mndawareness \#mndawarenessmonth         & & & & & \\ 
-			\hline
-			\rule[-1ex]{0pt}{2.5ex}   wear-purple-for-jia-2018             & 2018-06-01  & 2018-06-30 & \#wearpurpleforjia         & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}   carers-week-2018                     & 2018-06-11  & 2018-06-17 & \#carersweek \#realcarersweek \#carersweek2018        & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  national-dementia-carers-2018        & 2018-09-09  & 2018-09-10 & \#NationalDementiaCarersDay \#dementiafriendly           & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  mens-health-week-2018                & 2018-06-11  & 2018-06-17 & \#menshealthweek           & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  stress-awareness-day                 & 2018-11-07  & 2018-11-08 & \#stressawarenessday \#nationalstresswawarenessday \#mentalhealthinscholls \#listenlucy             & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  national-dyslexia-week-2018          & 2018-10-01  & 2018-10-07 & \#nationaldyslexiaweek \#dyslexiaweek \#dyslexiaawarenessweek               & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  ocd-awareness-week-2018              & 2018-10-07  & 2018-10-13 & \#ocdawarenessweek \#ocdweek         & & & & & \\ 
-			\hline 
-			\rule[-1ex]{0pt}{2.5ex}  jeans-for-genes-day                  & 2018-09-21  & 2018-09-22 & \#jeansforgenes \#jeansforgenesday           & & & & & \\ 
-			\hline 
-%		\end{tabular}
-	\end{tabularx}
+	\resizebox{\textwidth}{!}{
+	    \newcolumntype{Y}{>{\centering\arraybackslash}X}
+	
+        \begin{tabularx}{\textwidth}{|X|X|X|X|X|Y|Y|Y|Y|Y|}
+            \hline
+            \textbf{context name} & \textbf{start date} & \textbf{end date} & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} \\ \hline
+            16 days of action & 2018-11-25 & 2018-12-10 & \#16days, \#16daysofaction, \#16daysofactiontoolkit & -0.1 & 1.8 & 0.002 & 349 & 396 & 1.0 \\ \hline
+            elf day & 2018-12-03 & 2018-12-12 & \#elfday, \#elfday2018 & -0.2 & 2.4 & 0.003 & 436 & 365 & 1.0 \\ \hline
+            dry january & 2018-01-01 & 2018-01-31 & \#dryjanuary & -0.3 & 2.0 & 0.004 & 234 & 235 & 1.0 \\ \hline
+            cervical cancer prevention week & 2018-01-21 & 2018-01-27 & \#cervicalcancer & -0.1 & 1.8 & 0.004 & 192 & 209 & 1.0 \\ \hline
+            time to talk day & 2018-02-06 & 2018-02-07 & \#timetotalk & -0.2 & 1.7 & 0.003 & 231 & 268 & 1.0 \\ \hline
+            eating disorder awareness week & 2018-02-25 & 2018-03-03 & \#edaw18, \#edaw2018, \#eatingdisordersawarenessweek, \#sockittoeatingdisorders & -0.2 & 1.9 & 0.004 & 241 & 256 & 1.0 \\ \hline
+            rare disease day & 2018-02-28 & 2018-03-01 & \#rarediseaseday & -0.2 & 1.4 & 0.002 & 206 & 294 & 1.0 \\ \hline
+            ovarian cancer awareness month & 2018-03-01 & 2018-03-31 & \#ovariancancer, \#ovariancancerawareness, \#ovariancancerawarenessmonth & -0.4 & 1.9 & 0.004 & 202 & 215 & 1.0 \\ \hline
+            nutrition and hydration week & 2018-03-11 & 2018-03-17 & \#nutritionandhydrationweek, \#nhw2018 & -0.3 & 2.4 & 0.004 & 326 & 273 & 1.0 \\ \hline
+            brain awareness week & 2018-03-11 & 2018-03-17 & \#brainawarenessweek, \#brainweek & -0.1 & 1.8 & 0.003 & 281 & 307 & 1.0 \\ \hline
+            no smoking day & 2018-03-13 & 2018-03-14 & \#nosmokingday, \#smokefree & -0.3 & 1.7 & 0.003 & 219 & 254 & 1.0 \\ \hline
+            epilepsy awareness purple day & 2018-03-26 & 2018-03-27 & \#purpleday, \#epilepsyawareness, \#purpleday2018 & -0.2 & 1.6 & 0.003 & 252 & 306 & 1.0 \\ \hline
+            experience of care week & 2018-04-23 & 2018-04-27 & \#experienceofcareweek, \#patientexperienceweek & -0.1 & 2.2 & 0.006 & 196 & 176 & 1.0 \\ \hline
+            brain injury week & 2018-05-01 & 2018-05-31 & \#braininjuryweek, \#braininjuryweek2018, \#abi2018, \#actionbraininjury2018, \#abiweek, \#hatsforheadway & -0.1 & 2.6 & 0.005 & 306 & 238 & 1.0 \\ \hline
+            mental health awareness week & 2018-05-14 & 2018-05-20 & \#mentalhealthawarenessweek, \#mentalhealthawareness & -0.5 & 1.8 & 0.003 & 245 & 268 & 1.0 \\ \hline
+            dementia action week & 2018-05-21 & 2018-05-31 & \#dementiaactionweek & -0.0 & 2.0 & 0.003 & 300 & 300 & 1.0 \\ \hline
+            mnd awareness month & 2018-06-01 & 2018-06-30 & \#mndawareness, \#mndawarenessmonth & -0.3 & 3.3 & 0.012 & 234 & 141 & 0.9 \\ \hline
+            wear purple for jia & 2018-06-01 & 2018-06-30 & \#wearpurpleforjia & -0.5 & 3.0 & 0.009 & 245 & 165 & 0.9 \\ \hline
+            carers week & 2018-06-11 & 2018-06-17 & \#carersweek, \#realcarersweek, \#carersweek2018 & 0.0 & 2.1 & 0.004 & 277 & 270 & 1.0 \\ \hline
+            national dementia carers & 2018-09-09 & 2018-09-10 & \#nationaldementiacarersday, \#dementiafriendly & -0.2 & 1.9 & 0.005 & 177 & 184 & 1.0 \\ \hline
+            mens health week & 2018-06-11 & 2018-06-17 & \#menshealthweek & -0.2 & 1.6 & 0.003 & 214 & 264 & 1.0 \\ \hline
+            stress awareness day & 2018-11-07 & 2018-11-08 & \#stressawarenessday, \#nationalstresswawarenessday, \#mentalhealthinscholls, \#listenlucy & -0.2 & 1.4 & 0.002 & 209 & 293 & 1.0 \\ \hline
+            national dyslexia week & 2018-10-01 & 2018-10-07 & \#nationaldyslexiaweek, \#dyslexiaweek, \#dyslexiaawarenessweek & -0.2 & 2.1 & 0.004 & 235 & 229 & 1.0 \\ \hline
+            ocd awareness week & 2018-10-07 & 2018-10-13 & \#ocdawarenessweek, \#ocdweek & -0.6 & 1.9 & 0.005 & 193 & 202 & 1.0 \\ \hline
+            jeans for genes day & 2018-09-21 & 2018-09-22 & \#jeansforgenes, \#jeansforgenesday & -0.2 & 2.6 & 0.005 & 325 & 246 & 1.0 \\ \hline
+        \end{tabularx}
 	}
 	
 	\anote{add the rest of the  data from the original tables}
@@ -441,19 +422,18 @@ it does not detect any communities.
 In this situation our pipeline creates only one community consisting of the entire network, which is used to calculate the users' in-degrees, and all users in the network are added to the database.
 %
 When meaningful communities are found, on the other hand, only users who belong to one of those community are added. 
-These are about  6\% of the users on average, with an average of only 1.92 communities per network.
+These are about 6\% of the users on average, with an average of only 1.92 communities per network.
 The penultimate column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks. 
 A value of zero indicates that no meaningful communities were used.
 %
-This approach results in \hl{XX} users being added to the database.
-The average assortativity of individual \demon~communities is slightly negative \hl{XX}, in line with the average for their parent networks.
+This approach results in 3570 users being added to the database.
+The average assortativity of individual \demon~communities is slightly negative -0.28, in line with the average for their parent networks.
 
 In contrast, the \infomap~ algorithm provides meaningful communities for all networks.
-Those with with fewer than 3 users are discarded, leaving  \hl{XX} communities per network on average (as opposed to 1.92 for \demon).
-The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, 
-where a community contains \hl{XX} users on average. 
-Overall, this approach resulted in \hl{XX} users being added to the database (on average \hl{XX} users per network).
-The average assortativity across all communities is again slightly negative (\hl{XX}).
+Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average (as opposed to 1.92 for \demon).
+The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, where a community contains 8.5 users on average. 
+Overall, this approach resulted in 3567 users being added to the database (on average 253 users per network).
+The average assortativity across all communities is again slightly negative (-0.43).
 
 
 \anote{conclude that \infomap~is preferrable and this is where the users in the database come from}
@@ -464,15 +444,15 @@ The average assortativity across all communities is again slightly negative (\hl
 \subsection{Users discovery}  \label{sec:users}
 
 Finally, from each context we have extracted users who are either part of a community, or in the case of non-meaningful communities, all users in the network.
-Using these criteria, a total of \hl{XX} users has been added to the database from 25 contexts.
+Using these criteria, a total of 3567 users has been added to the database from 25 contexts.
 We are interested in tracking the users' presence across more than one context, and in the specification of ranking functions that let specific user profiles emerge.
 
-Regarding user presence, we found that there are \hl{160} users who appear at least in two contexts. 
+Regarding user presence, we found that there are 160 users who appear at least in two contexts. 
 After community detection, only a fraction of these users survive. 
 These are either users who belong to a meaningful community, or users who belong to a context network where communities could not be identified.
 
-This filtering process results in \hl{45} of the \hl{160} users still seen as repeat users, while the remaining \hl{115} are either removed altogether, or they only appear once. 
-Out of these, \hl{41} appear twice, and \hl{4} appear three times. 
+This filtering process results in 61 of the 160 users still seen as repeat users, while the remaining 99 are either removed altogether, or they only appear once. 
+Out of these, 55 appear twice, and 2 appear three times, and 2 appear four times. 
 Thus, only \hl{1.2\%} of users appear more than once when communities are considered, compared to the overall \hl{4.5\%} repeat users.
 %
 Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{comment on whether these are individuals or well-known organisations}
@@ -485,6 +465,23 @@ Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per conte
 	\centering
 	\framebox{\anote{content from cell [13]} }
 	
+		\resizebox{\textwidth}{!}{
+	
+        \begin{tabularx}{\textwidth}{|X|X|X|X|X|Y|Y|}
+\hline
+\textbf{username} & \textbf{name} & \textbf{url} & \textbf{location} & \textbf{bio} & \textbf{follower rank} & \textbf{no participations} \\ \hline
+alzheimerssoc & Alzheimer's Society & http://www.alzheimers.org.uk/ & England, Wales \& N.Ireland & We provide information and support, fund research and create lasting change for people affected by dementia. & 0.99 & 4 \\ \hline
+dementiauk & Dementia UK & http://www.dementiauk.org & Aldgate, London & Dementia UK provides specialist dementia support for families through our Admiral Nurse service. We respond to messages 9-5 Monday to Friday on Twitter. & 0.98 & 4 \\ \hline
+mentalhealth & Mental Health Fdn & http://www.mentalhealth.org.uk & UK & The UK's charity for everyone's mental health, promoting good mental health for all. Keep up to date with our work in Scotland by following & 0.97 & 3 \\ \hline
+colesmillerllp & Coles Miller LLP & http://www.coles-miller.co.uk & Dorset & Dorset Solicitors in & 0.65 & 3 \\ \hline
+rdash\_nhs & RDaSH NHS FT & http://www.rdash.nhs.uk & Doncaster & Rotherham Doncaster and South Humber NHS Foundation Trust (Monitored Mon - Fri 9am - 5pm, except Bank Holidays) & 0.88 & 2 \\ \hline
+alzsocseengland & Alzheimer's Society - South East England & https://www.alzheimers.org.uk/homepage/169/our\_local\_offices &  & Alzheimer's Society ( & 0.64 & 2 \\ \hline
+jeremy\_hunt & Jeremy Hunt & http://www.jeremyhunt.org &  & Foreign Secretary \& South West Surrey MP & 1.0 & 2 \\ \hline
+nhsengland & NHS England & http://www.england.nhs.uk &  & Health and high quality care for all, now and for future generations. Please see our response policy: & 0.99 & 2 \\ \hline
+carersuk & Carers UK & http://www.carersuk.org & United Kingdom & Caring for a relative or friend? When caring affects you and your family Carers UK is here to provide the support and advice you need. & 0.95 & 2 \\ \hline
+mndassoc & MND Association & http://mndassociation.org & England, Wales \& Northern Ireland & Our vision is a world free from motor neurone disease & 0.64 & 2 \\ \hline
+        \end{tabularx}
+	}
 	
 	\caption{Top-k repeat users, amongst those identified as belonging to some community.}
 	
