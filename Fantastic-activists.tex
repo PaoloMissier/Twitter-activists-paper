@@ -37,18 +37,13 @@ Natal/RN - Brasil\\
 
 
 \begin{abstract}
-	On social media platforms and Twitter in particular, \textit{influencers} and similar classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
-	For others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
-	We present a dedicated but customisable 
-	
-	Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
+	On social media platforms and Twitter in particular, specific classes of users such as \textit{influencers}  have been given satisfactory operational definitions in terms of  network and content metrics.
+	Others, for instance \textit{online activists}, are not less important but their characterisation still requires experimenting.
 	%
-	In contrast, we suggest a semi-supervised approach that combines two main elements. 
-	Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
-	We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
-	Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
-	As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
-	In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
+   We make  the hypothesis that such interesting users can be found within temporally and spatially localised \textit{contexts}, i.e., small but topical fragments of the network containing interactions about social events or campaigns with a significant footprint on Twitter.
+	To explore this hypothesis, we have designed a continuous user profile discovery pipeline that produces an ever-growing dataset of user profiles by harvesting and analysing contexts from the Twitter stream.
+	The profiles dataset includes key network and content-based users metrics, enabling experimentation with user-defined score functions that characterise specific classes of online users.
+    The paper describes the design and implementation of  the pipeline and its empirical evaluation on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
 	
 	\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
 \end{abstract}
