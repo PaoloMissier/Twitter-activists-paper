@@ -10,7 +10,7 @@
 %
 \title{A customisable pipeline for continuously harvesting socially-minded Twitter users}
 %
-%\titlerunning{Abbreviated paper title}
+\titlerunning{harvesting socially-minded Twitter users}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -370,47 +370,39 @@ The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\f
 This makes it difficult to detect meaningful communities, as described below, thus for some context the topological metrics are measured on the entire network as opposed to within each community.
 This view is also supported by the average node degree (mean: 2.04, std dev: 0.46) and the ratio of strongly connected components to the number of nodes (mean: 0.98, std. dev. 0.02).
 
-\begin{table}
+\begin{sidewaystable}
 	
 	\anote{content for this comes from cell [5] and cell [6] table 2 and cell [8]}
 	
 	\resizebox{\textwidth}{!}{
-	
-        \begin{tabularx}{\textwidth}{|X|X|X|X|X|Y|Y|Y|Y|Y|}
-            \hline
-            \textbf{context name} & \textbf{start date} & \textbf{end date} & \textbf{hashtags} & \textbf{assortativity} & \textbf{avg degree} & \textbf{density} & \textbf{edges} & \textbf{nodes} & \textbf{scc / nodes} \\ \hline
-            16 days of action & 2018-11-25 & 2018-12-10 & \#16days, \#16daysofaction, \#16daysofactiontoolkit & -0.1 & 1.8 & 0.002 & 349 & 396 & 1.0 \\ \hline
-            elf day & 2018-12-03 & 2018-12-12 & \#elfday, \#elfday2018 & -0.2 & 2.4 & 0.003 & 436 & 365 & 1.0 \\ \hline
-            dry january & 2018-01-01 & 2018-01-31 & \#dryjanuary & -0.3 & 2.0 & 0.004 & 234 & 235 & 1.0 \\ \hline
-            cervical cancer prevention week & 2018-01-21 & 2018-01-27 & \#cervicalcancer & -0.1 & 1.8 & 0.004 & 192 & 209 & 1.0 \\ \hline
-            time to talk day & 2018-02-06 & 2018-02-07 & \#timetotalk & -0.2 & 1.7 & 0.003 & 231 & 268 & 1.0 \\ \hline
-            eating disorder awareness week & 2018-02-25 & 2018-03-03 & \#edaw18, \#edaw2018, \#eatingdisordersawarenessweek, \#sockittoeatingdisorders & -0.2 & 1.9 & 0.004 & 241 & 256 & 1.0 \\ \hline
-            rare disease day & 2018-02-28 & 2018-03-01 & \#rarediseaseday & -0.2 & 1.4 & 0.002 & 206 & 294 & 1.0 \\ \hline
-            ovarian cancer awareness month & 2018-03-01 & 2018-03-31 & \#ovariancancer, \#ovariancancerawareness, \#ovariancancerawarenessmonth & -0.4 & 1.9 & 0.004 & 202 & 215 & 1.0 \\ \hline
-            nutrition and hydration week & 2018-03-11 & 2018-03-17 & \#nutritionandhydrationweek, \#nhw2018 & -0.3 & 2.4 & 0.004 & 326 & 273 & 1.0 \\ \hline
-            brain awareness week & 2018-03-11 & 2018-03-17 & \#brainawarenessweek, \#brainweek & -0.1 & 1.8 & 0.003 & 281 & 307 & 1.0 \\ \hline
-            no smoking day & 2018-03-13 & 2018-03-14 & \#nosmokingday, \#smokefree & -0.3 & 1.7 & 0.003 & 219 & 254 & 1.0 \\ \hline
-            epilepsy awareness purple day & 2018-03-26 & 2018-03-27 & \#purpleday, \#epilepsyawareness, \#purpleday2018 & -0.2 & 1.6 & 0.003 & 252 & 306 & 1.0 \\ \hline
-            experience of care week & 2018-04-23 & 2018-04-27 & \#experienceofcareweek, \#patientexperienceweek & -0.1 & 2.2 & 0.006 & 196 & 176 & 1.0 \\ \hline
-            brain injury week & 2018-05-01 & 2018-05-31 & \#braininjuryweek, \#braininjuryweek2018, \#abi2018, \#actionbraininjury2018, \#abiweek, \#hatsforheadway & -0.1 & 2.6 & 0.005 & 306 & 238 & 1.0 \\ \hline
-            mental health awareness week & 2018-05-14 & 2018-05-20 & \#mentalhealthawarenessweek, \#mentalhealthawareness & -0.5 & 1.8 & 0.003 & 245 & 268 & 1.0 \\ \hline
-            dementia action week & 2018-05-21 & 2018-05-31 & \#dementiaactionweek & -0.0 & 2.0 & 0.003 & 300 & 300 & 1.0 \\ \hline
-            mnd awareness month & 2018-06-01 & 2018-06-30 & \#mndawareness, \#mndawarenessmonth & -0.3 & 3.3 & 0.012 & 234 & 141 & 0.9 \\ \hline
-            wear purple for jia & 2018-06-01 & 2018-06-30 & \#wearpurpleforjia & -0.5 & 3.0 & 0.009 & 245 & 165 & 0.9 \\ \hline
-            carers week & 2018-06-11 & 2018-06-17 & \#carersweek, \#realcarersweek, \#carersweek2018 & 0.0 & 2.1 & 0.004 & 277 & 270 & 1.0 \\ \hline
-            national dementia carers & 2018-09-09 & 2018-09-10 & \#nationaldementiacarersday, \#dementiafriendly & -0.2 & 1.9 & 0.005 & 177 & 184 & 1.0 \\ \hline
-            mens health week & 2018-06-11 & 2018-06-17 & \#menshealthweek & -0.2 & 1.6 & 0.003 & 214 & 264 & 1.0 \\ \hline
-            stress awareness day & 2018-11-07 & 2018-11-08 & \#stressawarenessday, \#nationalstresswawarenessday, \#mentalhealthinscholls, \#listenlucy & -0.2 & 1.4 & 0.002 & 209 & 293 & 1.0 \\ \hline
-            national dyslexia week & 2018-10-01 & 2018-10-07 & \#nationaldyslexiaweek, \#dyslexiaweek, \#dyslexiaawarenessweek & -0.2 & 2.1 & 0.004 & 235 & 229 & 1.0 \\ \hline
-            ocd awareness week & 2018-10-07 & 2018-10-13 & \#ocdawarenessweek, \#ocdweek & -0.6 & 1.9 & 0.005 & 193 & 202 & 1.0 \\ \hline
-            jeans for genes day & 2018-09-21 & 2018-09-22 & \#jeansforgenes, \#jeansforgenesday & -0.2 & 2.6 & 0.005 & 325 & 246 & 1.0 \\ \hline
-        \end{tabularx}
+	%\begin{tabularx}{\textwidth}{|X|X|X|X|X|Y|Y|Y|Y|Y|}
+	\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|X|X|X|}
+\toprule
+                    Context name &                   Period &                    Hashtags &  Nodes &  Edges &  Density &  Avg degree &  Assortativity &  Scc / nodes \\
+\midrule
+               16 days of action &  2018-11-25 / 2018-12-10 &                     \#16days &    396 &    349 &    0.002 &         1.8 &           -0.1 &          1.0 \\
+                         Elf day &  2018-12-03 / 2018-12-12 &                     \#elfday &    365 &    436 &    0.003 &         2.4 &           -0.2 &          1.0 \\
+                     Dry january &  2018-01-01 / 2018-01-31 &            \#dryjanuary, ... &    235 &    234 &    0.004 &         2.0 &           -0.3 &          1.0 \\
+ Cervical cancer prevention week &  2018-01-21 / 2018-01-27 &        \#cervicalcancer, ... &    209 &    192 &    0.004 &         1.8 &           -0.1 &          1.0 \\
+                Time to talk day &  2018-02-06 / 2018-02-07 &            \#timetotalk, ... &    268 &    231 &    0.003 &         1.7 &           -0.2 &          1.0 \\
+  Eating disorder awareness week &  2018-02-25 / 2018-03-03 &                     \#edaw18 &    256 &    241 &    0.004 &         1.9 &           -0.2 &          1.0 \\
+                Rare disease day &  2018-02-28 / 2018-03-01 &        \#rarediseaseday, ... &    294 &    206 &    0.002 &         1.4 &           -0.2 &          1.0 \\
+  Ovarian cancer awareness month &  2018-03-01 / 2018-03-31 &              \#ovariancancer &    215 &    202 &    0.004 &         1.9 &           -0.4 &          1.0 \\
+    Nutrition and hydration week &  2018-03-11 / 2018-03-17 &  \#nutritionandhydrationweek &    273 &    326 &    0.004 &         2.4 &           -0.3 &          1.0 \\
+            Brain awareness week &  2018-03-11 / 2018-03-17 &         \#brainawarenessweek &    307 &    281 &    0.003 &         1.8 &           -0.1 &          1.0 \\
+                  No smoking day &  2018-03-13 / 2018-03-14 &               \#nosmokingday &    254 &    219 &    0.003 &         1.7 &           -0.3 &          1.0 \\
+   Epilepsy awareness purple day &  2018-03-26 / 2018-03-27 &                  \#purpleday &    306 &    252 &    0.003 &         1.6 &           -0.2 &          1.0 \\
+         Experience of care week &  2018-04-23 / 2018-04-27 &       \#experienceofcareweek &    176 &    196 &    0.006 &         2.2 &           -0.1 &          1.0 \\
+               Brain injury week &  2018-05-01 / 2018-05-31 &            \#braininjuryweek &    238 &    306 &    0.005 &         2.6 &           -0.1 &          1.0 \\
+    Mental health awareness week &  2018-05-14 / 2018-05-20 &  \#mentalhealthawarenessweek &    268 &    245 &    0.003 &         1.8 &           -0.5 &          1.0 \\
+\bottomrule
+\end{tabularx}
 	}
 	
 	\anote{add the rest of the  data from the original tables}
 	\caption{List of contexts used in the experiments along with network metrics and count of \demon communities}
 	\label{tab:contexts}
-\end{table}	 
+\end{sidewaystable}
 
 \subsection{Communities}  \label{sec:communities}
 
@@ -452,7 +444,7 @@ These are either users who belong to a meaningful community, or users who belong
 
 This filtering process results in 61 of the 160 users still seen as repeat users, while the remaining 99 are either removed altogether, or they only appear once. 
 Out of these, 55 appear twice, and 2 appear three times, and 2 appear four times. 
-Thus, only \hl{1.2\%} of users appear more than once when communities are considered, compared to the overall \hl{4.5\%} repeat users.
+Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% repeat users.
 %
 Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{comment on whether these are individuals or well-known organisations}
 \anote{can we sort these by no-participation and follower-rank??}
