@@ -34,21 +34,41 @@ Natal/RN - Brasil\\
 %
 \maketitle       % typeset the header of the contribution
 %
-\begin{abstract}
-On social media platforms and Twitter in particular, \textit{influencers} and other classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
-Others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
-Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
-%
-In contrast, we suggest a semi-supervised approach that combines two main elements. 
-Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
-We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
-Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
-As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
-In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
 
-\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
+
+\begin{abstract}
+	On social media platforms and Twitter in particular, \textit{influencers} and similar classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
+	For others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
+	We present a dedicated but customisable 
+	
+	Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
+	%
+	In contrast, we suggest a semi-supervised approach that combines two main elements. 
+	Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
+	We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
+	Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
+	As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
+	In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
+	
+	\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
 \end{abstract}
 %
+
+%\begin{abstract}
+%On social media platforms and Twitter in particular, \textit{influencers} and similar classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
+%Others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
+%Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
+%%
+%In contrast, we suggest a semi-supervised approach that combines two main elements. 
+%Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
+%We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
+%Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
+%As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
+%In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
+%
+%\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
+%\end{abstract}
+%%
 
 \section{Introduction}
 
