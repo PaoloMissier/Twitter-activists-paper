@@ -10,7 +10,7 @@ The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterfr
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/TwitterFramework}
+	\includegraphics[width=\textwidth]{figures/TwitterFramework}
 	\caption{\comment{Schematic diagram of the user discovery framework }{this is a placeholder -- to be redrawn -PM }}
 	\label{fig:twitterframework}
 \end{figure*}
@@ -20,7 +20,7 @@ The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterfr
 Firstly, all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
 %
 Secondly, the context network $G_C$ is generated as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
-The size of the network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:networks}).
+The size of the network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:contexts}).
 
 \subsection{Community detection} \label{sec:communities}
 
@@ -31,14 +31,14 @@ and thus to enable weak-signal users to emerge relative to other more globally d
 Many different approaches have been proposed to discover virtual communities in social networks. 
 We have chosen \demon~\cite{Coscia:2012:DLD:2339530.2339630} because it allows communities to overlap to a degree that is tunable, making it an ideal feature to identify users who may be active in more than one community within the same context, i.e., a social event or a campaign.
 
-\demon identifies communities that a person belongs to with \textit{ego networks}, which consists of an individual, called the ego, and all the persons the ego has a social relationship with. 
+\demon~identifies communities that a person belongs to with \textit{ego networks}, which consists of an individual, called the ego, and all the persons the ego has a social relationship with. 
 As each ego network considers a node and its neighbours only, it provides a local method for discovering user affiliations, thus more akin to a social context.
 %
 It has been suggested~\cite{Arnaboldi2013} that ego networks are a useful model not only to describe social relationships amongst people offline, but also the structure of their online connections. 
-Recognising that any individual may have different types of social relationships with different people (i.e., family, friends, colleagues, etc.),  \demon  naturally allows for an individual to participate in multiple communities. 
+Recognising that any individual may have different types of social relationships with different people (i.e., family, friends, colleagues, etc.), \demon~naturally allows for an individual to participate in multiple communities. 
 
 The locality principle of ego networks translates into an efficient algorithm for discovering overlapping communities in a social graph. 
-Specifically, \demon operates on one node $v$ at a time in our context network $G_C$.
+Specifically, \demon~operates on one node $v$ at a time in our context network $G_C$.
 
 It applies a \textit{label propagation} algorithm to each neighbour $v'$ of $v$, as follows. First, a new label $l$, which identifies a new community, is tentatively assigned to $v'$. 
 	Then, with probability $\alpha$ $v'$ changes its label to that of the majority of its own neighbours. 
@@ -55,6 +55,8 @@ Once communities are identified, we calculate  in-degree centrality (\ref{eq:IDC
 \comment{In our evaluation we have experimented with varying values for parameters $\alpha$ an $\epsilon$...}{do we plan to say anything on how to tune them?}
 
 \anote{what happens when nodes belong to more than one community?}
+
+\anote{FLAVIO: shouldn't we switch on Infomap on this section?}
 
 \subsection{Computing user features and ranking  \anote{PM to fix wording}}  \label{sec:features}
 

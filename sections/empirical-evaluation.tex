@@ -16,7 +16,7 @@ We then provide examples of ranking functions aimed at capturing the notion of  
 	deployed on Azure cloud, one node with standard commodity configuration.
 }
 
-\subsection{Contexts and networks}  \label{sec:contexts}
+\subsection{Contexts and networks} \label{sec:contexts}
  
 We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018, all well-characterised using predefined hashtags.
 Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
@@ -29,11 +29,9 @@ This makes it difficult to detect meaningful communities, as described below, th
 This view is also supported by the average node degree (mean: 2.04, std dev: 0.46) and the ratio of strongly connected components to the number of nodes (mean: 0.98, std. dev. 0.02).
 
 \begin{table}
-	%\anote{content for this comes from cell [5] and cell [6] table 2 and cell [8]}
 	\resizebox{\textwidth}{!}{
 	    \input{tables/contexts.tex}
 	}
-	%\anote{add the rest of the  data from the original tables}
 	\caption{List of contexts used in the experiments along with network metrics \hl{and count} of \demon communities}
 	\label{tab:contexts}
 \end{table}
@@ -63,6 +61,14 @@ The average assortativity across all communities is again slightly negative (-0.
 \anote{conclude that \infomap~is preferrable and this is where the users in the database come from}
 
 \anote{cell [10]: think about how to comment on histogram or omit altogether}
+
+\begin{table}
+	\resizebox{\textwidth}{!}{
+	    \input{tables/demon-vs-infomap.tex}
+	}
+	\caption{Metrics that helped choosing \infomap~as the preferred community detection algorithm.}
+	\label{tab:demon-vs-infomap}
+\end{table}
 
 \subsection{Users discovery}  \label{sec:users}
 
