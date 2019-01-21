@@ -11,7 +11,7 @@ The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterfr
 \begin{figure*}
 	\centering
 	\includegraphics[width=\textwidth]{figures/TwitterFramework}
-	\caption{\comment{Schematic diagram of the user discovery framework }{this is a placeholder -- to be redrawn -PM }}
+	\caption{\comment{Schematic diagram of the user discovery framework }{(1) A bootstrap metadata event list is provided. (2) Tweets are retrieved from Twitter based on the provided event list. (3) A network graph is generated out of the tweets. Event metadata are persisted on the db. (4) Community detection is performed over the network graph. Community detection metadata are persisted on the db. (5) Metadata and metrics are retrieved a computed over the users passed from the community detection. Obtained profiles are then persisted on the db. (6) Ranking function is applied on the whole db and a user ranking list is provided. (7) New events are selected from the persisted users timelines, so that the process can start again from point (2).}}
 	\label{fig:twitterframework}
 \end{figure*}
 
