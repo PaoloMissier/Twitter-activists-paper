@@ -6,30 +6,32 @@ Each iteration takes a context $C$  as input, and generates a list of users who 
 The users profiles are added to a database, where entries for repeat users are updated according to a user-defined function. 
 The final step in the iteration involves semi-automatically discovering new contexts, thus making further iterations possible.
 %
-The pipeline structure and data flow are illustrated in Fig. ~\ref{fig:twitterframework}.
+The pipeline structure is described below with reference to Fig.~\ref{fig:twitterframework}.
 
 \begin{figure*}
 	\centering
 	\includegraphics[width=\textwidth]{figures/TwitterFramework}
-	\caption{\comment{Schematic diagram of the user discovery framework }{(1) A bootstrap metadata event list is provided. (2) Tweets are retrieved from Twitter based on the provided event list. (3) A network graph is generated out of the tweets. Event metadata are persisted on the db. (4) Community detection is performed over the network graph. Community detection metadata are persisted on the db. (5) Metadata and metrics are retrieved a computed over the users passed from the community detection. Obtained profiles are then persisted on the db. (6) Ranking function is applied on the whole db and a user ranking list is provided. (7) New events are selected from the persisted users timelines, so that the process can start again from point (2).}}
+	\caption{Schematic diagram of the user discovery framework. Note that initially, a bootstrap list $C$ of contexts (events) is provided to initialise the \textit{event detection} step. 
+	Note that the outputs from each of these steps are persisted into the Profiles DB.}
 	\label{fig:twitterframework}
 \end{figure*}
 
 \subsection{Harvesting Content and Creating Context networks} \label{sec:harvesting}
 
-Firstly, all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
+ 
+Given a set $C$ of contexts as in (2), all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
 %
-Secondly, the context network $G_C$ is generated as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
+The context network $G_C$ is generated (3) as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
 The size of the network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:contexts}).
 
 \subsection{Community detection} \label{sec:communities}
 
-Next, the context network graph $G_C$  is partitioned into communities of users.
+Next, the context network graph $G_C$  is partitioned into communities of users (4).
 The goal of this partitioning is to further narrow the scope for the topology-sensitive metrics, namely FollowerRank (\ref{eq:FR}) and in-degree centrality (\ref{eq:IDC}), 
 and thus to enable weak-signal users to emerge relative to other more globally dominant users.
 %
 Many different approaches have been proposed to discover virtual communities in social networks. 
-We have chosen \demon~\cite{Coscia:2012:DLD:2339530.2339630} because it allows communities to overlap to a degree that is tunable, making it an ideal feature to identify users who may be active in more than one community within the same context, i.e., a social event or a campaign.
+We have chosen \demon~\cite{Coscia:2012:DLD:2339530.2339630} \anote{update to include Infomap as well} because it allows communities to overlap to a degree that is tunable, making it an ideal feature to identify users who may be active in more than one community within the same context, i.e., a social event or a campaign.
 
 \demon~identifies communities that a person belongs to with \textit{ego networks}, which consists of an individual, called the ego, and all the persons the ego has a social relationship with. 
 As each ego network considers a node and its neighbours only, it provides a local method for discovering user affiliations, thus more akin to a social context.
@@ -56,11 +58,11 @@ Once communities are identified, we calculate  in-degree centrality (\ref{eq:IDC
 
 \anote{what happens when nodes belong to more than one community?}
 
-\anote{FLAVIO: shouldn't we switch on Infomap on this section?}
+\anote{FLAVIO: shouldn't we switch on Infomap on this section?  YES}
 
 \subsection{Computing user features and ranking  \anote{PM to fix wording}}  \label{sec:features}
 
-The next step in the process involves retrieving the core features and then the user relevance metrics as defined in Sec. ~\ref{sec:metrics}, for each user in each of the communities.
+Next, user metrics as defined in Sec. ~\ref{sec:metrics} are computed (5) from the network and the user features.
 %
 As this involves querying the Twitter API for many user profiles, this step hits the limitations imposed by Twitter \anote{be specific}.
 To get around this problem, we have implemented a dedicated component to \textit{scrape} user information directly from their profile Web pages, namely:
@@ -79,11 +81,12 @@ When a user already appears in the database, i.e., from previous iterations, a u
 For instance, one such function could just store the average over multiple occurrences of the same user across iterations, of each of the features as well as of the metrics.
 Alternatively, the database allows for the series of features values to be stored, making it possible to analyse them over time.
 
-The main purpose of the database is to enable data analytics on a growing set of users, whose history of engagement may extend over multiple events or campaigns.
-In particular, ranking is achieved by specifying a user-defined function, as described in Fig.~\ref{fig:twitterframework}, which is a function of the metrics and generates a relevance score for each user.
+The DB enables user-defined scoring functions to be tested, providing a user ranking list (6). Examples of these are given later in Sec.~\ref{sec:evaluation}.
 Note that this ``framework'' approach is consistent with the experimental nature of our search for \textit{activists}, which requires exploring a variety of ranking functions.
 
 \subsection{Context discovery} \label{sec:context-discovery}
+
+\anote{new events are semi-automatically selected from the users timelines (7), so that the process can start again from point (2).}
 
 The final step in the iteration aims to discover new contexts. 
 The idea is that, once a score function has been applied and users have been ranked, we can hope to discover new interesting keywords and hashtags in the timeline of the top-$k$ users.
