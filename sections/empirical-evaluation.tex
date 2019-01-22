@@ -32,7 +32,7 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	\resizebox{\textwidth}{!}{
 	    \input{tables/contexts.tex}
 	}
-	\caption{List of contexts used in the experiments along with network metrics \hl{and count} of \demon communities}
+	\caption{List of contexts used in the experiments along with network metrics.}
 	\label{tab:contexts}
 \end{table}
 
@@ -40,33 +40,30 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 
 Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \demon~and \infomap, on each of the networks. 
 %
-Regarding \demon, we find that, within each network, the algorithm  identifies \textit{meaningful} communities consisting of more than one single node in only 48\% of the networks, while for the remaining 52\% 
-it does not detect any communities.
-In this situation our pipeline creates only one community consisting of the entire network, which is used to calculate the users' in-degrees, and all users in the network are added to the database.
+Regarding \demon, within each network the algorithm  identifies \textit{meaningful} communities consisting of more than one single node in only 48\% of the netnworks.
+For the remaining 52\% of networks, no communities are detected, users' in-degrees are calculated using the entire network, and all users in the network are added to the database.
 %
-When meaningful communities are found, on the other hand, only users who belong to one of those community are added. 
+However, when meaningful communities are found, only the users who belong to one of those community are added. 
 These are about 6\% of the users on average, with an average of only 1.92 communities per network.
-The penultimate column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks. 
-A value of zero indicates that no meaningful communities were used.
+% The penultimate column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks. 
+% A value of zero indicates that no meaningful communities were used.
 %
-This approach results in 3570 users being added to the database.
+This approach results in 3,570 users being added to the database.
 The average assortativity of individual \demon~communities is slightly negative -0.28, in line with the average for their parent networks.
 
-In contrast, the \infomap~ algorithm provides meaningful communities for all networks.
-Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average (as opposed to 1.92 for \demon).
-The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, where a community contains 8.5 users on average. 
-Overall, this approach resulted in 3567 users being added to the database (on average 253 users per network).
+In contrast, the \infomap~ algorithm provides meaningful communities for \textit{all} networks.
+Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average (as opposed to 1.92 for \demon), with 8.5 users per community on average.
+% The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, where a  contains . 
+Overall, using Infomap resulted in 3,567 users being added to the database (on average 253 users per network).
 The average assortativity across all communities is again slightly negative (-0.43).
 
-\anote{conclude that \infomap~is preferrable and this is where the users in the database come from}
-
-\anote{cell [10]: think about how to comment on histogram or omit altogether}
+Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we have chosen Infomap for  our implementation and evaluation.
 
 \begin{table}
 	\resizebox{\textwidth}{!}{
 	    \input{tables/demon-vs-infomap.tex}
 	}
-	\caption{Metrics that helped choosing \infomap~as the preferred community detection algorithm.}
+	\caption{Comparing \demon to \infomap~ for community detection.}
 	\label{tab:demon-vs-infomap}
 \end{table}
 
