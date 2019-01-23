@@ -1,6 +1,6 @@
 \section{Incremental User Discovery} \label{sec:Pipeline}
 
-The content processing pipeline operates iteratively on a set of contexts, one at the time, that is dynamically updated at the end of each iteration, starting from an initial set of seed contexts.
+The content processing pipeline operates iteratively on a set of contexts for a given afr, for instance . This set is initialised at the start of the process with contexts that are reupdated \anote{FLAVIO: not clear to me who is dinamically updated} at the end of each iteration, starting from an initial set of seed contexts.
 The user discovery process is therefore potentially open-ended, as long as new contexts can be discovered, as explained below.
 Each iteration takes a context $C$  as input, and generates a list of users who participate in $C$, along with the complete set of their features and metrics as described above. 
 The users profiles are added to a database, where entries for repeat users are updated according to a user-defined function. 
@@ -19,7 +19,7 @@ The pipeline structure is described below with reference to Fig.~\ref{fig:twitte
 \subsection{Harvesting Content and Creating Context networks} \label{sec:harvesting}
 
  
-Given a set $C$ of contexts as in (2), all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved, using either the Search or the Streaming Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
+Given a set $C$ of contexts as in (2), all Twitter posts $P(C)$ that satisfy the criteria set in $C$ are retrieved \anote{FLAVIO: not all tweets because of Twitter API limitations, maybe move here the Twitter API limitation problem mentioned below at the beginning of section 3.3?}, using either the Search or the Streaming \anote{FLAVIO: in our case only the search API} Twitter APIs.\footnote{Repeat queries and multiple accounts are used to get around the well-known Twitter API limitations for retrieving tweets.}
 %
 The context network $G_C$ is generated (3) as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
 The size of the network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:contexts}).
@@ -27,7 +27,7 @@ The size of the network is largely determined by the nature of the context, and 
 \subsection{Community detection} \label{sec:communities}
 
 Next, the context network graph $G_C$  is partitioned into communities of users (4).
-The goal of this partitioning is to further narrow the scope for the topology-sensitive metrics, namely FollowerRank (\ref{eq:FR}) and in-degree centrality (\ref{eq:IDC}), 
+The goal of this partitioning is to further narrow the scope for the topology-sensitive metrics, namely FollowerRank (\ref{eq:FR}) \anote{FLAVIO: FR is not dependent on the network graph, it is a Context independent metric. Maybe move it to section 3.3?} and in-degree centrality (\ref{eq:IDC}), 
 and thus to enable weak-signal users to emerge relative to other more globally dominant users.
 %
 Many different approaches have been proposed to discover virtual communities in social networks. 
@@ -51,21 +51,19 @@ It applies a \textit{label propagation} algorithm to each neighbour $v'$ of $v$,
 %
 As a final step, communities that overlap by more than some percentage $\epsilon $ are merged.
 
-Note that users who do not belong to any community are discarded from the whole process.
+Note that users who do not belong to any community are discarded from the whole process. \anote{FLAVIO: insert the fact we decided to remove users in Infomap that belongs to communities with 3 or less users}
 Once communities are identified, we calculate  in-degree centrality (\ref{eq:IDC}) for each node locally, \textit{relative to their own community}.
 
 \comment{In our evaluation we have experimented with varying values for parameters $\alpha$ an $\epsilon$...}{do we plan to say anything on how to tune them?}
 
 \anote{what happens when nodes belong to more than one community?}
 
-\anote{FLAVIO: shouldn't we switch on Infomap on this section?  YES}
-
 \subsection{Computing user features and ranking  \anote{PM to fix wording}}  \label{sec:features}
 
-Next, user metrics as defined in Sec. ~\ref{sec:metrics} are computed (5) from the network and the user features.
+Next, user metrics as defined in Sec. ~\ref{sec:metrics} are computed (5) \anote{FLAVIO: also the Follower Rank} from the network and the user features.
 %
 As this involves querying the Twitter API for many user profiles, this step hits the limitations imposed by Twitter \anote{be specific}.
-To get around this problem, we have implemented a dedicated component to \textit{scrape} user information directly from their profile Web pages, namely:
+To get around this problem, we have implemented a dedicated component to \textit{scrape} user information directly from their profile Web pages \anote{FLAVIO: remove scraping part because goes against Twitter TOS}, namely:
 \begin{itemize}
 	\item personal information: the name of the user, the link to its website, the bio and the date the user joined Twitter.
 	\item profile statistics: the number of tweets published, and the number of followers $F1(u)$ as well as of followees, $F2(u)$.
@@ -76,7 +74,7 @@ These posts are then separated into $P(C)$ (on-context) and $\Tilde{P}(C)$ (off-
 Similarly, a post that contains a link is a \textit{link on-topic} that contains both a link and an hashtag related to the context, and a \textit{link off-topic} otherwise.
 Note that we also calculate the number of retweets for every post, i.e., $\mathit{R1}(u)$ and $\mathit{R3}(u)$, which are required to compute \textit{Topical Strength}.
 
-All of these features are persisted to a database which is made available for ranking purposes.
+All of these features are persisted to a database which is made available for ranking purposes. \anote{FLAVIO: only Context-independent data (user profile information and Follower Rank) and the Rank are affected}
 When a user already appears in the database, i.e., from previous iterations, a user-defined function can be specified to update the set of features. 
 For instance, one such function could just store the average over multiple occurrences of the same user across iterations, of each of the features as well as of the metrics.
 Alternatively, the database allows for the series of features values to be stored, making it possible to analyse them over time.

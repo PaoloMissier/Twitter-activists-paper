@@ -16,6 +16,8 @@ We then provide examples of ranking functions aimed at capturing the notion of  
 	deployed on Azure cloud, one node with standard commodity configuration.
 }
 
+\anote{FLAVIO: further bug fixing seemed to have eliminated the need to restart the piepline for crashes due to Selenium and Chrome. This permitted to observe that approx 2hrs per context are needed (using 200 tweets per context). do we want to include this information?}
+
 \subsection{Contexts and networks} \label{sec:contexts}
  
 We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018, all well-characterised using predefined hashtags.
@@ -24,7 +26,7 @@ Due to limitations imposed by Twitter on the number of posts that can be retriev
 To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree ($>0$) or with a different degree ($<0$). 
 Negative figures (mean: -0.22, std dev: 0.17) are in line with what is observed on the broader Twitter network~\cite{Fisher2017}.
 %
-The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} (\mathit{\#nodes} -1)}$, suggest very few connections exist amongst users within a context. 
+The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} \cdot (\mathit{\#nodes} -1)}$, suggest very few connections exist amongst users within a context. 
 This makes it difficult to detect meaningful communities, as described below, thus for some context the topological metrics are measured on the entire network as opposed to within each community.
 This view is also supported by the average node degree (mean: 2.04, std dev: 0.46) and the ratio of strongly connected components to the number of nodes (mean: 0.98, std. dev. 0.02).
 
