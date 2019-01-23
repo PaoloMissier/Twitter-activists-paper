@@ -11,11 +11,11 @@ The criteria used to define contexts, profile relevance functions, and associate
 
 \subsection{Contexts and Context networks} \label{sec:contexts}
 
-\hl{As described In} Sec.~\ref{sec:reference}, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
-These are \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Facebook, Instagram \anote{FLAVIO: from what I've seen, it is not possible to define explicitly either a campaign or an event on Instagram}, or Meetup).
-We denote a generic context as \anote{FLAVIO: as per Carlo corrections substitute either with \{\} or ()}
+As mentioned, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
+These are \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Faceboor or Meetup).
+We denote the specification of a generic context as 
 \begin{equation}
-C = \langle s, [t_1, t_2], K \rangle
+C = ( s, [t_1, t_2], K )
 \label{eq:context}
 \end{equation}
 where $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interval, and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
@@ -25,11 +25,11 @@ We only consider two Twitter activities: an \textit{original tweet}, or a \texti
 Let $u(p)$ be the user who originated a tweet $p \in P(C)$.
 We say that both $p$ and $u(p)$ are \textit{within context} $C$.
 
-We also define the complement $\Tilde{P}(C)$ of $P(C)$ as the set of posts found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a context $C'= \langle s, [t_1, t_2], \emptyset \rangle$ \anote{FLAVIO: as per Carlo corrections substitute either with \{\} or ()} with no terms constraints, we define $\Tilde{P}(C) = P(C') \setminus P(C)$. 
+We also define the complement $\Tilde{P}(C)$ of $P(C)$ as the set of posts found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a context $C'= ( s, [t_1, t_2], \emptyset )$ with no terms constraints, we define $\Tilde{P}(C) = P(C') \setminus P(C)$. 
 We refer to these posts, and their respective users, as ``out of context $C$''.
 
 The set of posts $P(C)$ induces a user-user social network graph $G_C = (V,E)$ where $V$ is the set of all users who have authored any $p \in P(C)$: 
-$V = \{ u(p) | p \in P(C) \}$, and a weighted \anote{FLAVIO: as per Carlo corrections: directed} edge $e = \langle u_1, u_2, w \rangle$ is added to $E$ for each pair of posts $p_1, p_2$ such that $u(p_1) = u_1, u(p_2) = u_2$ and 
+$V = \{ u(p) | p \in P(C) \}$, and a weighted directed edge $e = \langle u_1, u_2, w \rangle$ is added to $E$ for each pair of posts $p_1, p_2$ such that $u(p_1) = u_1, u(p_2) = u_2$ and 
 either (i) $p_2$ is a retweet of $p_1$, or (ii) $p_1$ contains a mention of $u_2$.
 For any such edge, the weight $w$ is a count of such pairs of posts occurring in $P(C)$ for the same pair of users.
 
@@ -59,7 +59,7 @@ Given a context $C$ containing user $u$, we define:
 \end{align*}
 %
 
-Note that, given $C$, we can evaluate each of the features above with respect to either $P(C)$ or  $\Tilde{P}(C)$ independently from each other, that is, we can consider an ``on-context'' and an ``off-context'' version of each feature \anote{FLAVIO: with the exclusion of F1 and F2 which are Context-independent features}.
+Note that, given $C$, we can evaluate some of the features above with respect to either $P(C)$ or  $\Tilde{P}(C)$ independently from each other, that is, we can consider an ``on-context'' and an ``off-context'' version of each feature, with the exception of \mathit{F1} and \mathit{F2} which are context-independent.
 %
 For example, we are going to write $R1_{on}(u)$ to denote the number of context retweets and $R1_{\mathit{off}}(u)$ the number of out-of-context retweets by $u$, i.e., these are retweets that occur within $C$'s spatio-temporal boundaries, but do not contain any of the hashtags or keywords that define $C$.  
 %
@@ -83,4 +83,4 @@ where $N$ is the number of nodes in the network induced by $C$.
 
 Note that the metrics we have selected are a superset of those indicated in recent studies on online activism, namely \cite{Lotan2011} and \cite{Poell2014}, and thus support our empirical evaluation, described in Sec.~\ref{sec:evaluation}.
 
-\anote{Summary of user features if space allows}
+% \anote{Summary of user features if space allows}

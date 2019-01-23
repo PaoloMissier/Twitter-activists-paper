@@ -3,24 +3,19 @@
 The typical approach to identifying specific classes on online users relies on expert-generated ground truth, i.e., to determine which users belong to the desired class. 
 Such approach, however, is vulnerable to  the subjectivity of the experts, whereby the evalution would  be measuring the fit of the model to the specific experts' own opinion. 
 In contrast, we follow an \textit{unsupervised} approach where there is no a priori knowledge of user relevance.  
-We aim to demonstrate the value of our pipeline in creating a database of online profiles, pre-selected according to specific topological properties in order to filter out background noise,  along with a community-accepted set of engineered features that are ready to be mined using any user-defined function.
+In this section we aim to demonstrate the value of our pipeline in creating a database of online profiles, which are pre-selected according to specific topological properties in order to filter out background noise,  along with a community-accepted set of engineered features that are ready to be mined using any user-defined function.
+%
+Thus, our evaluation (i) shows the pipeline in action on a significant set of 25 initial contexts, and (ii) demonstrates useful ranking functions that operate on the resulting database, aimed at capturing the empirical notion of  \textit{online activists}.
+% We  start by manually selecting initial  contexts from a single social domain, namely public healthcare campaigns in the UK, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
+% We then provide examples of ranking functions .
 
-Thus, our evaluation (i) shows the pipeline in action on a significant set of contexts, and (ii) demonstrates useful ranking functions that operate on the resulting database.
-Specifically, we  start by manually selecting homogeneous contexts from a single social domain, namely public healthcare campaigns, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
-We then provide examples of ranking functions aimed at capturing the notion of  \textit{online activists}, and we empirically validate them by inspecting the profiles of representative top-k users.
-
-\anote{implementation:
-
-	all in python. using Pandas, NetworkX, Selenium public libraries. 
-	
-	deployed on Azure cloud, one node with standard commodity configuration.
-}
-
-\anote{FLAVIO: further bug fixing seemed to have eliminated the need to restart the piepline for crashes due to Selenium and Chrome. This permitted to observe that approx 2hrs per context are needed (using 200 tweets per context). do we want to include this information?}
+The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github (\anote{ADD REPO}. 
+All experiments are performed on a single Azure node with standard commodity configuration.
+Note that we do not focus on system performance as all components operate in near-real time. One exception is  Twitter content harvesting, which is limited by the Twitter API and requires approximately 2 hours per context.
 
 \subsection{Contexts and networks} \label{sec:contexts}
  
-We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018, all well-characterised using predefined hashtags.
+We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018 and well-characterised using predefined hashtags.
 Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
  Table~\ref{tab:contexts} lists the events along with key metrics for their corresponding user-user networks. 
 To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree ($>0$) or with a different degree ($<0$). 
@@ -40,25 +35,23 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 
 \subsection{Communities}  \label{sec:communities}
 
-Next, we report on the effect of the two community detection algorithms mentioned earlier, namely \demon~and \infomap, on each of the networks. 
+ \demon~and \infomap~ produce significantly different communities in each network. 
 %
-Regarding \demon, within each network the algorithm  identifies \textit{meaningful} communities consisting of more than one single node in only 48\% of the netnworks.
-For the remaining 52\% of networks, no communities are detected, users' in-degrees are calculated using the entire network, and all users in the network are added to the database.
-%
-However, when meaningful communities are found, only the users who belong to one of those community are added. 
+Specifically, \demon~identifies communities in only 48\% of the netnworks.
+For these, only the users who belong to one of those community are added. 
 These are about 6\% of the users on average, with an average of only 1.92 communities per network.
-% The penultimate column in Table~\ref{tab:contexts} reports the ratio of the number of communities to number of nodes in each of the networks. 
-% A value of zero indicates that no meaningful communities were used.
+
+For the remaining 52\% of networks where no communities are detected, users' in-degrees are calculated using the entire network, and all users in the network are added to the database.
 %
-This approach results in 3,570 users being added to the database.
+When using \demon, 3,570 users being added to the database.
 The average assortativity of individual \demon~communities is slightly negative -0.28, in line with the average for their parent networks.
 
-In contrast, the \infomap~ algorithm provides meaningful communities for \textit{all} networks.
-Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average (as opposed to 1.92 for \demon), with 8.5 users per community on average.
+In contrast, \infomap~provides meaningful communities for all networks.
+Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average, with 8.5 users per community on average.
 % The rightmost column in Table~\ref{tab:contexts} reports the number of communities normalised by the size of the network, where a  contains . 
-Overall, using Infomap resulted in 3,567 users being added to the database (on average 253 users per network).
+When using Infomap, 3,567 users were added to the database (on average 253 users per network).
 The average assortativity across all communities is again slightly negative (-0.43).
-
+%
 Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we have chosen Infomap for  our implementation and evaluation.
 
 \begin{table}
@@ -71,26 +64,23 @@ Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics 
 
 \subsection{Users discovery}  \label{sec:users}
 
-Finally, from each context we have extracted users who are either part of a community, or in the case of non-meaningful communities, all users in the network.
-Using these criteria, a total of 3567 users has been added to the database from 25 contexts.
-We are interested in tracking the users' presence across more than one context, and in the specification of ranking functions that let specific user profiles emerge.
-
-Regarding user presence, we found that there are 160 users who appear at least in two contexts. 
-After community detection, only a fraction of these users survive. 
-These are either users who belong to a meaningful community, or users who belong to a context network where communities could not be identified.
-
-This filtering process results in 61 of the 160 users still seen as repeat users, while the remaining 99 are either removed altogether, or they only appear once. 
-Out of these, 55 appear twice, and 2 appear three times, and 2 appear four times. 
+Repeat users, those who appear in multiple contexts, are particularly interesting as they provide a stronger signal. 
+Out of the total 3,567, 160 users  appear at least in two of the 25 contexts.
+After community detection, only 61 of these users are still seen as repeat users,
+while the remaining 99 are either removed altogether, or they only appear once.
+Of these, 55 appear twice, 2 appear three times, and 2 appear four times. 
 Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% repeat users.
 %
 Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{comment on whether these are individuals or well-known organisations}
 \anote{can we sort these by no-participation and follower-rank??}
+Recall that the Follower Rank $FR$ is usually taken as an indication of how ``popularity''. 
+Interesting users are therefore the repeat users with a low $FR$  (it is not surprising to see Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1.$
 %
 Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context. 
 
 \begin{table}
 	\centering
-	\framebox{\anote{content from cell [13]} }
+	
 	\resizebox{\textwidth}{!}{
 		\input{tables/repeat-users.tex}
 	}

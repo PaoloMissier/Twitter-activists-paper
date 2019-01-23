@@ -57,38 +57,46 @@ User profiles are updated when they are repeatedly found in multiple contexts.
 Lastly, for empirical evaluation of our implementation, we demonstrate an operational definition of the activist profile, defined in terms of the features available in the database, by collecting about 3,500 users  across 25 contexts in the domain of healthcare awareness campaigns in the UK during 2018. 
 The application of the approach to the specific challenge of combating tropical disease epidemics in Brasil is currently in progress and is not reported in this paper.
 
-\subsection{Related Work}
+\subsection{Related Work}  \label{sec:related}
 
-The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers}. The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
-According to ~\cite{Kardara2015}, influencers are prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions.
+The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers}. 
+% The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
+According to~\cite{Kardara2015}, influencers are \textit{prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions}.
+%
+A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. 
+%
+These metrics tend to favour high visibility users across global networks, regardless of their actual impact~\cite{Cha2010MeasuringUI}. 
+%
+In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. 
+%
+While such behaviour can be described  using well-tested metrics~\cite{RIQUELME2016949}, it should also be clear that new ways to combine those metrics are required.
 
-A large number of metrics and techniques have been proposed to make this generic definition operational~\cite{RIQUELME2016949}. These are mostly based on metrics of network centrality, along with metrics derived from the users' online activity, i.e., number of retweets or other users' content, number of retweets of own content, and many more. 
+The algorithm proposed in \cite{MATIC2011} aims to identify influencers based on a single topic context, based on relevant social media conversations.
+Metrics include number of ``likes'', viewers per months, post frequency and  number of comments per post, as well as the ratio of positive to negative posts.
+As some of these metrics are qualitative and difficult to acquire, however, this approach is not easy to automate.
 
-However, most basic metrics tend to be efficient at identifying users who get great attention from their followers, such as newspapers or celebrities, but have small impact on users' actions \cite{Cha2010MeasuringUI}. In this way, these types of untreated metrics become inefficient to identify really active users within a topic.
+Another approach to ranking topic-specific influencers within specific events appears in  \cite{Kardara2015}, where network dynamics are accounted for in real-time.
+Once again however, the result is to discover users who receive much attention, but cannot create a real impact over users inside one topic.
 
-In this way, algorithms to find influencers favour high visibility profiles, typically across global networks. In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. 
+Machine learning is used in~\cite{Biran2012} to analyse posted content and recognise 
+when a user is able to influence another  inside a conversation.
+This however requires substantial a priori ground truth, making this approach impracticable in our case. In addition, the need to create a classifier for each topic limits the scalability of the system.
 
-While we believe that specific activist behaviour can be characterized using some of the well-tested quantifiable metrics known from the literature cited above~\cite{RIQUELME2016949}, it should also be clear that the way such metrics are combined to identify activist profiles are not the same as for influencers. 
-
-In \cite{MATIC2011}, a customizable valuation algorithm is created to identify influencer who are creating a revitalized level of brand awareness for companies. In this way, the raking metric is limited to one topic context. The proposed approach is cross-section variables that rate influence in social media conversations about a particular topic. The cited variables used in this study are measured using quantitative and qualitative approaches to rank the users inside a topic conversation. In the quantitative side, variables such as likes, viewers per months, post frequency the number of comments in posts are accounted. For the qualitative metrics, the number of posts positives and negatives about one topic, participation in others social medias and posts related to the main topic are considered.  The proposed approach is quite interesting to evaluate the varying degree of influence of any blogger on a particular topic. However, this approach is complex to automate due to the use of qualitative methods for the calculation of influence ranking.
-
-Based on metrics that can be computed in an automatic way and real time, in \cite{Kardara2015} a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. However, the approach is limited to look for users using classical statistics based on network created in real time. Use these ranking approach brings the limitation to find users that have a lot of attention, but cannot create a real impact over users inside one topic.
-
-Some approaches try to extract the content of conversations over topics to understand the ability of a user to be influential within a topic. In \cite{Biran2012}, a classifier is trained to identify when an user is able to influence another one inside a conversation. However, in this case the necessity of creating labelled data to build a machine learning classifier makes this approach impracticable in our case, which aims to be most practical possible. In addition the need to create a classifier for each topic makes the context work of this system extremely limited.
+% Some approaches try to extract the content of conversations over topics to understand the ability of a user to be influential within a topic. , a classifier is trained to identify when an user is able to influence another one inside a conversation. However, in this case the necessity of creating labelled data to build a machine learning classifier makes this approach impracticable in our case, which aims to be most practical possible. 
 
 
 \anote{topic-specific influencers. cite \cite{Schenk2011} SCHENK 2011}\\
 	
-\anote{\cite{Kardara2015} KARDARA:
-	Here a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. 
-	Local to an event context but focus on user reputation. 
-	The above techniques all attempt to define influence as
-	some measurable attribute or observation in the network, such as how many times an original story appears on a website, or how centrally connected a node is within various defined modules within the networks.
-	The definition used in this work for influence is “who is being listened to the most”.
-	- this is not who we are looking for.
-	- one single large event
-	- no breakdown into communities
-}\\
+% \anote{\cite{Kardara2015} KARDARA:
+% 	Here a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. 
+% 	Local to an event context but focus on user reputation. 
+% 	The above techniques all attempt to define influence as
+% 	some measurable attribute or observation in the network, such as how many times an original story appears on a website, or how centrally connected a node is within various defined modules within the networks.
+% 	The definition used in this work for influence is “who is being listened to the most”.
+% 	- this is not who we are looking for.
+% 	- one single large event
+% 	- no breakdown into communities
+% }\\
 
 
 \anote{\cite{Bizid:2015:PUD:2808797.2809411} BIZID
