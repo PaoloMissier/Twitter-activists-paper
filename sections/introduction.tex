@@ -78,14 +78,10 @@ As some of these metrics are qualitative and difficult to acquire, however, this
 Another approach to ranking topic-specific influencers within specific events appears in  \cite{Kardara2015}, where network dynamics are accounted for in real-time.
 Once again however, the result is to discover users who receive much attention, but cannot create a real impact over users inside one topic.
 
-Machine learning is used in~\cite{Biran2012} to analyse posted content and recognise 
-when a user is able to influence another  inside a conversation.
+Machine learning is used in~\cite{Biran2012} to analyse posted content and recognise when a user is able to influence another  inside a conversation.
 This however requires substantial a priori ground truth, making this approach impracticable in our case. In addition, the need to create a classifier for each topic limits the scalability of the system.
 
 % Some approaches try to extract the content of conversations over topics to understand the ability of a user to be influential within a topic. , a classifier is trained to identify when an user is able to influence another one inside a conversation. However, in this case the necessity of creating labelled data to build a machine learning classifier makes this approach impracticable in our case, which aims to be most practical possible. 
-
-
-\anote{topic-specific influencers. cite \cite{Schenk2011} SCHENK 2011}\\
 	
 % \anote{\cite{Kardara2015} KARDARA:
 % 	Here a new ranking algorithm is proposed to find local influencers on Twitter that appear within the context of a specific event being discussed, incorporating the network dynamics as the event evolves with time. 
@@ -97,9 +93,6 @@ This however requires substantial a priori ground truth, making this approach im
 % 	- one single large event
 % 	- no breakdown into communities
 % }\\
+\anote{Differently from the majority of the influencer ranking algorithms, in \cite{Schenk2011} a topic-specific influencer ranking is proposed. First it harvests sequentially timed snapshots of the network of users related to a topic. Then it ranks the users based on the number of followers gained and lost in the considered snapshots.}\\
 
-
-\anote{\cite{Bizid:2015:PUD:2808797.2809411} BIZID
-	user prominence on and off topic.
-	searches for specific metrics that can be computed in real time
-}
+\anote{FLAVIO: In \cite{Bizid:2015:PUD:2808797.2809411} a model for identifying ``prominent users'' regarding a specific topic event in Twitter is presented. Prominent users are defined as those who focus their attention and communication on the aforementioned topic event. Users are described with a real-time computed feature vector among which considers on-topic and off-topic users activity over Twitter. As for~\cite{Biran2012} problems of scalability and adaptability arise as 2 supervised learning methods are used, one to discriminate prominent users from the rest and the other to rank them.}\\

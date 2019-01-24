@@ -39,7 +39,7 @@ Label propagation is also a local method, translating into an efficient algorith
 In practice, however, in our experiments we found that for almost half of our context networks, \demon~actually fails to discover any communities.
 
 In contrast, \infomap~forces each user into at most one community, and generates valid communities in all cases. 
-As some of them are very small, our  implementation discards communities with fewer than 3 users by default (see Sec.~\ref{sec:evaluation}).
+As some of them are very small, our  implementation discards communities with fewer than 4 users by default (see Sec.~\ref{sec:evaluation}).
 %
 
 %
@@ -71,9 +71,9 @@ Similarly, a post that contains a link is a \textit{link on-topic} if it contain
 We also calculate the number of retweets for every post, i.e., $\mathit{R1}(u)$ and $\mathit{R3}(u)$, which are required to compute \textit{Topical Strength}.
 
 All of these features are persisted to a database which is made available for ranking purposes.
-When a user already appears in the database, i.e., from previous iterations, a user-defined function can be specified to update the Rank, e.g. by combining scores assigned atr different times.
+When a user already appears in the database, i.e., from previous iterations, a user-defined function can be specified to update the Rank, e.g. by combining scores assigned at different times.
 %
-The DB enables user-defined scoring functions to be tested, providing a user ranking list (6). Examples of these are given later in Sec.~\ref{sec:evaluationlk}.
+The DB enables user-defined scoring functions to be tested, providing a user ranking list (6). Examples of these are given later in Sec.~\ref{sec:evaluationlk} \anote{check all references as there are several errors, from undefined to multiply-defined references}.
 This ``framework'' approach is consistent with the experimental nature of our search for \textit{activists}, which requires exploring a variety of ranking functions.
 
 \subsection{Context discovery} \label{sec:context-discovery}

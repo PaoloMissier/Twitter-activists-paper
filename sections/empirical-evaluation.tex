@@ -9,7 +9,7 @@ Thus, our evaluation (i) shows the pipeline in action on a significant set of 25
 % We  start by manually selecting initial  contexts from a single social domain, namely public healthcare campaigns in the UK, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
 % We then provide examples of ranking functions .
 
-The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github (\anote{ADD REPO}. 
+The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github\footnote{Twitter Network Analysis repository: \url{https://github.com/flaprimo/twitter-network-analysis}}. 
 All experiments are performed on a single Azure node with standard commodity configuration.
 Note that we do not focus on system performance as all components operate in near-real time. One exception is  Twitter content harvesting, which is limited by the Twitter API and requires approximately 2 hours per context.
 
@@ -71,8 +71,7 @@ while the remaining 99 are either removed altogether, or they only appear once.
 Of these, 55 appear twice, 2 appear three times, and 2 appear four times. 
 Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% repeat users.
 %
-Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{comment on whether these are individuals or well-known organisations}
-\anote{can we sort these by no-participation and follower-rank??}
+Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{FLAVIO: Apart from jeremy\_hunt, which is a politician, and colesmillerllp, which is a legal firm, the rest are associations and foundations related with healthcare. This is expected as the table is sorted for "Participations" and subsequently by "Follower Rank". This can be interpreted as the organizers of NHS social media campaigns are associations and foundations related to the NHS.}
 Recall that the Follower Rank $FR$ is usually taken as an indication of how ``popularity''. 
 Interesting users are therefore the repeat users with a low $FR$  (it is not surprising to see Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1.$
 %
