@@ -79,21 +79,44 @@ Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per conte
 
 \begin{table}
 	\centering
-	
 	\resizebox{\textwidth}{!}{
 		\input{tables/repeat-users.tex}
 	}
-	\caption{Top-k repeat users, amongst those identified as belonging to some community.}
+	\caption{Top-10 repeat users, amongst those identified as belonging to some community.}
 	\label{tab:repeat-users}
 \end{table}
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=1.2\linewidth]{figures/repeat-users-frequency}
+	\includegraphics[width=\textwidth]{figures/repeat-users-frequency}
 	\caption{Number of repeat users for each context}
 	\label{fig:repeat-users-frequency}
 \end{figure*}
 
 \subsection{Users ranking} \label{sec:ranking}
 
-\anote{show the effect of one or two ranking functions and single out users that ``look like activists'' top empirically prove the point}
+Once the database is populated, 2 ranking functions are tested against it.
+%
+\begin{table}
+	\centering
+	\resizebox{\textwidth}{!}{
+		\input{tables/ranks-extended.tex}
+	}
+	\caption{Top-10 ranked users for rank 1 and rank 2.}
+	\label{tab:rank1}
+\end{table}
+%
+\begin{align}
+\textit{Rank 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
+\textit{Rank 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank1}
+\end{align}
+%
+Rank 1 assigns an higher scores to users which are at the margins of communities while giving credit to generic on-topic activities during the contexts.
+
+Rank 2 penalises instead the popularity of the users, while awarding for prominence inside communities and information spreading by also considering shared links.
+
+Rank 1 seems to favour more on-topic users (90\% for Rank 1 and 70\% for Rank 2). While Rank 2 seems to favour more, among in-topic users, individuals (55\% for Rank 1 and 71\% for Rank 2). 
+
+Both ranks mostly show on-topic users (9 out of 10 for Rank 1 and 7 out of 10 for Rank 2). Rank 1 5/4 Rank 1 5/2 Rank 2
+
+In both ranks users which participated to more than one context are rewarded. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets \rvert(u)) < 0.005}$ are considered not active and have been assigned lowest score.
