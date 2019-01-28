@@ -11,40 +11,35 @@ The criteria used to define contexts, profile relevance functions, and associate
 
 \subsection{Contexts and Context networks} \label{sec:contexts}
 
-As mentioned, contexts are meant to identify events or campaigns around social issues, which are characterised by temporal boundaries and by hashtags and/or keyword terms, and optionally also by spatial constraints, i.e., specified using a geographical bounding box.
-These are \textit{weak} contexts, because Twitter does not natively support the notion of event or campaign (unlike, for example, Faceboor or Meetup).
-We denote the specification of a generic context as 
+A context $C$ is a Twitter query defined by a set $K$ of hashtags and/or keyword terms, a time interval $[t_1, t_2]$, and a geographical constraint  $s$ (i.e., a bounding box):
 \begin{equation}
-C = ( s, [t_1, t_2], K )
+C = (K, [t_1, t_2], s)
 \label{eq:context}
 \end{equation}
-where $s$ represents the optional spatial constraint, $[t_1, t_2]$ a time interval, and $K = \{ k_1 \dots k_n\}$ is the set of terms used to filter content within the spatio-temporal boundaries.
-%
-$C$ defines search criteria, which produce a set $P(C)$ of posts when submitted to Twitter.
-We only consider two Twitter activities: an \textit{original tweet}, or a \textit{retweet}.
+Let $P(C)$ denote the query result, i.e., a set of posts by users.
+We only consider two Twitter user activities: an \textit{original tweet}, or a \textit{retweet}.
 Let $u(p)$ be the user who originated a tweet $p \in P(C)$.
 We say that both $p$ and $u(p)$ are \textit{within context} $C$.
 
 We also define the complement $\Tilde{P}(C)$ of $P(C)$ as the set of posts found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a context $C'= ( s, [t_1, t_2], \emptyset )$ with no terms constraints, we define $\Tilde{P}(C) = P(C') \setminus P(C)$. 
 We refer to these posts, and their respective users, as ``out of context $C$''.
 
-The set of posts $P(C)$ induces a user-user social network graph $G_C = (V,E)$ where $V$ is the set of all users who have authored any $p \in P(C)$: 
+$P(C)$ induces a user-user social network graph $G_C = (V,E)$ where $V$ is the set of all users who have authored any $p \in P(C)$: 
 $V = \{ u(p) | p \in P(C) \}$, and a weighted directed edge $e = \langle u_1, u_2, w \rangle$ is added to $E$ for each pair of posts $p_1, p_2$ such that $u(p_1) = u_1, u(p_2) = u_2$ and 
 either (i) $p_2$ is a retweet of $p_1$, or (ii) $p_1$ contains a mention of $u_2$.
 For any such edge, the weight $w$ is a count of such pairs of posts occurring in $P(C)$ for the same pair of users.
 
 \subsection{User relevance metrics}  \label{sec:metrics}
 
-We support a number of metrics that are generally accepted by the community as forming a core, from which many different social user roles are derived~\cite{RIQUELME2016949}. 
+We support metrics that are generally accepted by the community as forming a core, from which many different social user roles are derived~\cite{RIQUELME2016949}. 
 We distinguish amongst three types of features, which differ in the way they are computed from the raw Twitter feed:
 \begin{description}
-	\item[Content-based metrics] that rely solely on content and not on the user-user graph topology. These metrics are defined relative to a topic of interest, i.e., a context;
+	\item[Content-based metrics] that rely solely on content and \textit{not} on the user-user network. These metrics are defined relative to a topic of interest, i.e., a context;
 	\item[Context-independent topological metrics] that encode context-independent, long-lived relationships amongst users, i.e., follower/followee; and 
 	\item[Context-specific topological metrics] that encode user relationships that occur specifically within a context.
 \end{description}
 
 All metrics are functions of a few core features that can be directly extracted from Twitter posts. 
-We start with a set of features that are commonly used in the literature as a baseline.
 Given a context $C$ containing user $u$, we define:
 %
 \begin{align*}
@@ -64,16 +59,16 @@ For example, we are going to write $R1_{on}(u)$ to denote the number of context 
 %
 We similarly qualify all other features.
 %
-Using these core features, we have implemented the following metrics.
+Using these core features, the framework currently supports the following metrics.
 
-For \textbf{Content-based metrics}, we have:
+\textbf{Content-based metrics}:
 \begin{align}
 \textit{Topical Focus:~\cite{Missier2017}:} ~ \mathit{TF}(u) & =  \frac{\mathit{P1}_{\mathit{on}}(u)}{\mathit{P1}_{\mathit{off}}(u) +1}    \label{eq:TF}\\
 \textit{Topical Strength~\cite{Bizid2018}:} ~\mathit{TS}(u) & =	\frac{\mathit{P2}_{\mathit{on}}(u) \cdot \log(\mathit{P2}_{\mathit{on}}(u) + R3_{\mathit{on}} +1 )}{\mathit{P2}_{\mathit{off}}(u) \cdot \log(\mathit{P2}_{\mathit{off}}(u) + R3_{\mathit{off}} +1 ) + 1}   \label{eq:TS} \\
 \textit{Topical Attachment~\cite{Bizid:2015,Poell2014}:} ~\mathit{TA}(u) & = \frac{\mathit{P1}_{\mathit{on}}(u) + \mathit{P2}_{\mathit{on}}(u)}{\mathit{P1}_{\mathit{off}}(u) + \mathit{P2}_{\mathit{off}}(u) +1} \label{eq:TA}
 \end{align}
 
-We implement one \textbf{Context-independent topological metric} and one \textbf{Context-specific topological metric}, both commonly used, see e.g.~\cite{RIQUELME2016949}:
+The framework supports one \textbf{Context-independent topological metric} and one \textbf{Context-specific topological metric}, both commonly used, see e.g.~\cite{RIQUELME2016949}:
 \begin{align}
 \textit{Follower Rank:}  \quad \mathit{FR}(u) = \frac{\mathit{F1}(u)}{\mathit{F1}(u)+\mathit{F2}(u)}   \label{eq:FR}\\
 \textit{In-degree centrality:} \quad \mathit{IC}(u) = \frac{\mathit{indegree}(u)}{N-1}  \label{eq:IDC}
