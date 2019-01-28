@@ -9,11 +9,11 @@ Thus, our evaluation (i) shows the pipeline in action on a significant set of 25
 % We  start by manually selecting initial  contexts from a single social domain, namely public healthcare campaigns in the UK, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
 % We then provide examples of ranking functions .
 
-The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github\footnote{Twitter Network Analysis repository: \url{https://github.com/flaprimo/twitter-network-analysis}}. 
+The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github\footnote{ \url{https://github.com/flaprimo/twitter-network-analysis}}. 
 All experiments are performed on a single Azure node with standard commodity configuration.
 Note that we do not focus on system performance as all components operate in near-real time. One exception is  Twitter content harvesting, which is limited by the Twitter API and requires approximately 2 hours per context.
 
-\subsection{Contexts and networks} \label{sec:contexts}
+\subsection{Contexts and networks} \label{sec:contexts-selection}
  
 We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018 and well-characterised using predefined hashtags.
 Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
@@ -26,6 +26,7 @@ This makes it difficult to detect meaningful communities, as described below, th
 This view is also supported by the average node degree (mean: 2.04, std dev: 0.46) and the ratio of strongly connected components to the number of nodes (mean: 0.98, std. dev. 0.02).
 
 \begin{table}
+	\tiny
 	\resizebox{\textwidth}{!}{
 	    \input{tables/contexts.tex}
 	}
@@ -33,7 +34,7 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	\label{tab:contexts}
 \end{table}
 
-\subsection{Communities}  \label{sec:communities}
+\subsection{Communities}  \label{sec:communities-eval}
 
  \demon~and \infomap~ produce significantly different communities in each network. 
 %
@@ -55,68 +56,77 @@ The average assortativity across all communities is again slightly negative (-0.
 Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we have chosen Infomap for  our implementation and evaluation.
 
 \begin{table}
+	\vspace{-10pt}
+		\tiny
 	\resizebox{\textwidth}{!}{
 	    \input{tables/demon-vs-infomap.tex}
 	}
 	\caption{Comparing \demon~to \infomap~for community detection.}
 	\label{tab:demon-vs-infomap}
+	\vspace{-10pt}
 \end{table}
 
 \subsection{Users discovery}  \label{sec:users}
 
 Repeat users, those who appear in multiple contexts, are particularly interesting as they provide a stronger signal. 
-Out of the total 3,567, 160 users  appear at least in two of the 25 contexts.
+Out of the total 3,567 users, 160 of those appear at least in two of the 25 contexts.
 After community detection, only 61 of these users are still seen as repeat users,
 while the remaining 99 are either removed altogether, or they only appear once.
-Of these, 55 appear twice, 2 appear three times, and 2 appear four times. 
+Of the 61, 57 appear twice, 2 appear three times, and 2 appear four times. 
 Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% repeat users.
 %
-Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}.  \anote{FLAVIO: Apart from jeremy\_hunt, which is a politician, and colesmillerllp, which is a legal firm, the rest are associations and foundations related with healthcare. This is expected as the table is sorted for "Participations" and subsequently by "Follower Rank". This can be interpreted as the organizers of NHS social media campaigns are associations and foundations related to the NHS.}
-Recall that the Follower Rank $FR$ is usually taken as an indication of how ``popularity''. 
-Interesting users are therefore the repeat users with a low $FR$  (it is not surprising to see Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1.$
-%
-Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context. 
+Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}, and Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context.
+As the table is sorted by ``Participations'' then by ``Follower Rank'', an indication of ``popularity'',  it is not surprising to find that top users include well-known names such as Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1.$, and a number of associations and foundations related in the public healthcare space.
+More interesting are perhaps non-repeat users who emerge when ad hoc scores are applied to the database, as we illustrate next.
 
-\begin{table}
+\begin{table}[htb]
 	\centering
+	\tiny
 	\resizebox{\textwidth}{!}{
 		\input{tables/repeat-users.tex}
 	}
-	\caption{Top-10 repeat users, amongst those identified as belonging to some community.}
+	\caption{Top-10 repeat users, amongst those who belong to a community.}
 	\label{tab:repeat-users}
+	\vspace{-12pt}
 \end{table}
 
-\begin{figure*}
+\begin{figure*}[htb]
 	\centering
-	\includegraphics[width=\textwidth]{figures/repeat-users-frequency}
+	\includegraphics[width=1.2\textwidth]{figures/repeat-users-frequency}
 	\caption{Number of repeat users for each context}
 	\label{fig:repeat-users-frequency}
 \end{figure*}
 
+\vspace{-15pt}
 \subsection{Users ranking} \label{sec:ranking}
+\vspace{-15pt}
 
-Once the database is populated, 2 ranking functions are tested against it.
+To demonstrate the potential value of the database, albeit on a small scale, we have tested two user scoring functions.
+As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles.
 %
 \begin{table}
 	\centering
+	\tiny
 	\resizebox{\textwidth}{!}{
 		\input{tables/ranks-symbolic.tex}
 	}
-	\caption{Top-10 ranked users for rank 1 and rank 2 describing whether on-topic/off-topic and individual/association.}
+	\caption{Top-10 ranked users for ranking functions (\ref{eq:rank1}) and (\ref{eq:rank2}), with indication of whether the user is on-topic/off-topic and individual vs association.}
 	\label{tab:rank1}
 \end{table}
 %
 \begin{align}
-\textit{Rank 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
-\textit{Rank 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank1}
+\textit{Ranking 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
+\textit{Ranking 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank2}
 \end{align}
 %
-Rank 1 assigns an higher scores to users which are at the margins of communities while giving credit to generic on-topic activities during the contexts.
+Function (\ref{eq:rank1}) is designed to promote users who are at the ``fringe'' of their community, while giving credit to generic on-topic activities during the contexts. 
+To achieve this, the Topical Focus $\mathit{TF}$ is used as a positive contribution, while a large in-degree $\mathit{IC}$ reduces the score.
+%
+In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of Follower Rank $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (Topical Attachment $\mathit{TA}$).
 
-Rank 2 penalises instead the popularity of the users, while awarding for prominence inside communities and information spreading by also considering shared links.
-
-Rank 1 seems to favour more on-topic users (90\% for Rank 1 and 70\% for Rank 2). While Rank 2 seems to favour more, among in-topic users, individuals (55\% for Rank 1 and 71\% for Rank 2). 
-
-Both ranks mostly show on-topic users (9 out of 10 for Rank 1 and 7 out of 10 for Rank 2).
-
-In both ranks users which participated to more than one context are rewarded. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets \rvert(u)) < 0.005}$ are considered not active and have been assigned lowest score.
+To get an appreciation of the effect of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad classification as an individual as opposed to institutional players (associations, public bodies), or a business. 
+Our evaluation on the test database shows that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
+while  (\ref{eq:rank2}) favour more individuals (55\% for (\ref{eq:rank1})  and 71\% for (\ref{eq:rank2})), among in-topic users.
+%
+Both functions rank on-topic users highly (9 out of 10 for (\ref{eq:rank1}) and 7 out of 10 for (\ref{eq:rank2})).
+Also, repeat users are rewarded in both rankings. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets (u)\rvert) < 0.005}$ are considered not active and have been assigned lowest score.

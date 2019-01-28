@@ -74,9 +74,9 @@ While such behaviour can be described  using well-tested metrics~\cite{RIQUELME2
 The algorithm proposed in \cite{MATIC2011} aims to identify influencers based on a single topic context, based on relevant social media conversations.
 Metrics include number of ``likes'', viewers per months, post frequency and  number of comments per post, as well as the ratio of positive to negative posts.
 As some of these metrics are qualitative and difficult to acquire, however, this approach is not easy to automate.
-
+%
 Another approach to ranking topic-specific influencers within specific events appears in  \cite{Kardara2015}, where network dynamics are accounted for in real-time.
-Once again however, the result is to discover users who receive much attention, but cannot create a real impact over users inside one topic.
+Once again however, the effect is to discover users who receive much attention, but do not necessarily create a real impact over users inside one topic.
 
 Machine learning is used in~\cite{Biran2012} to analyse posted content and recognise when a user is able to influence another  inside a conversation.
 This however requires substantial a priori ground truth, making this approach impracticable in our case. In addition, the need to create a classifier for each topic limits the scalability of the system.
@@ -93,6 +93,6 @@ This however requires substantial a priori ground truth, making this approach im
 % 	- one single large event
 % 	- no breakdown into communities
 % }\\
-\anote{FLAVIO: Differently from the majority of the influencer ranking algorithms, in \cite{Schenk2011} a topic-specific influencer ranking is proposed. First it harvests sequentially timed snapshots of the network of users related to a topic. Then it ranks the users based on the number of followers gained and lost in the considered snapshots.}\\
+Unlike the majority of the influencer ranking algorithms, in \cite{Schenk2011} a topic-specific influencer ranking is proposed. First it harvests sequentially timed snapshots of the network of users related to a topic. Then it ranks the users based on the number of followers gained and lost in the considered snapshots.
 
-\anote{FLAVIO: In \cite{Bizid:2015:PUD:2808797.2809411} a model for identifying ``prominent users'' regarding a specific topic event in Twitter is presented. Prominent users are defined as those who focus their attention and communication on the aforementioned topic event. Users are described with a real-time computed feature vector among which considers on-topic and off-topic users activity over Twitter. As for~\cite{Biran2012} problems of scalability and adaptability arise as 2 supervised learning methods are used, one to discriminate prominent users from the rest and the other to rank them.}\\
+Finally, \cite{Bizid:2015:PUD:2808797.2809411} presents a model for identifying ``prominent users'' regarding a specific topic event in Twitter. Those are users who focus their attention and communication on the aforementioned topic event. Users are described by a feature vector, computed  in real-time, which allows a separation between on-topic and off-topic users activity over Twitter. Similar to~\cite{Biran2012}, problems of scalability and adaptability arise as two supervised learning methods are used, one to discriminate prominent users from the rest and the other to rank them.
