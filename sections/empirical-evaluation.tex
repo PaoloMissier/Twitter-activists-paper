@@ -1,7 +1,7 @@
 \section{Empirical Evaluation} \label{sec:evaluation}
 
 The typical approach to identifying specific classes on online users relies on expert-generated ground truth, i.e., to determine which users belong to the desired class. 
-Such approach, however, is vulnerable to  the subjectivity of the experts, whereby the evalution would  be measuring the fit of the model to the specific experts' own opinion. 
+Such approach, however, is vulnerable to the subjectivity of the experts, whereby the evaluation would be measuring the fit of the model to the specific experts' own opinion. 
 In contrast, we follow an \textit{unsupervised} approach where there is no a priori knowledge of user relevance.  
 In this section we aim to demonstrate the value of our pipeline in creating a database of online profiles, which are pre-selected according to specific topological properties in order to filter out background noise,  along with a community-accepted set of engineered features that are ready to be mined using any user-defined function.
 %
@@ -37,7 +37,7 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 
  \demon~and \infomap~ produce significantly different communities in each network. 
 %
-Specifically, \demon~identifies communities in only 48\% of the netnworks.
+Specifically, \demon~identifies communities in only 48\% of the networks.
 For these, only the users who belong to one of those community are added. 
 These are about 6\% of the users on average, with an average of only 1.92 communities per network.
 
@@ -100,9 +100,9 @@ Once the database is populated, 2 ranking functions are tested against it.
 \begin{table}
 	\centering
 	\resizebox{\textwidth}{!}{
-		\input{tables/ranks-extended.tex}
+		\input{tables/ranks-symbolic.tex}
 	}
-	\caption{Top-10 ranked users for rank 1 and rank 2.}
+	\caption{Top-10 ranked users for rank 1 and rank 2 describing whether on-topic/off-topic and individual/association.}
 	\label{tab:rank1}
 \end{table}
 %
@@ -117,6 +117,6 @@ Rank 2 penalises instead the popularity of the users, while awarding for promine
 
 Rank 1 seems to favour more on-topic users (90\% for Rank 1 and 70\% for Rank 2). While Rank 2 seems to favour more, among in-topic users, individuals (55\% for Rank 1 and 71\% for Rank 2). 
 
-Both ranks mostly show on-topic users (9 out of 10 for Rank 1 and 7 out of 10 for Rank 2). Rank 1 5/4 Rank 1 5/2 Rank 2
+Both ranks mostly show on-topic users (9 out of 10 for Rank 1 and 7 out of 10 for Rank 2).
 
 In both ranks users which participated to more than one context are rewarded. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets \rvert(u)) < 0.005}$ are considered not active and have been assigned lowest score.
