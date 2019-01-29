@@ -1,15 +1,13 @@
 \section{Empirical Evaluation} \label{sec:evaluation}
 
-The typical approach to identifying specific classes on online users relies on expert-generated ground truth, i.e., to determine which users belong to the desired class. 
-Such approach, however, is vulnerable to the subjectivity of the experts, whereby the evaluation would be measuring the fit of the model to the specific experts' own opinion. 
-In contrast, we follow an \textit{unsupervised} approach where there is no a priori knowledge of user relevance.  
-In this section we aim to demonstrate the value of our pipeline in creating a database of online profiles, which are pre-selected according to specific topological properties in order to filter out background noise,  along with a community-accepted set of engineered features that are ready to be mined using any user-defined function.
+Existing methods to discover specific classes on online users are typically validated using a supervised approach, i.e., they rely on expert-generated ground truth.
+Such approaches, however, are vulnerable to the subjectivity of the experts, whereby the evaluation would be measuring the fit of the model to the specific experts' own assessment of user instances' relevance. 
+In contrast, we follow an unsupervised approach with no a priori knowledge of user relevance. We aim to demonstrate the value of our pipeline in creating a database of online profiles that are ready to be mined, along with examples of candidate user ranking functions.
+In this approach, human expertise only comes into play to assess and validate the top-$k$ user lists produced by these functions.
 %
-Thus, our evaluation (i) shows the pipeline in action on a significant set of 25 initial contexts, and (ii) demonstrates useful ranking functions that operate on the resulting database, aimed at capturing the empirical notion of  \textit{online activists}.
-% We  start by manually selecting initial  contexts from a single social domain, namely public healthcare campaigns in the UK, to demonstrate network construction, breakdown of each  context network into communities, and harvesting of users from each community, along with their metrics.
-% We then provide examples of ranking functions .
-
-The pipeline is fully implemented in Python using Pandas and the NetworkX and Selenium public libraries and is available on github\footnote{ \url{https://github.com/flaprimo/twitter-network-analysis}}. 
+We  demonstrate the pipeline in action on a significant set of 25 initial contexts, and define two alternative ranking functions aimed at capturing the empirical notion of  \textit{online activists}.
+%
+The pipeline is fully implemented in Python using Pandas and public libraries (NetworkX, Selenium) and is available on github\footnote{ \url{https://github.com/flaprimo/twitter-network-analysis}}. 
 All experiments are performed on a single Azure node with standard commodity configuration.
 Note that we do not focus on system performance as all components operate in near-real time. One exception is  Twitter content harvesting, which is limited by the Twitter API and requires approximately 2 hours per context.
 
@@ -21,8 +19,8 @@ Due to limitations imposed by Twitter on the number of posts that can be retriev
 To recall, \textit{assortativity} measures how frequently nodes are likely to connect to other nodes with the same degree ($>0$) or with a different degree ($<0$). 
 Negative figures (mean: -0.22, std dev: 0.17) are in line with what is observed on the broader Twitter network~\cite{Fisher2017}.
 %
-The very small figures for density (mean: 0.004, std dev: 0.002), defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} \cdot (\mathit{\#nodes} -1)}$, suggest very few connections exist amongst users within a context. 
-This makes it difficult to detect meaningful communities, as described below, thus for some context the topological metrics are measured on the entire network as opposed to within each community.
+The very small figures for density, defined as $\frac{\#edges }{\mathit{\mathit{\#nodes}} \cdot (\mathit{\#nodes} -1)}$ (mean: 0.004, std dev: 0.002), suggest very few connections exist amongst users within a context. 
+This makes it difficult to detect meaningful communities, as described below, thus for some contexts the topological metrics are measured on the entire network as opposed to within each community.
 This view is also supported by the average node degree (mean: 2.04, std dev: 0.46) and the ratio of strongly connected components to the number of nodes (mean: 0.98, std. dev. 0.02).
 
 \begin{table}
@@ -38,14 +36,13 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 
  \demon~and \infomap~ produce significantly different communities in each network. 
 %
-Specifically, \demon~identifies communities in only 48\% of the networks.
-For these, only the users who belong to one of those community are added. 
-These are about 6\% of the users on average, with an average of only 1.92 communities per network.
-
-For the remaining 52\% of networks where no communities are detected, users' in-degrees are calculated using the entire network, and all users in the network are added to the database.
+\demon~identifies communities in only 48\% of the networks, with an average of only 1.92 communities per network and 
+a slightly negative  (-0.28) average assortativity  per community, in line with the average for their parent networks.
 %
-When using \demon, 3,570 users being added to the database.
-The average assortativity of individual \demon~communities is slightly negative -0.28, in line with the average for their parent networks.
+Only the users who belong to one of those communities, about 6\%, are added to the database.
+%
+For the remaining 52\% of networks where no communities are detected, users' in-degrees are calculated using the entire network, and all users are added to the database, 
+for a total of 3,570 users being added to the database in our experiments using \demon.
 
 In contrast, \infomap~provides meaningful communities for all networks.
 Those with fewer than 3 users are discarded, leaving  18.88 communities per network on average, with 8.5 users per community on average.
@@ -53,7 +50,7 @@ Those with fewer than 3 users are discarded, leaving  18.88 communities per netw
 When using Infomap, 3,567 users were added to the database (on average 253 users per network).
 The average assortativity across all communities is again slightly negative (-0.43).
 %
-Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we have chosen Infomap for  our implementation and evaluation.
+Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we recommend using \infomap, which we have used for  our evaluation.
 
 \begin{table}
 	\vspace{-10pt}
@@ -68,16 +65,16 @@ Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics 
 
 \subsection{Users discovery}  \label{sec:users}
 
-Repeat users, those who appear in multiple contexts, are particularly interesting as they provide a stronger signal. 
+Repeat users who appear in multiple contexts are particularly interesting as they provide a stronger signal. 
 Out of the total 3,567 users, 160 of those appear at least in two of the 25 contexts.
 After community detection, only 61 of these users are still seen as repeat users,
 while the remaining 99 are either removed altogether, or they only appear once.
 Of the 61, 57 appear twice, 2 appear three times, and 2 appear four times. 
-Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% repeat users.
+Thus, only 1.6\% of users appear more than once when communities with more than 3 users are considered, compared to the overall 4.5\% of overall repeat users.
 %
-Table~\ref{tab:repeat-users} reports the top repeat users along with their \textit{Follower Rank}, and Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context.
-As the table is sorted by ``Participations'' then by ``Follower Rank'', an indication of ``popularity'',  it is not surprising to find that top users include well-known names such as Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1.$, and a number of associations and foundations related in the public healthcare space.
-More interesting are perhaps non-repeat users who emerge when ad hoc scores are applied to the database, as we illustrate next.
+Table~\ref{tab:repeat-users} reports the top-10 repeat users along with their \textit{Follower Rank}, and Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context.
+As the table is sorted by number of occurrences then by \textit{Follower Rank}, an indication of popularity,  it is not surprising to find that top users include well-known names such as Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1$, and a number of associations and foundations active in the public healthcare space.
+More interesting are perhaps non-repeat users who emerge when ad hoc ranking is applied to the database, as we illustrate next.
 
 \begin{table}[htb]
 	\centering
@@ -97,11 +94,11 @@ More interesting are perhaps non-repeat users who emerge when ad hoc scores are 
 	\label{fig:repeat-users-frequency}
 \end{figure*}
 
-\vspace{-15pt}
+\vspace{-10pt}
 \subsection{Users ranking} \label{sec:ranking}
-\vspace{-15pt}
+%\vspace{-10pt}
 
-To demonstrate the potential value of the database, albeit on a small scale, we have tested two user scoring functions.
+To demonstrate the potential value of the database, albeit on a small scale, we have tested two user ranking functions.
 As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles.
 %
 \begin{table}
@@ -120,13 +117,13 @@ As mentioned, the aim of this exercise is to provide an objective grounding for 
 \end{align}
 %
 Function (\ref{eq:rank1}) is designed to promote users who are at the ``fringe'' of their community, while giving credit to generic on-topic activities during the contexts. 
-To achieve this, the Topical Focus $\mathit{TF}$ is used as a positive contribution, while a large in-degree $\mathit{IC}$ reduces the score.
+To achieve this, \textit{Topical Focus} $\mathit{TF}$ is used as a positive contribution, while a large in-degree $\mathit{IC}$ reduces the score.
 %
-In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of Follower Rank $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (Topical Attachment $\mathit{TA}$).
+In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
 
-To get an appreciation of the effect of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad classification as an individual as opposed to institutional players (associations, public bodies), or a business. 
-Our evaluation on the test database shows that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
-while  (\ref{eq:rank2}) favour more individuals (55\% for (\ref{eq:rank1})  and 71\% for (\ref{eq:rank2})), among in-topic users.
+To appreciate of the effect of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad classification as an individual as opposed to institutional players (associations, public bodies), or a business. 
+Our results show that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
+while  (\ref{eq:rank2}) favours more individuals (55\% for (\ref{eq:rank1})  and 71\% for (\ref{eq:rank2})), among in-topic users.
 %
-Both functions rank on-topic users highly (9 out of 10 for (\ref{eq:rank1}) and 7 out of 10 for (\ref{eq:rank2})).
+Both functions rank on-topic users highly (90\% for (\ref{eq:rank1}) and 70\% for (\ref{eq:rank2})).
 Also, repeat users are rewarded in both rankings. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets (u)\rvert) < 0.005}$ are considered not active and have been assigned lowest score.
