@@ -1,9 +1,9 @@
 \section{Incremental User Discovery} \label{sec:Pipeline}
 
-The content processing pipeline operates iteratively on a set of contexts within a given area of interest, for instance \textit{UK health campaigns}. This set is initialised at the start of the process and then updated at the end of each iteration, in a semi-automated way. 
+The content processing pipeline operates iteratively on a set of contexts within a given area of interest, for instance \textit{2018 UK health campaigns}. This set is initialised at the start of the process and then updated at the end of each iteration, in a semi-automated way. 
 The user discovery process is therefore potentially open-ended, as long as new contexts can be discovered.
 The new contexts are expected to be within the same topic area, but contexts that ``drift'' to new areas of interest are also acceptable. 
-Each iteration takes a context $C$  as input, and selects a subset of the users who participate in $C$, using the topogical criteria described below, along with the  set of their features and metrics . 
+Each iteration takes a context $C$  as input, and selects a subset of the users who participate in $C$, using the topogical criteria described below, along with the  set of their features and metrics. 
 These users profiles are added to a database, where entries for repeat users are updated according to a user-defined function. 
 %
 The pipeline structure is described below, where the numbers are with reference to Fig.~\ref{fig:twitterframework}.
@@ -22,7 +22,7 @@ Given $C$ as in (2), all Twitter posts $P(C)$ that satisfy $C$ are retrieved, us
 Note that this step hits the API service limitations imposed by Twitter. 
 For this reason, in our evaluation we have limited our retrieval to 200 tweets/context, which is consistent with our goal to consider many contexts of limited size.
 %
-The context network $G_C$ is then generated (3), as defined in Sec.~\ref{sec:contexts}. To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
+The context network $G_C$ is then generated (3), as defined in Sec.~\ref{sec:contexts}.  %To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
 The size of each network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:contexts}).
 
 %\subsection{Community detection} \label{sec:communities}

@@ -1,4 +1,6 @@
+\vspace{-10pt}
 \section{Contexts and user metrics}
+\vspace{-5pt}
 
 %Two sets of criteria are used to establish relevance.
 %Firstly, a context defined by a combination of spatio-temporal and keyword / hashtag constraints to describe the social topics of interest, for instance ``social health care campaigns'' or ``Zika awareness day in Rio de Janeiro''.
@@ -6,12 +8,13 @@
 %Secondly, a set of metrics are specified to characterise the relevance of user profiles for a specific domain, along with a user-defined function that is specific to user roles, for instance ``activist'', to compose the features into a single value, i.e., a relevance score, which can then be used to rank user profiles both within and across contexts.
 %The metrics are meant to capture some operational definition of relevance for specific kinds of user roles. 
 
-The aim of the pipeline is to repeatedly and efficiently discover user profiles from the Twitter post history within user-specified contexts,\footnote{Our plan is to  automate context discovery in the next phase of this work.} and to use the process to grow a database of feature-rich user profiles that can be ranked according to user-defined relevance functions. 
+The aim of the pipeline is to repeatedly and efficiently discover user profiles from the Twitter post history within user-specified contexts and to use the process to grow a database of feature-rich user profiles that can be ranked according to user-defined relevance functions. 
 The criteria used to define contexts, profile relevance functions, and associated user relevance thresholds can be configured for specific applications.
 
 \subsection{Contexts and Context networks} \label{sec:contexts}
+\vspace{-5pt}
 
-A context $C$ is a Twitter query defined by a set $K$ of hashtags and/or keyword terms, a time interval $[t_1, t_2]$, and a geographical constraint  $s$ (i.e., a bounding box):
+A context $C$ is a Twitter query defined by a set $K$ of hashtags and/or keyword terms, a time interval $[t_1, t_2]$, and a geographical constraint  $s$, such as  a bounding box:
 \begin{equation}
 C = (K, [t_1, t_2], s)
 \label{eq:context}
@@ -20,15 +23,16 @@ Let $P(C)$ denote the query result, i.e., a set of posts by users.
 We only consider two Twitter user activities: an \textit{original tweet}, or a \textit{retweet}.
 Let $u(p)$ be the user who originated a tweet $p \in P(C)$.
 We say that both $p$ and $u(p)$ are \textit{within context} $C$.
-
+%
 We also define the complement $\Tilde{P}(C)$ of $P(C)$ as the set of posts found using the same spatio-temporal constraints, but which do not contain any of the terms in $K$. More precisely, given a context $C'= ( s, [t_1, t_2], \emptyset )$ with no terms constraints, we define $\Tilde{P}(C) = P(C') \setminus P(C)$. 
 We refer to these posts, and their respective users, as ``out of context $C$''.
 
 $P(C)$ induces a user-user social network graph $G_C = (V,E)$ where $V$ is the set of all users who have authored any $p \in P(C)$: 
 $V = \{ u(p) | p \in P(C) \}$, and a weighted directed edge $e = \langle u_1, u_2, w \rangle$ is added to $E$ for each pair of posts $p_1, p_2$ such that $u(p_1) = u_1, u(p_2) = u_2$ and 
 either (i) $p_2$ is a retweet of $p_1$, or (ii) $p_1$ contains a mention of $u_2$.
-For any such edge, the weight $w$ is a count of such pairs of posts occurring in $P(C)$ for the same pair of users.
+For any such edge, $w$ is a count of such pairs of posts occurring in $P(C)$ for the same pair of users.
 
+%\vspace{-5pt}
 \subsection{User relevance metrics}  \label{sec:metrics}
 
 We support metrics that are generally accepted by the community as forming a core, from which many different social user roles are derived~\cite{RIQUELME2016949}. 
@@ -74,7 +78,7 @@ The framework supports one \textbf{Context-independent topological metric} and o
 \textit{In-degree centrality:} \quad \mathit{IC}(u) = \frac{\mathit{indegree}(u)}{N-1}  \label{eq:IDC}
 \end{align}
 where $N$ is the number of nodes in the network induced by $C$.
-
+%
 Note that the metrics we have selected are a superset of those indicated in recent studies on online activism, namely \cite{IJoC1246} and \cite{Poell2014}, and thus support our empirical evaluation, described in Sec.~\ref{sec:evaluation}.
 
 % \anote{Summary of user features if space allows}

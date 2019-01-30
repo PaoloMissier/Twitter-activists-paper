@@ -30,7 +30,9 @@ This view is also supported by the average node degree (mean: 2.04, std dev: 0.4
 	}
 	\caption{List of contexts used in the experiments along with network metrics.}
 	\label{tab:contexts}
+\vspace{-20pt}
 \end{table}
+
 
 \subsection{Communities}  \label{sec:communities-eval}
 
@@ -54,13 +56,13 @@ Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics 
 
 \begin{table}
 	\vspace{-10pt}
-		\tiny
+		\footnotesize
 	\resizebox{\textwidth}{!}{
 	    \input{tables/demon-vs-infomap.tex}
 	}
 	\caption{Comparing \demon~to \infomap~for community detection.}
 	\label{tab:demon-vs-infomap}
-	\vspace{-10pt}
+	\vspace{-20pt}
 \end{table}
 
 \subsection{Users discovery}  \label{sec:users}
@@ -78,13 +80,13 @@ More interesting are perhaps non-repeat users who emerge when ad hoc ranking is 
 
 \begin{table}[htb]
 	\centering
-	\tiny
+	\footnotesize
 	\resizebox{\textwidth}{!}{
 		\input{tables/repeat-users.tex}
 	}
 	\caption{Top-10 repeat users, amongst those who belong to a community.}
 	\label{tab:repeat-users}
-	\vspace{-12pt}
+	\vspace{-20pt}
 \end{table}
 
 \begin{figure*}[htb]
@@ -102,33 +104,18 @@ To demonstrate the potential value of the database, albeit on a small scale, we 
 As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles.
 %
 \begin{table}
+			\vspace{-20pt}
 	\centering
-	\tiny
+	\footnotesize
 	\resizebox{\textwidth}{!}{
 		\input{tables/ranks-symbolic.tex}
 	}
 	\caption{Top-10 ranked users for ranking functions (\ref{eq:rank1}) and (\ref{eq:rank2}), with indication of whether the user is on-topic/off-topic and individual vs association.}
 	\label{tab:rank1}
+	\vspace{-30pt}
 \end{table}
 %
-\begin{figure}
-\centering
-\begin{subfigure}{.49\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{figures/rank1-distribution.pdf}
-  \caption{Rank 1: 33 are individuals, 23 are professionals, 44 are associations}
-  \label{fig:rank1-distribution}
-\end{subfigure}\hfill%
-\begin{subfigure}{.49\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{figures/rank2-distribution.pdf}
-  \caption{Rank 2: 33 are individuals, 17 are professionals, 50 are associations}
-  \label{fig:rank2-distribution}
-\end{subfigure}
-\caption{Top 100 user type distribution for the ranks.}
-\label{fig:ranks-distribution}
-\end{figure}
-%
+
 \begin{align}
 \textit{Ranking 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
 \textit{Ranking 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank2}
@@ -139,9 +126,30 @@ To achieve this, \textit{Topical Focus} $\mathit{TF}$ is used as a positive cont
 %
 In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
 
-To appreciate of the effect of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad classification as an individual as opposed to institutional players (associations, public bodies), or a business. 
+The top-10 users for each ranking are reported in Tab.~\ref{tab:rank1}. To appreciate of the effects of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad type classification as \textit{individual} as opposed to \textit{institutional players} (associations, public bodies), or \textit{professionals}. 
 Our results show that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
 while  (\ref{eq:rank2}) favours more individuals (55\% for (\ref{eq:rank1})  and 71\% for (\ref{eq:rank2})), among in-topic users.
 %
 Both functions rank on-topic users highly (90\% for (\ref{eq:rank1}) and 70\% for (\ref{eq:rank2})).
 Also, repeat users are rewarded in both rankings. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets (u)\rvert) < 0.005}$ are considered not active and have been assigned lowest score.
+Fig.~\ref{fig:ranks-distribution} shows the distribution of user types within the top-100 users for each of the two rankings, broken down into 10 users bins. We can see that individuals are 33\% in each case, but they tend to emerge earlier in the ranks when (\ref{eq:rank2}) is used.
+We plan to conduct user studies to establish useful analytics to be incorporated into our framework. 
+\begin{figure}
+	\centering
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/rank1-distribution.pdf}
+		\caption{Rank 1: 33 are individuals, 23 are professionals, 44 are associations}
+		\label{fig:rank1-distribution}
+	\end{subfigure}
+	\hfill%
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{figures/rank2-distribution.pdf}
+		\caption{Rank 2: 33 are individuals, 17 are professionals, 50 are associations}
+		\label{fig:rank2-distribution}
+	\end{subfigure}
+	\caption{Top 100 user type distribution for the ranks.}
+	\label{fig:ranks-distribution}
+\end{figure}
+%
