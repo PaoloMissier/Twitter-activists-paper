@@ -111,6 +111,24 @@ As mentioned, the aim of this exercise is to provide an objective grounding for 
 	\label{tab:rank1}
 \end{table}
 %
+\begin{figure}
+\centering
+\begin{subfigure}{.49\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/rank1-distribution.pdf}
+  \caption{Rank 1: 33 are individuals, 23 are professionals, 44 are associations}
+  \label{fig:rank1-distribution}
+\end{subfigure}\hfill%
+\begin{subfigure}{.49\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/rank2-distribution.pdf}
+  \caption{Rank 2: 33 are individuals, 17 are professionals, 50 are associations}
+  \label{fig:rank2-distribution}
+\end{subfigure}
+\caption{Top 100 user type distribution for the ranks.}
+\label{fig:ranks-distribution}
+\end{figure}
+%
 \begin{align}
 \textit{Ranking 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
 \textit{Ranking 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank2}
