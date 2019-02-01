@@ -118,7 +118,8 @@ As mentioned, the aim of this exercise is to provide an objective grounding for 
 
 \begin{align}
 \textit{Ranking 1:} ~ \mathit{R1}(u) & = \frac{1}{\sum_{u \in C} \mathit{IC}(u) + 1} \cdot \sum_{u \in C} \mathit{TF}(u) \label{eq:rank1} \\
-\textit{Ranking 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank2}
+\textit{Ranking 2:} ~ \mathit{R2}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \sum_{u \in C} \mathit{IC}(U)\right) \label{eq:rank2} \\
+\textit{Ranking 3:} ~ \mathit{R3}(u) & = \lvert \mathit{FR}(u) - 1 \rvert \cdot \left(\sum_{u \in C} \mathit{TA}(U) + \frac{1}{\sum_{u \in C} \mathit{IC}(U) + 1}\right) \label{eq:rank3}
 \end{align}
 %
 Function (\ref{eq:rank1}) is designed to promote users who are at the ``fringe'' of their community, while giving credit to generic on-topic activities during the contexts. 
@@ -148,6 +149,13 @@ We plan to conduct user studies to establish useful analytics to be incorporated
 		\includegraphics[width=1\textwidth]{figures/rank2-distribution.pdf}
 		\caption{Rank 2: 33 are individuals, 17 are professionals, 50 are associations}
 		\label{fig:rank2-distribution}
+	\end{subfigure}
+	\hfill%
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{figures/rank3-distribution.pdf}
+		\caption{Rank 3: 96 are individuals, 1 are professionals, 3 are associations}
+		\label{fig:rank3-distribution}
 	\end{subfigure}
 	\caption{Top 100 user type distribution for the ranks.}
 	\label{fig:ranks-distribution}
