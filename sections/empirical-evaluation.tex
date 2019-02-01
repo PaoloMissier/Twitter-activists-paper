@@ -5,7 +5,7 @@ Such approaches, however, are vulnerable to the subjectivity of the experts, whe
 In contrast, we follow an unsupervised approach with no a priori knowledge of user relevance. We aim to demonstrate the value of our pipeline in creating a database of online profiles that are ready to be mined, along with examples of candidate user ranking functions.
 In this approach, human expertise only comes into play to assess and validate the top-$k$ user lists produced by these functions.
 %
-We  demonstrate the pipeline in action on a significant set of 25 initial contexts, and define two alternative ranking functions aimed at capturing the empirical notion of  \textit{online activists}.
+We  demonstrate the pipeline in action on a significant set of 25 initial contexts, and define three alternative ranking functions aimed at capturing the empirical notion of  \textit{online activists}.
 %
 The pipeline is fully implemented in Python using Pandas and public libraries (NetworkX, Selenium) and is available on github\footnote{ \url{https://github.com/flaprimo/twitter-network-analysis}}. 
 All experiments are performed on a single Azure node with standard commodity configuration.
@@ -100,8 +100,8 @@ More interesting are perhaps non-repeat users who emerge when ad hoc ranking is 
 \subsection{Users ranking} \label{sec:ranking}
 %\vspace{-10pt}
 
-To demonstrate the potential value of the database, albeit on a small scale, we have tested two user ranking functions.
-As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles.
+To demonstrate the potential value of the database, albeit on a small scale, we have tested three user ranking functions.
+As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles. We consider good functions those that privilege individuals over organisations or business.
 %
 \begin{table}
 			\vspace{-20pt}
@@ -127,15 +127,16 @@ To achieve this, \textit{Topical Focus} $\mathit{TF}$ is used as a positive cont
 %
 In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
 %
-Function (\ref{eq:rank3}), similar in definition to (\ref{eq:rank2}), penalises $\mathit{IC}$ as in (\ref{eq:rank1}) to let individuals emerge.
+Function (\ref{eq:rank3}) combines idea from both (\ref{eq:rank21}) and  (\ref{eq:rank1}).
 
-The top-10 users for each ranking are reported in Tab.~\ref{tab:rank1}. To appreciate the effects of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad type classification as \textit{individual} as opposed to \textit{institutional players} (associations, public bodies), or \textit{professionals}. 
-Our results show that (\ref{eq:rank1}) and (\ref{eq:rank2}) seem to favour more on-topic users (86\% for (\ref{eq:rank1}) and 83\% for (\ref{eq:rank2} vs 38\% for (\ref{eq:rank3})), 
-while (\ref{eq:rank3}) favours more individuals (96\% for (\ref{eq:rank3} vs 33\% for (\ref{eq:rank1}) and (\ref{eq:rank2})), among in-topic users.
+The top-10 users for each ranking are reported in Tab.~\ref{tab:rank1}. To appreciate the effects of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad type classification as \textit{individuals} as opposed to \textit{institutional players} (associations, public bodies), or \textit{professionals}. 
 %
-\ref{eq:rank1} and \ref{eq:rank2} functions rank on-topic users highly (90\% for (\ref{eq:rank1}) and 70\% for (\ref{eq:rank2})) while for \ref{eq:rank3} is \_\%.
+The fractions of on-topic users are 86\%, 83\%, and 38\% for (\ref{eq:rank1}), (\ref{eq:rank2}), and (\ref{eq:rank2}) respectively.
+Importantly, (\ref{eq:rank3}) identifies more individuals than institutions and professionals (96\%) than (\ref{eq:rank2}) and (\ref{eq:rank3}), both at 33\%, among in-topic users.
+%
+%The fractions of on-topic users are 90\%, 70\%, and \hl{X\%} respectively.
 Also, repeat users are rewarded in both rankings. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets (u)\rvert) < 0.005}$ are considered not active and have been assigned lowest score.
-Fig.~\ref{fig:ranks-distribution} shows the distribution of user types within the top-100 users for each of the two rankings, broken down into 10 users bins. We can see that individuals are 33\% in each case, but they tend to emerge earlier in the ranks when (\ref{eq:rank2}) is used.
+Fig.~\ref{fig:ranks-distribution} shows the distribution of user types within the top-100 users for each of the three rankings, broken down into 10 users bins. We can see that individuals dominate in (\ref{eq:rank3}), and are fewer but  emerge earlier in the ranks when (\ref{eq:rank2}) is used.
 We plan to conduct user studies to establish useful analytics to be incorporated into our framework. 
 \begin{figure}[htb]
 	\centering
@@ -159,7 +160,7 @@ We plan to conduct user studies to establish useful analytics to be incorporated
 		\caption{Rank 3: 96 are individuals, 1 are professionals, 3 are associations}
 		\label{fig:rank3-distribution}
 	\end{subfigure}
-	\caption{Top 100 user type distribution for the ranks.}
+	\caption{Distribution of user types for top-100 users and for each ranking function.}
 	\label{fig:ranks-distribution}
 \end{figure}
 %
