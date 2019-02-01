@@ -11,24 +11,23 @@
 
 \bibitem{Arnaboldi2013}
 Arnaboldi, V., Conti, M., Passarella, A., Pezzoni, F.: {Ego networks in
-  Twitter: An experimental analysis}. In: 2013 Proceedings IEEE INFOCOM. pp.
-  3459--3464 (2013). \doi{10.1109/INFCOM.2013.6567181}
+  Twitter: An experimental analysis}. In: 2013 Procs. IEEE INFOCOM. pp.
+  3459--3464 (2013). 
 
 \bibitem{Biran2012}
 Biran, O., Rosenthal, S., Andreas, J., McKeown, K., Rambow, O.: Detecting
-  influencers in written online conversations. In: Proceedings of the Second
+  influencers in written online conversations. In: Procs. of the Second
   Workshop on Language in Social Media. pp. 37--45. LSM '12, Association for
   Computational Linguistics, Stroudsburg, PA, USA (2012)
 
 \bibitem{Bizid2018}
 Bizid, I., Nayef, N., Boursier, P., Doucet, A.: {Detecting prominent microblog
   users over crisis events phases}. Information Systems  \textbf{78},  173--188
-  (nov 2018). \doi{10.1016/J.IS.2017.12.004}
 
 \bibitem{Bizid:2015:PUD:2808797.2809411}
 Bizid, I., Nayef, N., Boursier, P., Faiz, S., Morcos, J.: {Prominent Users
   Detection During Specific Events by Learning On- and Off-topic Features of
-  User Activities}. In: Proceedings of the 2015 IEEE/ACM International
+  User Activities}. In: Procs of the 2015 IEEE/ACM International
   Conference on Advances in Social Networks Analysis and Mining 2015. pp.
   500--503. ASONAM '15, ACM, New York, NY, USA (2015).
   \doi{10.1145/2808797.2809411}
@@ -36,7 +35,7 @@ Bizid, I., Nayef, N., Boursier, P., Faiz, S., Morcos, J.: {Prominent Users
 \bibitem{Bizid:2015}
 Bizid, I., Nayef, N., Boursier, P., Faiz, S., Morcos, J.: {Prominent Users
   Detection During Specific Events by Learning On- and Off-topic Features of
-  User Activities}. In: Proceedings of the 2015 IEEE/ACM International
+  User Activities}. In: Procs of the 2015 IEEE/ACM International
   Conference on Advances in Social Networks Analysis and Mining 2015. pp.
   500--503. ASONAM '15, ACM, New York, NY, USA (2015).
   \doi{10.1145/2808797.2809411}
@@ -50,7 +49,6 @@ Bobel, C.: ``i'm not an activist, though i've done a lot of it'': Doing
 \bibitem{Bonacich2001}
 Bonacich, P., Lloyd, P.: {Eigenvector-like measures of centrality for
   asymmetric relations}. Social Networks  \textbf{23}(3),  191--201 (jul 2001).
-  \doi{10.1016/S0378-8733(01)00038-7}
 
 \bibitem{MATIC2011}
 Booth, N., Matic, J.A.: Mapping and leveraging influencers in social media to
@@ -64,7 +62,7 @@ Cha, M., Haddadi, H., Benevenuto, F., Gummadi, K.P.: Measuring user influence
 
 \bibitem{Coscia:2012:DLD:2339530.2339630}
 Coscia, M., Rossetti, G., Giannotti, F., Pedreschi, D.: Demon: A local-first
-  discovery method for overlapping communities. In: Proceedings of the 18th ACM
+  discovery method for overlapping communities. In: Procs of the 18th ACM
   SIGKDD International Conference on Knowledge Discovery and Data Mining. pp.
   615--623. KDD '12, ACM, New York, NY, USA (2012).
   \doi{10.1145/2339530.2339630}
@@ -88,9 +86,8 @@ Lotan, G., Graeff, E., Ananny, M., Gaffney, D., Pearce, I., Boyd, D.: The arab
 \bibitem{Missier2017}
 Missier, P., McClean, C., Carlton, J., Cedrim, D., Silva, L., Garcia, A.,
   Plastino, A., Romanovsky, A.: {Recruiting from the Network: Discovering
-  Twitter Users Who Can Help Combat Zika Epidemics}. In: Web Engineering: 17th
-  International Conference, ICWE 2017, Rome, Italy, June 5-8, 2017,
-  Proceedings. pp. 437--445. Springer International Publishing, Roma, Italy
+  Twitter Users Who Can Help Combat Zika Epidemics}. In: Procs ICWE 2017, ICWE 2017, Rome, Italy, June 5-8, 2017,
+  Procs. pp. 437--445. Springer International Publishing, Roma, Italy
   (2017). \doi{10.1007/978-3-319-60131-1\_30}
 
 \bibitem{Overbey2013}
@@ -101,14 +98,14 @@ Overbey, L.A., Greco, B., Paribello, C., Jackson, T.: {Structure and prominence
 
 \bibitem{Pal2011}
 Pal, A., Counts, S.: {Identifying topical authorities in microblogs}. In:
-  Proceedings of the fourth ACM international conference on Web search and data
+  Procs. of the fourth ACM international conference on Web search and data
   mining - WSDM '11 (2011). \doi{10.1145/1935826.1935843}
 
 \bibitem{Poell2014}
 Poell, T.: {Social media and the transformation of activist communication:
   exploring the social media ecology of the 2010 Toronto G20 protests}.
   Information, Communication {\&} Society  \textbf{17}(6),  716--731 (jul
-  2014). \doi{10.1080/1369118X.2013.812674}
+  2014).
 
 \bibitem{RIQUELME2016949}
 Riquelme, F., Gonzalez-Cantergiani, P.: Measuring user influence on twitter: A
@@ -117,7 +114,7 @@ Riquelme, F., Gonzalez-Cantergiani, P.: Measuring user influence on twitter: A
 
 \bibitem{INFOMAP}
 Rosvall, M., Bergstrom, C.T.: Maps of random walks on complex networks reveal
-  community structure. Proceedings of the National Academy of Sciences of the
+  community structure. Procs. of the National Academy of Sciences of the
   United States of America  \textbf{105},  1118--23 (02 2008).
   \doi{10.1073/pnas.0706851105}
 
