@@ -125,7 +125,9 @@ As mentioned, the aim of this exercise is to provide an objective grounding for 
 Function (\ref{eq:rank1}) is designed to promote users who are at the ``fringe'' of their community, while giving credit to generic on-topic activities during the contexts. 
 To achieve this, \textit{Topical Focus} $\mathit{TF}$ is used as a positive contribution, while a large in-degree $\mathit{IC}$ reduces the score.
 %
-In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
+In contrast,  (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
+
+\anote{add comment about 3}
 
 The top-10 users for each ranking are reported in Tab.~\ref{tab:rank1}. To appreciate of the effects of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad type classification as \textit{individual} as opposed to \textit{institutional players} (associations, public bodies), or \textit{professionals}. 
 Our results show that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
@@ -135,7 +137,7 @@ Both functions rank on-topic users highly (90\% for (\ref{eq:rank1}) and 70\% fo
 Also, repeat users are rewarded in both rankings. Users with $\mathit{FR}(u) = 0$ and $\mathit{min\_max(\lvert Tweets (u)\rvert) < 0.005}$ are considered not active and have been assigned lowest score.
 Fig.~\ref{fig:ranks-distribution} shows the distribution of user types within the top-100 users for each of the two rankings, broken down into 10 users bins. We can see that individuals are 33\% in each case, but they tend to emerge earlier in the ranks when (\ref{eq:rank2}) is used.
 We plan to conduct user studies to establish useful analytics to be incorporated into our framework. 
-\begin{figure}
+\begin{figure}[htb]
 	\centering
 	\begin{subfigure}{.49\textwidth}
 		\centering

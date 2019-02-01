@@ -33,7 +33,7 @@ Finally, we expect their personal engagement to be sustained over time and acros
 These observations suggest that the models and algorithms developed for influencers are not immediately applicable, because they mostly operate on global networks, where less prominent users have less of a chance to emerge.
 Some topic-sensitive metrics and models have been proposed to measure social influence, for example, \textit{alpha centrality}~\cite{Bonacich2001,Overbey2013} and the \textit{Information Diffusion} model~\cite{Pal2011}. Algorithms based on topic models have also been proposed to account for topic specificity~\cite{Zhao2011b}. However, these approaches are still aimed at measuring influence, not activism, and assume a one-shot discovery process, as opposed to a continuous, incremental approach.
 
-\subsection{Approach}
+\subsection{Approach and Contributions}
 
 To address these challenges, the approach we propose involves a two-fold strategy. 
 Firstly, we identify suitable contexts that are topic-specific and limited both in time and, optionally, also in space, i.e., regional initiatives, events, or campaigns.
@@ -42,7 +42,6 @@ By continuously discovering new contexts, we hope to incrementally build up a us
 %
 Secondly, to allow experimenting with varying technical definitions of \textit{activist}, we collect a number of network-based and content-based user profile features, mostly known from the literature, and make them available to experiment with a variety of user rankings.
 
-\subsection{ Contributions}
 The paper makes the following specific contributions.
 %
 Firstly, we propose a data processing pipeline for harvesting Twitter content and user profiles, based on multiple limited contexts. 
@@ -51,7 +50,7 @@ The pipeline includes community detection and network analysis algorithms aimed 
 Secondly, we have implemented a comprehensive set of content-based metrics that results into an ever-growing database of user profile features, which can then be used for mining purposes. 
 User profiles are updated when they are repeatedly found in multiple contexts.
 
-Lastly, for empirical evaluation of our implementation, we demonstrate an operational definition of the activist profile, defined in terms of the features available in the database, by collecting about 3,500 users  across 25 contexts in the domain of healthcare awareness campaigns in the UK during 2018. 
+Lastly, for empirical evaluation of our implementation, we demonstrate an operational definition of the activist profile, defined in terms of the features available in the database. We collected about 3,500 users  across 25 contexts in the domain of healthcare awareness campaigns in the UK during 2018, and demonstrated three separate ranking functions, showing that it is possible to identify individuals as opposed to well-known organisations.
 The application of the approach to the specific challenge of combating tropical disease epidemics in Brazil is currently in progress and is not reported in this paper.
 
 \subsection{Related Work}  \label{sec:related}
