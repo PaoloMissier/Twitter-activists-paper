@@ -110,7 +110,7 @@ As mentioned, the aim of this exercise is to provide an objective grounding for 
 	\resizebox{\textwidth}{!}{
 		\input{tables/ranks-symbolic.tex}
 	}
-	\caption{Top-10 ranked users for ranking functions (\ref{eq:rank1}) and (\ref{eq:rank2}), with indication of whether the user is on-topic/off-topic and individual vs association.}
+	\caption{Top-10 ranked users for ranking functions (\ref{eq:rank1}) and (\ref{eq:rank2}) and (\ref{eq:rank3}), with indication of whether the user is on-topic/off-topic and individual vs association.}
 	\label{tab:rank1}
 	\vspace{-30pt}
 \end{table}
@@ -126,6 +126,8 @@ Function (\ref{eq:rank1}) is designed to promote users who are at the ``fringe''
 To achieve this, \textit{Topical Focus} $\mathit{TF}$ is used as a positive contribution, while a large in-degree $\mathit{IC}$ reduces the score.
 %
 In contrast, function (\ref{eq:rank2}) penalises user popularity, i.e., by using the complement of \textit{Follower Rank} $\mathit{FR}$, while rewarding prominence inside communities (in-degree $\mathit{IC}$) and information spreading by also considering shared links (\textit{Topical Attachment} $\mathit{TA}$).
+%
+Function (\ref{eq:rank3}), similar in definition to (\ref{eq:rank2}), penalises $\mathit{IC}$ as in (\ref{eq:rank1}) to let individuals arise
 
 The top-10 users for each ranking are reported in Tab.~\ref{tab:rank1}. To appreciate of the effects of these functions, we have manually labelled the top-100 user profiles for each of the rankings, using a broad type classification as \textit{individual} as opposed to \textit{institutional players} (associations, public bodies), or \textit{professionals}. 
 Our results show that  (\ref{eq:rank1}) seems to favour more on-topic users (90\% for  (\ref{eq:rank1})  vs 70\% for  (\ref{eq:rank2})), 
