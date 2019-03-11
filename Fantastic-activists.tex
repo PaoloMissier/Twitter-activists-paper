@@ -14,7 +14,7 @@
     % If the paper title is too long for the running head, you can set
     % an abbreviated paper title here
     %
-    \author{Flavio Primo\inst{1} \and
+    \author{Flavio Primo\orcidID{0000-0003-2116-2343}\inst{1} \and
     Paolo Missier\inst{1}\orcidID{0000-0002-0978-2446} \and
     Alexander Romanovsky\inst{1}\orcidID{0000-0002-4076-3331} \and
     Mickael Figueredo\inst{2} \and
@@ -47,22 +47,25 @@
     	\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
     \end{abstract}
     %
-    
-    %\begin{abstract}
-    %On social media platforms and Twitter in particular, \textit{influencers} and similar classes of users have been given satisfactory operational definitions in terms of Twitter content metrics.
-    %Others, for instance \textit{online activists}, are no less important in practice but have been less precisely defined.
-    %Supervised approaches that rely on experts' labelling of users to validate such operational definitions are often questionable, as the labels are typically biased and limited to small validation sets.
-    %%
-    %In contrast, we suggest a semi-supervised approach that combines two main elements. 
-    %Firstly, we identify sets of \textit{contexts}, i.e., small but topical fragments of the network from social events or campaigns that have with a significant footprint on Twitter.
-    %We make the hypothesis that such contexts contain meaningful signals to help us recognise activists. 
-    %Secondly, we apply network analysis and community detection techniques to identify candidate user profiles within each context, and associate a set of quantitative Twitter-related user metrics to them.
-    %As new online contexts occur continuously, this results in an ever-growing, feature-rich dataset of user profiles, which provides an experimental testbed. In our case, we use it to seek ranking functions that correspond to the intuitive notion of online activism.
-    %In this paper we describe the design and implementation of the contexts harvesting and dataset population process, and we empirically demonstrate the process in action on a case study consisting of healthcare-related campaigns in the UK, showing how it supports operational definitions of online activism.
-    %
-    %\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
-    %\end{abstract}
-    %%
+
+% REVIEWS
+%
+% 1 - discuss bots Twitter, wheter exists counter (R1, R4)
+% 2 - "somehow missed the role of Table 4, but at the end Figure 3 places things in order again" (R2)
+% 3 - "In the related work section the authors can discuss also similar approached such as {InfluenceRank: A machine learning approach to measure influence of Twitter users --> https://ieeexplore.ieee.org/abstract/document/7569535} as well as {Semantifying Twitter: The Influence Tracker Ontology --> https://ieeexplore.ieee.org/document/6978961} that try to identify and model in parallel the role of influence and influencers in a qualitative and systematic way." (R2)
+% 4 - “lesson learned”section: what did you learn in the design, development, and testing of your pipeline, that could be of interest for other scientists and practitioners? The current evaluation is useful in showing some properties of the pipeline, but it does not provide relevant insights beyond the experience acquired in the use case" (R4)
+% 5 - "In section 3.1, the explanation related to the limitations of the twitter API is not convincing, Specifically, I don’t believe that such limitation is a desired property that allows to “consider many contexts of limited size”. If that is the case, then I would have expected an explanation on how the pipeline (and its configuration) would allow to size a topic according to the API limitations." (R4)
+
+% REVIEWS MODS
+%
+% 2 - Add to Table 4 description: "Such categories are useful to evaluate the ranking functions."
+%
+% 3 - "InfluenceRank: A machine learning approach to measure influence of Twitter users": Proposes a supervised regression algorithm to rank influence of Twitter users. It uses sensible features as they are not based on content, thus possibly providing a future proof method, but the method performs poorly. This is because it would need a huge labelled dataset to work effectively.
+% "Semantifying Twitter: The Influence Tracker Ontology": Proposes a method to create Twitter user ontologies considering the content type of the tweets. This approach could be used to gain insights over a user, but fails to give a comprehensive description of the user activity as it is based only on recent user activity, also due to Twitter API limitations. Also since it considers only recent activities, user comparisons do not take into account Twitter activity differences with respect social media events the users might be interested in.
+%
+% 4 - 
+% 
+% 5 - change from "which is consistent with our goal to consider many contexts of limited size" -> "which is sufficient considering that repeated users do appear consistently in our use case in the Empirical Evaluation section. To overcome Twitter API limitations it can be either extended the time dedicated to harvesting (for the Twitter premium full-archive search) or choose more recent contexts as Twitter API limitations are more generous with recents tweets (for either Twitter standard search up to one week or Twitter premium 30-days search)."
 
     % Sections
     \input{sections/introduction.tex}
@@ -71,10 +74,13 @@
     \input{sections/empirical-evaluation.tex}
     \input{sections/implementation-limitations-and-discussion.tex}
 
-%    \bibliographystyle{splncs04}
-%    \bibliography{icwe19}
+    % \bibliographystyle{splncs04}
+    % \bibliography{icwe19}
+    
+    \section*{Acknowledgments}
+    The authors would like to thank Carlo Piccardi for many useful suggestions.
 
-\footnotesize
-\input{Fantastic-activists.bbl}
+    \footnotesize
+    \input{Fantastic-activists.bbl}
 
 \end{document}
