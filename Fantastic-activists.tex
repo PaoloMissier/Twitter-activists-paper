@@ -46,26 +46,6 @@
     	
     	\keywords{Twitter analytics \and online user discovery \and online activists \and online influencers \and influence theories}
     \end{abstract}
-    %
-
-% REVIEWS
-%
-% 1 - discuss bots Twitter, wheter exists counter (R1, R4)
-% 2 - "somehow missed the role of Table 4, but at the end Figure 3 places things in order again" (R2)
-% 3 - "In the related work section the authors can discuss also similar approached such as {InfluenceRank: A machine learning approach to measure influence of Twitter users --> https://ieeexplore.ieee.org/abstract/document/7569535} as well as {Semantifying Twitter: The Influence Tracker Ontology --> https://ieeexplore.ieee.org/document/6978961} that try to identify and model in parallel the role of influence and influencers in a qualitative and systematic way." (R2)
-% 4 - “lesson learned”section: what did you learn in the design, development, and testing of your pipeline, that could be of interest for other scientists and practitioners? The current evaluation is useful in showing some properties of the pipeline, but it does not provide relevant insights beyond the experience acquired in the use case" (R4)
-% 5 - "In section 3.1, the explanation related to the limitations of the twitter API is not convincing, Specifically, I don’t believe that such limitation is a desired property that allows to “consider many contexts of limited size”. If that is the case, then I would have expected an explanation on how the pipeline (and its configuration) would allow to size a topic according to the API limitations." (R4)
-
-% REVIEWS MODS
-%
-% 2 - Add to Table 4 description: "Such categories are useful to evaluate the ranking functions."
-%
-% 3 - "InfluenceRank: A machine learning approach to measure influence of Twitter users": Proposes a supervised regression algorithm to rank influence of Twitter users. It uses sensible features as they are not based on content, thus possibly providing a future proof method, but the method performs poorly. This is because it would need a huge labelled dataset to work effectively.
-% "Semantifying Twitter: The Influence Tracker Ontology": Proposes a method to create Twitter user ontologies considering the content type of the tweets. This approach could be used to gain insights over a user, but fails to give a comprehensive description of the user activity as it is based only on recent user activity, also due to Twitter API limitations. Also since it considers only recent activities, user comparisons do not take into account Twitter activity differences with respect social media events the users might be interested in.
-%
-% 4 - 
-% 
-% 5 - change from "which is consistent with our goal to consider many contexts of limited size" -> "which is sufficient considering that repeated users do appear consistently in our use case in the Empirical Evaluation section. To overcome Twitter API limitations it can be either extended the time dedicated to harvesting (for the Twitter premium full-archive search) or choose more recent contexts as Twitter API limitations are more generous with recents tweets (for either Twitter standard search up to one week or Twitter premium 30-days search)."
 
     % Sections
     \input{sections/introduction.tex}

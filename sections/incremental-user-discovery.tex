@@ -20,7 +20,7 @@ The pipeline structure is described below, where the numbers are with reference 
 %
 Given $C$ as in (2), all Twitter posts $P(C)$ that satisfy $C$ are retrieved, using the Twitter Search APIs.
 Note that this step hits the API service limitations imposed by Twitter. 
-For this reason, in our evaluation we have limited our retrieval to 200 tweets/context, which is consistent with our goal to consider many contexts of limited size.
+For this reason, in our evaluation we have limited our retrieval to 200 tweets/context, \anote{which is sufficient considering that repeated users do appear consistently in our evaluation (Sec.~\ref{sec:evaluation}). To overcome Twitter API limitations it can be either extended the time dedicated to harvesting (for the Twitter premium full-archive search) or choose more recent contexts as Twitter API limitations are more generous with recents tweets (for either Twitter standard search up to one week or Twitter premium 30-days search).}
 %
 The context network $G_C$ is then generated (3), as defined in Sec.~\ref{sec:contexts}.  %To recall, this is a directed network representing retweet and/or mention interactions between pairs of users in $C$. 
 The size of each network is largely determined by the nature of the context, and  ranges between 140 and 400 users (avg 254, see Table~\ref{tab:contexts}).
