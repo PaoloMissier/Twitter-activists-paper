@@ -1,5 +1,5 @@
 \section{Incremental User Discovery} \label{sec:Pipeline}
-
+	
 The content processing pipeline operates iteratively on a set of contexts within a given area of interest, for instance \textit{2018 UK health campaigns}. This set is initialised at the start of the process and then updated at the end of each iteration, in a semi-automated way. 
 The user discovery process is therefore potentially open-ended, as long as new contexts can be discovered.
 The new contexts are expected to be within the same topic area, but contexts that ``drift'' to new areas of interest are also acceptable. 
@@ -61,6 +61,13 @@ As some of those are very small, our  implementation discards communities with f
 Once communities are identified, using either method, we calculate  in-degree centrality (\ref{eq:IDC}) for each node locally, either relative to their own community if they are available, and to the entire network otherwise.
 
 \subsection{Computing user features and ranking} \label{sec:features}
+
+
+\anote{reviewer comment: 
+	
+	- In section 3.1, the explanation related to the limitations of the twitter API is not convincing, Specifically, I don’t believe that such limitation is a desired property that allows to “consider many contexts of limited size”. If that is the case, then I would have expected an explanation on how the pipeline (and its configuration) would allow to size a topic according to the API limita
+}
+
 
 Next, user metrics as defined in Sec.~\ref{sec:metrics}, along with the \textit{Follower Rank} are computed from the network and the user features.
 %

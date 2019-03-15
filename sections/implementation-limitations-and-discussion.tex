@@ -1,8 +1,16 @@
 \vspace{-10pt}
-\section{Conclusions}
+\section{Conclusions and lessons learnt}
 \vspace{-10pt}
+
 
 Motivated by the need to find an operational definition of ``online activists'' that is grounded in well-established network and user-activity metrics, we have designed a Twitter content processing pipeline for systematically harvesting Twitter users based on their engagement with online socially-minded events, or campaigns, which we have called \textit{contexts}.
 Running the pipeline on an initial set of contexts yields a database of user profiles along with a number of metrics, which can then be analysed to experiment with user-defined user ranking criteria. The structure and the components of the pipeline are designed to pre-select promising candidate profiles, but the approach is unsupervised, i.e., no manual classification of example users is provided.
 We have empirically evaluated the pipeline on a case study, along with experimental scoring functions to show the viability of the approach. 
+
+\anote{add if space permits:
+	
+	However, I miss a fundamental “lesson learned”section: what did you learn in the design, development, and testing of your pipeline, that could be of interest for other scientists and practitioners? The current evaluation is useful in showing some properties of the pipeline, but it does not provide relevant insights beyond the experience acquired in the use case,
+	
+}
+
 We are currently experimenting with ideas for automating the discovery of new contexts so that the pipeline may continuously add new users to the database, and update its metrics for an increasing number of  repeat users.

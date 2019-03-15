@@ -23,6 +23,12 @@ In contrast, we are interested in the fine-grained discovery of activists at the
 Searching for online activists is a realistic goal, as activists presence in social media is widely acknowledged, and it is also clear that social media facilitates activists communication and organization \cite{Poell2014,Youmans2012}. 
 Specific traits that characterise activists include awareness of causes and social topic and the organization of social gatherings and activities, including in emergency situations, by helping organize support efforts and diffusion of useful information.
  
+ \anote{say something about bots either here or at the end?  
+ 	
+ 	refviewer says:
+ - is there a bot analysis step? While institutional accounts might be ok, I think any meanginful analysis of twitter users and data should include a step that identifies and exclude robots and automated accounts. It might be that your pipeline is able to exclude them aoutomatically, but that would seem to me as a fortunate side- effect and not as a conscious choice.
+}
+
 \subsection{Challenges}
  
 The definition of online activism translates into technical challenges in systematically harvesting suitable candidate users.
@@ -54,6 +60,18 @@ Lastly, for empirical evaluation of our implementation, we demonstrate an operat
 The application of the approach to the specific challenge of combating tropical disease epidemics in Brazil is currently in progress and is not reported in this paper.
 
 \subsection{Related Work}  \label{sec:related}
+
+
+\anote{add the following: }
+
+We devise a system for measuring influence of Twitter users, which we call InfluenceRank, based on certain features extracted from their Twitter profiles and tweets authored over the duration of two months. As in the real world, influence of a user on social media may be judged by the engagement they drive through the content they publish. For a tweet, engagement can be most obviously measured by the number of retweets (RTs), favourites and replies it gets. Our system comprises of a regression based machine learning approach with InfluenceRank as the predictor variable against the set of our proposed features. The regression model has shown reasonable accuracy despite being fit on limited data.
+\cite{7569535}   {InfluenceRank: A machine learning approach to measure influence of Twitter users --> https://ieeexplore.ieee.org/abstract/document/7569535} 
+
+In this paper, we propose an ontology schema towards semantification provision of Twitter social analytics. The ontology is deployed over a publicly available service that measures how influential a Twitter account is, by combining its social activity and interaction over Twitter sphere. Apart from influential quantity and quality measures, the service provides a SPARQL endpoint where users can perform advance semantic queries through the RDFized Twitter entities (mentions, replies, hash tags, photos, URLs) over the semantic graph.
+\cite{6978961}
+
+\anote{end new refs}
+
 
 The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers}. 
 % The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
