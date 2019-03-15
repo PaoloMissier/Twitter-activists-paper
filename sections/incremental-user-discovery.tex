@@ -62,13 +62,6 @@ Once communities are identified, using either method, we calculate  in-degree ce
 
 \subsection{Computing user features and ranking} \label{sec:features}
 
-
-\anote{reviewer comment: 
-	
-	- In section 3.1, the explanation related to the limitations of the twitter API is not convincing, Specifically, I don’t believe that such limitation is a desired property that allows to “consider many contexts of limited size”. If that is the case, then I would have expected an explanation on how the pipeline (and its configuration) would allow to size a topic according to the API limita
-}
-
-
 Next, user metrics as defined in Sec.~\ref{sec:metrics}, along with the \textit{Follower Rank} are computed from the network and the user features.
 %
 This is achieved through bulk retrieval of user profile information (5), namely the number of tweets, retweets,  number of followers $F1(u)$ and followees, $F2(u)$, along with user name, web link, and bio.
