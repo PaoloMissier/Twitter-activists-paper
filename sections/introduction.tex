@@ -55,16 +55,6 @@ The application of the approach to the specific challenge of combating tropical 
 
 \subsection{Related Work}  \label{sec:related}
 
-
-\anote{add the following: }
-
-\cite{7569535} Proposes a supervised regression algorithm to rank influence of Twitter users. It uses sensible features as they are not based on content, but the method performs poorly. This is because it would need a huge labelled dataset to work effectively.
-
-\cite{6978961}Proposes a method to create Twitter user ontologies considering the content type of the tweets. This approach could be used to gain insights over a user, but fails to give a comprehensive description of the user activity as it is based only on recent user activity, also due to Twitter API limitations.
-
-\anote{end new refs}
-
-
 The closest body of research to this work is concerned with techniques for the discovery of online \textit{influencers}. 
 % The characterisation of online activism given in the introduction is substantially different from that of influencers, which have received much attention in the literature.
 According to~\cite{Kardara2015}, influencers are \textit{prominent individuals with special characteristics that enable them to	affect a disproportionately large number of their peers with their actions}.
@@ -76,6 +66,7 @@ These metrics tend to favour high visibility users across global networks, regar
 In contrast, activists are typically low-key, less prominent users who only emerge from the crowd by signalling high levels of engagement with one or more specific topics, as opposed to being thought-leaders. 
 %
 While such behaviour can be described  using well-tested metrics~\cite{RIQUELME2016949}, it should also be clear that new ways to combine those metrics are required.
+A method for creating Twitter user ontologies considering the content type of the tweets is proposed in~\cite{6978961}. This approach could be used to gain insights over a user, but fails to give a comprehensive description of the user activity as it is based only on recent user activity, also due to Twitter API limitations.
 
 The algorithm proposed in \cite{MATIC2011} aims to identify influencers based on a single topic context, based on relevant social media conversations.
 Metrics include number of ``likes'', viewers per months, post frequency and  number of comments per post, as well as the ratio of positive to negative posts.
@@ -86,6 +77,8 @@ Once again however, the effect is to discover users who receive much attention, 
 
 Machine learning is used in~\cite{Biran2012} to analyse posted content and recognise when a user is able to influence another  inside a conversation.
 This however requires substantial a priori ground truth, making this approach impracticable in our case. In addition, the need to create a classifier for each topic limits the scalability of the system.
+
+A supervised regression approach is used in~\cite{7569535} to rank influence of Twitter users. It uses features that are not based on content, but the method performs poorly as it requires a huge training  set to work effectively.
 
 % Some approaches try to extract the content of conversations over topics to understand the ability of a user to be influential within a topic. , a classifier is trained to identify when an user is able to influence another one inside a conversation. However, in this case the necessity of creating labelled data to build a machine learning classifier makes this approach impracticable in our case, which aims to be most practical possible. 
 	

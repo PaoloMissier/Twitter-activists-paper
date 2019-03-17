@@ -54,19 +54,21 @@ The average assortativity across all communities is again slightly negative (-0.
 %
 Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics just discussed. On the basis of this comparison, we recommend using \infomap, which we have used for  our evaluation.
 
-\begin{table}
-	\vspace{-10pt}
+\begin{table}[t]
+%	\vspace{-10pt}
 		\footnotesize
 	\resizebox{\textwidth}{!}{
 	    \input{tables/demon-vs-infomap.tex}
 	}
 	\caption{Comparing \demon~to \infomap~for community detection.}
 	\label{tab:demon-vs-infomap}
-	\vspace{-20pt}
+%	\vspace{-20pt}
 \end{table}
 
+	\vspace{-10pt}
 \subsection{Users discovery}  \label{sec:users}
-
+	\vspace{-10pt}
+	
 Repeat users who appear in multiple contexts are particularly interesting as they provide a stronger signal. 
 Out of the total 3,567 users, 160 of those appear at least in two of the 25 contexts.
 After community detection, only 61 of these users are still seen as repeat users,
