@@ -11,7 +11,7 @@ The pipeline is fully implemented in Python using Pandas and public libraries (N
 All experiments are performed on a single Azure node with standard commodity configuration.
 Note that we do not focus on system performance as all components operate in near-real time. One exception is  Twitter content harvesting, which is limited by the Twitter API and requires approximately 2 hours per context.
 
-\subsection{Contexts and networks} \label{sec:contexts-selection}
+\subsection{Contexts and Networks} \label{sec:contexts-selection}
  
 We have manually selected 25 contexts within the scope of health awareness campaigns in the UK, all occurring in 2018 and well-characterised using predefined hashtags.
 Due to limitations imposed by Twitter on the number of posts that can be retrieved within a time interval, only $200$ tweets were retrieved from each context.
@@ -66,7 +66,7 @@ Table~\ref{tab:demon-vs-infomap} compares the two approaches on the key metrics 
 \end{table}
 
 	\vspace{-10pt}
-\subsection{Users discovery}  \label{sec:users}
+\subsection{Users Discovery}  \label{sec:users}
 	\vspace{-10pt}
 	
 Repeat users who appear in multiple contexts are particularly interesting as they provide a stronger signal. 
@@ -79,7 +79,7 @@ Thus, only 1.6\% of users appear more than once when communities with more than 
 Table~\ref{tab:repeat-users} reports the top-10 repeat users along with their \textit{Follower Rank}, and Fig.~\ref{fig:repeat-users-frequency} shows the number of repeat users per context.
 As the table is sorted by number of occurrences then by \textit{Follower Rank}, an indication of popularity,  it is not surprising to find that top users include well-known names such as Mr. Hunt, who at the time of the events was Secretary of State for Health and Social Care in the UK, with $FR =1$, and a number of associations and foundations active in the public healthcare space.
 More interesting are perhaps non-repeat users who emerge when ad hoc ranking is applied to the database, as we illustrate next.
-\vspace{-10pt}
+\vspace{-5pt}
 \begin{table}[htb]
 	\centering
 	\footnotesize
@@ -98,9 +98,9 @@ More interesting are perhaps non-repeat users who emerge when ad hoc ranking is 
 	\label{fig:repeat-users-frequency}
 \end{figure*}
 
-\vspace{-15pt}
-\subsection{Users ranking} \label{sec:ranking}
-\vspace{-5pt}
+\vspace{-10pt}
+\subsection{Users Ranking} \label{sec:ranking}
+\vspace{-10pt}
 
 To demonstrate the potential value of the database, albeit on a small scale, we have tested three user ranking functions.
 As mentioned, the aim of this exercise is to provide an objective grounding for engaging with experts on finding suitable operational definitions for specific user profiles. We consider good functions those that privilege individuals over organisations or business.

@@ -62,7 +62,7 @@ As some of those are very small, our  implementation discards communities with f
 
 Once communities are identified, using either method, we calculate  in-degree centrality (\ref{eq:IDC}) for each node locally, either relative to their own community if they are available, and to the entire network otherwise.
 
-\subsection{Computing user features and ranking} \label{sec:features}
+\subsection{Computing User Features and Ranking} \label{sec:features}
 
 Next, user metrics as defined in Sec.~\ref{sec:metrics}, along with the \textit{Follower Rank} are computed from the network and the user features.
 %
@@ -79,7 +79,7 @@ User-defined functions can be specified to update the Rank of pre-existing users
 The DB enables user-defined scoring functions, which result in user ranking lists (6). Examples of these are given later in Sec.~\ref{sec:evaluation}.
 This framework approach is consistent with the experimental nature of our search for \textit{activists}, which requires exploring a variety of ranking functions.
 
-\subsection{New contexts discovery} \label{sec:context-discovery}
+\subsection{New Contexts Discovery} \label{sec:context-discovery}
 
 The final step within one iteration (7) aims to discover new contexts, so that the process can start again (2).
 Intuitively, once a score function has been applied and users have been ranked, we can hope to discover new interesting keywords and hashtags by exploring the timeline of the top-$k$ users.

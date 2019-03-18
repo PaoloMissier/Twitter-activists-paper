@@ -1,0 +1,4 @@
+Title: A Customisable Pipeline for Continuously Harvesting Socially-Minded Twitter Users
+Author names: Flavio Primo and Paolo Missier and Alexander Romanovsky and Mickael Figueredo and Nelio Cacho
+Contact author name: Paolo Missier
+Contact author email: paolo.missier@ncl.ac.uk
